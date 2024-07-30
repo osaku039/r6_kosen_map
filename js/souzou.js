@@ -34,19 +34,28 @@ const clickableObjects = []; // クリック可能なオブジェクトのリス
 
 // オブジェクトの情報
 const objectInfo = {
-    'pin1': 'かき氷',
-    'pin2': 'ホットドッグ',
-    'pin3': '唐揚げ',
-    'pin4': 'わたあめ',
-    'pin5': 'クレープ',
-    'pin6': 'たこ焼き',
-    'pin7': 'アイスクリーム',
+    //１階
+    '1-1': '1緑',
+    '1-2': '1赤',
+    '1-3': '1青',
+    '1-4': '1黄',
+    //２階
+    '2-1': '2緑',
+    '2-2': '2赤',
+    '2-3': '2青',
+    '2-4': '2黄',
+    //３階
+    '3-1': '3緑',
+    '3-2': '3赤',
+    '3-3': '3青',
+    '3-4': '3黄',
+
 };
 
 // GLTFモデルのロード
 const loader = new THREE.GLTFLoader();
 loader.load(
-    'models/yatai.glb',
+    'models/floor_souzou.glb',
     function (gltf) {
         originalModel = gltf.scene;
         scene.add(originalModel);
@@ -62,7 +71,7 @@ loader.load(
                 console.log('Clickable object siroiyatsu', clickableObject);
             }
         });
-        button()
+        bitton()
     },
     undefined,
     function (error) {
@@ -71,9 +80,9 @@ loader.load(
 );
 
 // カメラの位置
-camera.position.x = -80;
-camera.position.y = 35;
-camera.position.z = 0;
+camera.position.x = -20;
+camera.position.y = 20;
+camera.position.z = 10;
 
 // アニメーション対象のオブジェクト
 const animatedObjects = [];
@@ -120,11 +129,9 @@ function onMouseClick(event) {
 function showInfoBox(object) {
     const infoBox = document.getElementById('infoBox');
     const info = objectInfo[object.name] || '情報が見つかりません'; // オブジェクトの情報を取得
-        //ボタンのつけ方分からなくてモデル情報の中に移動ボタンある。ごめん
-    infoBox.innerHTML = `<strong>モデル名:</strong> ${object.name}<br><strong>情報:</strong><br> ${info}<br><button onclick="location.href='souzou.html'">移動</button>`;
+    infoBox.innerHTML = `<strong>モデル名:</strong> ${object.name}<br><strong>情報:</strong><br> ${info}<br><button onclick="location.href='yatai.html'">移動</button>`;
     infoBox.style.display = 'block';
 }
-
 
 
 

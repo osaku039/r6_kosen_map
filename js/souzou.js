@@ -1,37 +1,37 @@
 console.log('main.js is loaded'); // ファイルロード確認用のログ
 
 // シーン、カメラ、レンダラーのセットアップ
-const scene = new THREE.Scene();
+const scene = new THREE.Scene(); //シーンの作成
 const camera = new THREE.PerspectiveCamera(
     43, window.innerWidth / window.innerHeight, 0.1, 1000
-);
+); //カメラの作成
 // camera.position.z =5;
-camera.position.set(0, 0, 5);
-camera.lookAt(20,-5,0);
+camera.position.set(0, 0, 5); //カメラの位置
+camera.lookAt(20,-5,0); //カメラの見る方向
 const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.getElementById('container').appendChild(renderer.domElement);
+renderer.setSize(window.innerWidth, window.innerHeight); //画面サイズ
+document.getElementById('container').appendChild(renderer.domElement); //レンダラーをHTMLに追加
 
-renderer.setClearColor(0xfff2b9); 
+renderer.setClearColor(0xfff2b9);  //背景色の追加
 
 
 
 // OrbitControlsのセットアップ
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor = 0.25;
-controls.screenSpacePanning = false;
+controls.enableDamping = true; //カメラの動きをなめらかに
+controls.dampingFactor = 0.25; //なめらかさの度合い
+controls.screenSpacePanning = false; //パンの無効化
 controls.enablePan = false; //パンを禁止
 controls.maxPolarAngle = Math.PI * 0.33;//カメラ最大値を0.33に
 controls.minPolarAngle = Math.PI * 0.33;//カメラ最小値を0.33に
 
 // 光源の追加
-const ambientLight = new THREE.AmbientLight(0xf0f0f0);
-scene.add(ambientLight);
+const ambientLight = new THREE.AmbientLight(0xf0f0f0); //環境光
+scene.add(ambientLight); //シーンに追加
 
-const directionalLight = new THREE.DirectionalLight(0xffffff,0.5 ); // 1.5に増加
-directionalLight.position.set(2, 30, 0).normalize();
-scene.add(directionalLight);
+const directionalLight = new THREE.DirectionalLight(0xffffff,0.5 ); // 平行光1.5に増加
+directionalLight.position.set(2, 30, 0).normalize(); //光の方向をセット
+scene.add(directionalLight); //シーンに追加
 
 let originalModel;
 let newModel;
@@ -62,8 +62,8 @@ const loader = new THREE.GLTFLoader();
 loader.load(
     'models/floor_souzou.glb',
     function (gltf) {
-        originalModel = gltf.scene;
-        scene.add(originalModel);
+        originalModel = gltf.scene; //読み込んだモデルの取得
+        scene.add(originalModel); //シーンに追加
         console.log('Original model loaded'); // ロード成功ログ
 
         // クリック可能なオブジェクトをリストに追加
@@ -84,9 +84,9 @@ loader.load(
     }
 );
 
-// カメラの位置
-camera.position.x = -20;
-camera.position.y = 20;
+// // カメラの位置
+// camera.position.x = -20;
+camera.position.y = -20;
 camera.position.z = 10;
 
 // アニメーション対象のオブジェクト
@@ -94,31 +94,32 @@ const animatedObjects = [];
 
 // レンダリングループ
 function animate() {
-    requestAnimationFrame(animate);
+    requestAnimationFrame(animate); //毎フレーム更新
 
     // アニメーション対象のオブジェクトを更新
     animatedObjects.forEach(obj => {
         if (obj.visible && obj.position.y < obj.targetY) {
-            obj.position.y += 0.01;
+            obj.position.y += 0.01; //y座標を少しずつ上げる
         }
     });
 
-    controls.update();
-    renderer.render(scene, camera);
+    controls.update(); //カメラのコントロールを更新
+    renderer.render(scene, camera); //シーンを描画
 }
-animate();
+animate(); //アニメーション開始
 
 // クリックイベント
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
+//クリックイベント
 function onMouseClick(event) {
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
-    raycaster.setFromCamera(mouse, camera);
+    raycaster.setFromCamera(mouse, camera); //マウス位置とカメラ位置の調整
 
-    const intersects = raycaster.intersectObjects(clickableObjects, true);
+    const intersects = raycaster.intersectObjects(clickableObjects, true); //クリックしたオブジェクトの検出
 
     if (intersects.length > 0) {
         console.log('モデルがクリックされました！');
@@ -130,7 +131,7 @@ function onMouseClick(event) {
     }
 }
     
-
+//クリックされたオブジェクトの情報を表示
 function showInfoBox(object) {
     const infoBox = document.getElementById('infoBox');
     const info = objectInfo[object.name] || '情報が見つかりません'; // オブジェクトの情報を取得
@@ -138,11 +139,9 @@ function showInfoBox(object) {
     infoBox.style.display = 'block';
 }
 
+window.addEventListener('click', onMouseClick); //clickがあったらonMouseClickを作動させるのかな?
 
-
-
-window.addEventListener('click', onMouseClick);
-
+//ウィンドウサイズの調整
 window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();

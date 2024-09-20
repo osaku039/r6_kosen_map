@@ -19,7 +19,7 @@ renderer.setClearColor(0xfff2b9);  //背景色の追加
 // OrbitControlsのセットアップ
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true; //カメラの動きをなめらかに
-controls.dampingFactor = 0.25; //なめらかさの度合い
+controls.dampingFactor = 0.1; //なめらかさの度合い
 controls.screenSpacePanning = false; //パンの無効化
 controls.enablePan = false; //パンを禁止
 controls.maxPolarAngle = Math.PI * 0.33;//カメラ最大値を0.33に
@@ -85,9 +85,9 @@ loader.load(
 );
 
 // // カメラの位置
-// camera.position.x = -20;
-camera.position.y = -20;
-camera.position.z = 10;
+camera.position.x = 0;
+camera.position.y = 20;
+camera.position.z = 40;
 
 // アニメーション対象のオブジェクト
 const animatedObjects = [];
@@ -116,10 +116,11 @@ const mouse = new THREE.Vector2();
 function onMouseClick(event) {
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
-
     raycaster.setFromCamera(mouse, camera); //マウス位置とカメラ位置の調整
 
     const intersects = raycaster.intersectObjects(clickableObjects, true); //クリックしたオブジェクトの検出
+
+    
 
     if (intersects.length > 0) {
         console.log('モデルがクリックされました！');
@@ -129,6 +130,7 @@ function onMouseClick(event) {
         
         showInfoBox(intersectedObject);
     }
+
 }
     
 //クリックされたオブジェクトの情報を表示

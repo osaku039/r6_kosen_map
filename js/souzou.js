@@ -7,7 +7,7 @@ const camera = new THREE.PerspectiveCamera(
 ); //カメラの作成
 // camera.position.z =5;
 camera.position.set(0, 0, 5); //カメラの位置
-camera.lookAt(20,-5,0); //カメラの見る方向
+// camera.lookAt(20,-5,0); //カメラの見る方向
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight); //画面サイズ
 document.getElementById('container').appendChild(renderer.domElement); //レンダラーをHTMLに追加
@@ -20,10 +20,10 @@ renderer.setClearColor(0xfff2b9);  //背景色の追加
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true; //カメラの動きをなめらかに
 controls.dampingFactor = 0.1; //なめらかさの度合い
-controls.screenSpacePanning = false; //パンの無効化
-controls.enablePan = false; //パンを禁止
-controls.maxPolarAngle = Math.PI * 0.33;//カメラ最大値を0.33に
-controls.minPolarAngle = Math.PI * 0.33;//カメラ最小値を0.33に
+// controls.screenSpacePanning = false; //パンの無効化
+// controls.enablePan = false; //パンを禁止
+// controls.maxPolarAngle = Math.PI * 0.33;//カメラ最大値を0.33に
+// controls.minPolarAngle = Math.PI * 0.33;//カメラ最小値を0.33に
 
 // 光源の追加
 const ambientLight = new THREE.AmbientLight(0xf0f0f0); //環境光
@@ -76,7 +76,7 @@ loader.load(
                 console.log('Clickable object siroiyatsu', clickableObject);
             }
         });
-        bitton()
+        // bitton();
     },
     undefined,
     function (error) {
@@ -87,7 +87,7 @@ loader.load(
 // // カメラの位置
 camera.position.x = 0;
 camera.position.y = 20;
-camera.position.z = 40;
+camera.position.z = 10;
 
 // アニメーション対象のオブジェクト
 const animatedObjects = [];
@@ -95,6 +95,8 @@ const animatedObjects = [];
 // レンダリングループ
 function animate() {
     requestAnimationFrame(animate); //毎フレーム更新
+
+    // originalModel.rotation.x += 0.2;
 
     // アニメーション対象のオブジェクトを更新
     animatedObjects.forEach(obj => {
@@ -120,13 +122,31 @@ function onMouseClick(event) {
 
     const intersects = raycaster.intersectObjects(clickableObjects, true); //クリックしたオブジェクトの検出
 
-    
-
     if (intersects.length > 0) {
         console.log('モデルがクリックされました！');
         const intersectedObject = intersects[0].object;
         console.log('Intersected object:', intersectedObject);
 
+        // クリックされたオブジェクトの位置にカメラを動かす例
+        gsap.to(camera.position, {
+            x: intersectedObject.position.x + 0, // オブジェクトの近くに移動するように
+            y: intersectedObject.position.y + 0,
+            z: intersectedObject.position.z + 5,
+            duration: 1.5, // 1.5秒かけて移動
+            onUpdate: function () {
+                camera.lookAt(intersectedObject.position); // 常にオブジェクトを向く
+            }
+        });
+
+        gsap.to(intersectedObject.scale,
+            {
+                x:0,
+                y:0,
+                z:2,
+            }
+        )
+        
+        console.log('position:', intersectedObject.position);
         
         showInfoBox(intersectedObject);
     }

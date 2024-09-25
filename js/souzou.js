@@ -1,3 +1,4 @@
+// import { createGroupedModel } from './grouping.js';
 console.log('main.js is loaded'); // ファイルロード確認用のログ
 
 // シーン、カメラ、レンダラーのセットアップ
@@ -20,10 +21,10 @@ renderer.setClearColor(0xfff2b9);  //背景色の追加
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true; //カメラの動きをなめらかに
 controls.dampingFactor = 0.1; //なめらかさの度合い
-// controls.screenSpacePanning = false; //パンの無効化
+controls.screenSpacePanning = false; //パンの無効化
 // controls.enablePan = false; //パンを禁止
-// controls.maxPolarAngle = Math.PI * 0.33;//カメラ最大値を0.33に
-// controls.minPolarAngle = Math.PI * 0.33;//カメラ最小値を0.33に
+controls.maxPolarAngle = Math.PI * 0.33;//カメラ最大値を0.33に
+controls.minPolarAngle = Math.PI * 0.33;//カメラ最小値を0.33に
 
 // 光源の追加
 const ambientLight = new THREE.AmbientLight(0xf0f0f0); //環境光
@@ -40,32 +41,40 @@ const clickableObjects = []; // クリック可能なオブジェクトのリス
 // オブジェクトの情報
 const objectInfo = {
     //１階
-    '1-1': '1緑',
-    '1-2': '1赤',
-    '1-3': '1青',
-    '1-4': '1黄',
+    '1F': '1地面',
+    '1_1': '1緑',
+    '1_2': '1赤',
+    '1_3': '1青',
+    '1_4': '1黄',
+    '1_Stair': '1階段',
     //２階
-    '2-1': '2緑',
-    '2-2': '2赤',
-    '2-3': '2青',
-    '2-4': '2黄',
+    '2F': '2地面',
+    '2_1': '2緑',
+    '2_2': '2赤',
+    '2_3': '2青',
+    '2_4': '2黄',
+    '2_Stair': '2階段',
     //３階
-    '3-1': '3緑',
-    '3-2': '3赤',
-    '3-3': '3青',
-    '3-4': '3黄',
+    '3F': '3地面',
+    '3_1': '3緑',
+    '3_2': '3赤',
+    '3_3': '3青',
+    '3_4': '3黄',
 
 };
 
 // GLTFモデルのロード
 const loader = new THREE.GLTFLoader();
 loader.load(
-    'models/floor_souzou.glb',
+    'models/floor_souzou2.glb',
     function (gltf) {
+        // const groupedModel = createGroupedModel(gltf); // グループ化されたモデルを取得
         originalModel = gltf.scene; //読み込んだモデルの取得
+
+        // scene.add(groupedModel); // シーンにグループ化されたモデルを追加
         scene.add(originalModel); //シーンに追加
         console.log('Original model loaded'); // ロード成功ログ
-
+        // object.material = new THREE.MeshBasicMaterial({ color: 0xffffff });
         // クリック可能なオブジェクトをリストに追加
         const clickable = Object.keys(objectInfo); // クリック可能なオブジェクト名のリスト
 
@@ -86,8 +95,8 @@ loader.load(
 
 // // カメラの位置
 camera.position.x = 0;
-camera.position.y = 20;
-camera.position.z = 10;
+camera.position.y = 200;
+camera.position.z = 100;
 
 // アニメーション対象のオブジェクト
 const animatedObjects = [];
@@ -128,28 +137,33 @@ function onMouseClick(event) {
         console.log('Intersected object:', intersectedObject);
 
         // クリックされたオブジェクトの位置にカメラを動かす例
-        gsap.to(camera.position, {
-            x: intersectedObject.position.x + 0, // オブジェクトの近くに移動するように
-            y: intersectedObject.position.y + 0,
-            z: intersectedObject.position.z + 5,
-            duration: 1.5, // 1.5秒かけて移動
-            onUpdate: function () {
-                camera.lookAt(intersectedObject.position); // 常にオブジェクトを向く
-            }
-        });
+        // gsap.to(camera.position, {
+        //     x: intersectedObject.position.x + 10, // オブジェクトの近くに移動するように
+        //     y: intersectedObject.position.y + 10,
+        //     z: intersectedObject.position.z + 10,
+        //     duration: 1.5, // 1.5秒かけて移動
+        //     onUpdate: function () {
+        //         camera.lookAt(intersectedObject.position); // 常にオブジェクトを向く
+        //     }
+        // });
 
-        gsap.to(intersectedObject.scale,
-            {
-                x:0,
-                y:0,
-                z:2,
-            }
-        )
+        // gsap.to(intersectedObject.scale,
+        //     {
+        //         x:0,
+        //         y:0,
+        //         z:2,
+        //     }
+        // )
         
         console.log('position:', intersectedObject.position);
         
         showInfoBox(intersectedObject);
     }
+    else {
+        const intersectedObject = intersects[0].object;
+        console.log('Intersected object:', intersectedObject);
+    }
+
 
 }
     

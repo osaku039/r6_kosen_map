@@ -1,3 +1,4 @@
+import { Info } from './information.js';
 console.log('main.js is loaded'); // ファイルロード確認用のログ
 
 // シーン、カメラ、レンダラーのセットアップ
@@ -7,7 +8,7 @@ const camera = new THREE.PerspectiveCamera(
 ); //カメラの作成
 // camera.position.z =5;
 camera.position.set(0, 0, 5); //カメラの位置
-camera.lookAt(20,-5,0); //カメラの見る方向
+// camera.lookAt(20,-5,0); //カメラの見る方向
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight); //画面サイズ
 document.getElementById('container').appendChild(renderer.domElement); //レンダラーをHTMLに追加
@@ -21,7 +22,7 @@ const controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true; //カメラの動きをなめらかに
 controls.dampingFactor = 0.1; //なめらかさの度合い
 controls.screenSpacePanning = false; //パンの無効化
-controls.enablePan = false; //パンを禁止
+// controls.enablePan = false; //パンを禁止
 controls.maxPolarAngle = Math.PI * 0.33;//カメラ最大値を0.33に
 controls.minPolarAngle = Math.PI * 0.33;//カメラ最小値を0.33に
 
@@ -37,37 +38,20 @@ let originalModel;
 let newModel;
 const clickableObjects = []; // クリック可能なオブジェクトのリスト
 
-// オブジェクトの情報
-const objectInfo = {
-    //１階
-    '1-1': '1緑',
-    '1-2': '1赤',
-    '1-3': '1青',
-    '1-4': '1黄',
-    //２階
-    '2-1': '2緑',
-    '2-2': '2赤',
-    '2-3': '2青',
-    '2-4': '2黄',
-    //３階
-    '3-1': '3緑',
-    '3-2': '3赤',
-    '3-3': '3青',
-    '3-4': '3黄',
-
-};
-
 // GLTFモデルのロード
 const loader = new THREE.GLTFLoader();
 loader.load(
-    'models/floor_souzou.glb',
+    'models/floor_souzou2.glb',
     function (gltf) {
+        // const groupedModel = createGroupedModel(gltf); // グループ化されたモデルを取得
         originalModel = gltf.scene; //読み込んだモデルの取得
+
+        // scene.add(groupedModel); // シーンにグループ化されたモデルを追加
         scene.add(originalModel); //シーンに追加
         console.log('Original model loaded'); // ロード成功ログ
-
+        // object.material = new THREE.MeshBasicMaterial({ color: 0xffffff });
         // クリック可能なオブジェクトをリストに追加
-        const clickable = Object.keys(objectInfo); // クリック可能なオブジェクト名のリスト
+        const clickable = Object.keys(Info); // クリック可能なオブジェクト名のリスト
 
         clickable.forEach(name => {
             const clickableObject = scene.getObjectByName(name);
@@ -76,7 +60,7 @@ loader.load(
                 console.log('Clickable object siroiyatsu', clickableObject);
             }
         });
-        bitton()
+        // bitton();
     },
     undefined,
     function (error) {
@@ -86,8 +70,8 @@ loader.load(
 
 // // カメラの位置
 camera.position.x = 0;
-camera.position.y = 20;
-camera.position.z = 40;
+camera.position.y = 200;
+camera.position.z = 100;
 
 // アニメーション対象のオブジェクト
 const animatedObjects = [];
@@ -95,6 +79,8 @@ const animatedObjects = [];
 // レンダリングループ
 function animate() {
     requestAnimationFrame(animate); //毎フレーム更新
+
+    // originalModel.rotation.x += 0.2;
 
     // アニメーション対象のオブジェクトを更新
     animatedObjects.forEach(obj => {
@@ -120,23 +106,46 @@ function onMouseClick(event) {
 
     const intersects = raycaster.intersectObjects(clickableObjects, true); //クリックしたオブジェクトの検出
 
-    
-
     if (intersects.length > 0) {
         console.log('モデルがクリックされました！');
         const intersectedObject = intersects[0].object;
         console.log('Intersected object:', intersectedObject);
 
+        // クリックされたオブジェクトの位置にカメラを動かす例
+        // gsap.to(camera.position, {
+        //     x: intersectedObject.position.x + 10, // オブジェクトの近くに移動するように
+        //     y: intersectedObject.position.y + 10,
+        //     z: intersectedObject.position.z + 10,
+        //     duration: 1.5, // 1.5秒かけて移動
+        //     onUpdate: function () {
+        //         camera.lookAt(intersectedObject.position); // 常にオブジェクトを向く
+        //     }
+        // });
+
+        // gsap.to(intersectedObject.scale,
+        //     {
+        //         x:0,
+        //         y:0,
+        //         z:2,
+        //     }
+        // )
+        
+        console.log('position:', intersectedObject.position);
         
         showInfoBox(intersectedObject);
     }
+    else {
+        const intersectedObject = intersects[0].object;
+        console.log('Intersected object:', intersectedObject);
+    }
+
 
 }
     
 //クリックされたオブジェクトの情報を表示
 function showInfoBox(object) {
     const infoBox = document.getElementById('infoBox');
-    const info = objectInfo[object.name] || '情報が見つかりません'; // オブジェクトの情報を取得
+    const info = Info[object.name] || '情報が見つかりません'; // オブジェクトの情報を取得
     infoBox.innerHTML = `<strong>モデル名:</strong> ${object.name}<br><strong>情報:</strong><br> ${info}<br><button onclick="location.href='yatai.html'">移動</button>`;
     infoBox.style.display = 'block';
 }

@@ -1,0 +1,25 @@
+
+body {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    overflow: hidden;
+}
+.base {
+    flex: 1;
+}
+.button-container {
+    position: fixed; /* 固定位置 */
+    bottom: 0; /* 下部に配置 */
+    left: 0;
+    width: 100%; /* 横幅100% */
+    background-color: rgba(255, 255, 255, 0.8); /* 背景色を設定 */
+    padding: 10px; /* パディング */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5); /* 上に影を付ける */
+    display: flex; /* フレックスボックスを使用 */
+    justify-content: space-around; /* ボタンを均等に配置 */
+}
+.button-container button {
+    flex: 1; /* 各ボタンを均等に配置 */
+    margin: 0 5px; /* ボタン間のマージン */
+}

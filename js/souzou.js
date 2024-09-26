@@ -1,4 +1,4 @@
-// import { createGroupedModel } from './grouping.js';
+import { Info } from './information.js';
 console.log('main.js is loaded'); // ファイルロード確認用のログ
 
 // シーン、カメラ、レンダラーのセットアップ
@@ -38,31 +38,6 @@ let originalModel;
 let newModel;
 const clickableObjects = []; // クリック可能なオブジェクトのリスト
 
-// オブジェクトの情報
-const objectInfo = {
-    //１階
-    '1F': '1地面',
-    '1_1': '1緑',
-    '1_2': '1赤',
-    '1_3': '1青',
-    '1_4': '1黄',
-    '1_Stair': '1階段',
-    //２階
-    '2F': '2地面',
-    '2_1': '2緑',
-    '2_2': '2赤',
-    '2_3': '2青',
-    '2_4': '2黄',
-    '2_Stair': '2階段',
-    //３階
-    '3F': '3地面',
-    '3_1': '3緑',
-    '3_2': '3赤',
-    '3_3': '3青',
-    '3_4': '3黄',
-
-};
-
 // GLTFモデルのロード
 const loader = new THREE.GLTFLoader();
 loader.load(
@@ -76,7 +51,7 @@ loader.load(
         console.log('Original model loaded'); // ロード成功ログ
         // object.material = new THREE.MeshBasicMaterial({ color: 0xffffff });
         // クリック可能なオブジェクトをリストに追加
-        const clickable = Object.keys(objectInfo); // クリック可能なオブジェクト名のリスト
+        const clickable = Object.keys(Info); // クリック可能なオブジェクト名のリスト
 
         clickable.forEach(name => {
             const clickableObject = scene.getObjectByName(name);
@@ -170,7 +145,7 @@ function onMouseClick(event) {
 //クリックされたオブジェクトの情報を表示
 function showInfoBox(object) {
     const infoBox = document.getElementById('infoBox');
-    const info = objectInfo[object.name] || '情報が見つかりません'; // オブジェクトの情報を取得
+    const info = Info[object.name] || '情報が見つかりません'; // オブジェクトの情報を取得
     infoBox.innerHTML = `<strong>モデル名:</strong> ${object.name}<br><strong>情報:</strong><br> ${info}<br><button onclick="location.href='yatai.html'">移動</button>`;
     infoBox.style.display = 'block';
 }

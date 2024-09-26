@@ -23,3 +23,17 @@ body {
     flex: 1; /* 各ボタンを均等に配置 */
     margin: 0 5px; /* ボタン間のマージン */
 }
+.base{
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: 100vh
+}
+.model{
+    height: 30%;
+}
+.select-button{
+    display: flex;
+    flex-direction: column;
+    height: 70%;
+}

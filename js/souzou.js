@@ -7,7 +7,7 @@ const camera = new THREE.PerspectiveCamera(
     43, window.innerWidth / window.innerHeight, 0.1, 1000
 ); //カメラの作成
 // camera.position.z =5;
-camera.position.set(0, 0, 5); //カメラの位置
+camera.position.set(0, 200, 100); //カメラの位置
 // camera.lookAt(20,-5,0); //カメラの見る方向
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight); //画面サイズ
@@ -38,6 +38,12 @@ let originalModel;
 let newModel;
 const clickableObjects = []; // クリック可能なオブジェクトのリスト
 
+//グループの定義
+const allModelGroup = new THREE.Group();
+const floor1Group = new THREE.Group(); // 1階のグループ
+const floor2Group = new THREE.Group(); // 2階のグループ
+const floor3Group = new THREE.Group(); // 3階のグループ
+
 // GLTFモデルのロード
 const loader = new THREE.GLTFLoader();
 loader.load(
@@ -51,6 +57,47 @@ loader.load(
         console.log('Original model loaded'); // ロード成功ログ
         // object.material = new THREE.MeshBasicMaterial({ color: 0xffffff });
         // クリック可能なオブジェクトをリストに追加
+    
+        // 1階のオブジェクトを1階のグループに追加
+        const objectsFloor1 = ['1_1', '1_2', '1_3', '1_4', '1_Stair'];
+        objectsFloor1.forEach(name => {
+            const object = gltf.scene.getObjectByName(name);
+            if (object) {
+                floor1Group.add(object); // 1階グループにオブジェクトを追加
+            }
+        });
+    
+        // 2階のオブジェクトを2階のグループに追加
+        const objectsFloor2 = ['2_1', '2_2', '2_3', '2_4', '2_Stair'];
+        objectsFloor2.forEach(name => {
+            const object = gltf.scene.getObjectByName(name);
+            if (object) {
+                floor2Group.add(object); // 2階グループにオブジェクトを追加
+            }
+        });
+    
+        // 3階のオブジェクトを3階のグループに追加
+        const objectsFloor3 = ['3_1', '3_2', '3_3', '3_4', '3_Stair'];
+        objectsFloor3.forEach(name => {
+            const object = gltf.scene.getObjectByName(name);
+            if (object) {
+                floor3Group.add(object); // 3階グループにオブジェクトを追加
+            }
+        });
+    
+        // 各階のグループを全体のグループに追加
+        allModelGroup.add(floor1Group);
+        allModelGroup.add(floor2Group);
+        allModelGroup.add(floor3Group);
+    
+        // 全体のグループをシーンに追加
+        scene.add(allModelGroup);
+
+        //オブジェクトを消す！
+        moveObject(floor1Group, 1, 0, 1, 0);
+        moveObject(floor2Group, 1, 0, 1, 0);
+        moveObject(floor3Group, 1, 0, 1, 0);
+        
         const clickable = Object.keys(Info); // クリック可能なオブジェクト名のリスト
 
         clickable.forEach(name => {
@@ -68,10 +115,6 @@ loader.load(
     }
 );
 
-// // カメラの位置
-camera.position.x = 0;
-camera.position.y = 200;
-camera.position.z = 100;
 
 // アニメーション対象のオブジェクト
 const animatedObjects = [];
@@ -82,13 +125,6 @@ function animate() {
 
     // originalModel.rotation.x += 0.2;
 
-    // アニメーション対象のオブジェクトを更新
-    animatedObjects.forEach(obj => {
-        if (obj.visible && obj.position.y < obj.targetY) {
-            obj.position.y += 0.01; //y座標を少しずつ上げる
-        }
-    });
-
     controls.update(); //カメラのコントロールを更新
     renderer.render(scene, camera); //シーンを描画
 }
@@ -97,6 +133,10 @@ animate(); //アニメーション開始
 // クリックイベント
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
+
+let visible;
+let unvisible1;
+let unvisible2;
 
 //クリックイベント
 function onMouseClick(event) {
@@ -110,29 +150,66 @@ function onMouseClick(event) {
         console.log('モデルがクリックされました！');
         const intersectedObject = intersects[0].object;
         console.log('Intersected object:', intersectedObject);
-
-        // クリックされたオブジェクトの位置にカメラを動かす例
-        // gsap.to(camera.position, {
-        //     x: intersectedObject.position.x + 10, // オブジェクトの近くに移動するように
-        //     y: intersectedObject.position.y + 10,
-        //     z: intersectedObject.position.z + 10,
-        //     duration: 1.5, // 1.5秒かけて移動
-        //     onUpdate: function () {
-        //         camera.lookAt(intersectedObject.position); // 常にオブジェクトを向く
-        //     }
-        // });
-
-        // gsap.to(intersectedObject.scale,
-        //     {
-        //         x:0,
-        //         y:0,
-        //         z:2,
-        //     }
-        // )
         
-        console.log('position:', intersectedObject.position);
-        
-        showInfoBox(intersectedObject);
+        if (intersectedObject.name.startsWith('平面')){
+            console.log(intersectedObject.name);
+            switch(intersectedObject.name){
+                case '平面005_1':
+                    visible = floor1Group;
+                    unvisible1 = floor2Group;
+                    unvisible2 = floor3Group;
+                    break;
+                case '平面017_1':
+                    visible = floor2Group;
+                    unvisible1 = floor1Group;
+                    unvisible2 = floor3Group;
+                    break;
+                case '平面014':
+                    visible = floor3Group;
+                    unvisible1 = floor1Group;
+                    unvisible2 = floor2Group;
+                    break;
+            }
+
+            moveObject(visible, 1, 1, 1, 1);
+            moveObject(unvisible1, 1, 0, 1, 0);
+            moveObject(unvisible2, 1, 0, 1, 0);
+
+        }
+        else{
+            
+            const worldPosition = new THREE.Vector3();
+            intersectedObject.getWorldPosition(worldPosition);
+            console.log(worldPosition); // ワールド座標を出力
+
+            // クリックされたオブジェクトの位置にカメラを動かす例
+            gsap.to(camera.position, {
+                x: worldPosition.x + 0, // オブジェクトの近くに移動するように
+                y: worldPosition.y + 0,
+                z: worldPosition.z + 10,
+                duration: 1.5, // 1.5秒かけて移動
+                onUpdate: function () {
+                    // 確認: 正しい座標を使用しているか
+                    camera.lookAt(worldPosition); // worldPositionで向く
+                },
+                onComplete: function () {
+                    console.log('Current Camera Position:', camera.position);
+                    // アニメーション終了後にカメラを固定
+                    camera.lookAt(worldPosition.x,worldPosition.y,worldPosition.z);
+                    console.log(worldPosition);
+                }
+            });
+
+            // gsap.to(intersectedObject.scale,
+            //     {
+            //         x:0,
+            //         y:0,
+            //         z:2,
+            //     }
+            // )
+
+            showInfoBox(intersectedObject);
+        }
     }
     else {
         const intersectedObject = intersects[0].object;
@@ -148,6 +225,16 @@ function showInfoBox(object) {
     const info = Info[object.name] || '情報が見つかりません'; // オブジェクトの情報を取得
     infoBox.innerHTML = `<strong>モデル名:</strong> ${object.name}<br><strong>情報:</strong><br> ${info}<br><button onclick="location.href='yatai.html'">移動</button>`;
     infoBox.style.display = 'block';
+}
+
+//Objectを動かす
+function moveObject(group, x, y, z, duration) {
+    gsap.to(group.scale, {
+        x: x,  // x方向の拡大
+        y: y,  // y方向の拡大
+        z: z,  // z方向の拡大
+        duration: duration,  // アニメーションの持続時間
+    });
 }
 
 window.addEventListener('click', onMouseClick); //clickがあったらonMouseClickを作動させるのかな?

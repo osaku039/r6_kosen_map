@@ -8,7 +8,7 @@ const camera = new THREE.PerspectiveCamera(
 ); //カメラの作成
 // camera.position.z =5;
 camera.position.set(0, 200, 100); //カメラの位置
-// camera.lookAt(20,-5,0); //カメラの見る方向
+// camera.lookAt(100,100,0); //カメラの見る方向
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight); //画面サイズ
 document.getElementById('container').appendChild(renderer.domElement); //レンダラーをHTMLに追加
@@ -21,8 +21,8 @@ renderer.setClearColor(0xfff2b9);  //背景色の追加
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true; //カメラの動きをなめらかに
 controls.dampingFactor = 0.1; //なめらかさの度合い
-controls.screenSpacePanning = false; //パンの無効化
-// controls.enablePan = false; //パンを禁止
+// controls.screenSpacePanning = false; //パンの無効化
+// // controls.enablePan = false; //パンを禁止
 controls.maxPolarAngle = Math.PI * 0.33;//カメラ最大値を0.33に
 controls.minPolarAngle = Math.PI * 0.33;//カメラ最小値を0.33に
 
@@ -146,34 +146,16 @@ function onMouseClick(event) {
 
     const intersects = raycaster.intersectObjects(clickableObjects, true); //クリックしたオブジェクトの検出
 
+
     if (intersects.length > 0) {
         console.log('モデルがクリックされました！');
         const intersectedObject = intersects[0].object;
         console.log('Intersected object:', intersectedObject);
-        
+
         if (intersectedObject.name.startsWith('平面')){
             console.log(intersectedObject.name);
-            switch(intersectedObject.name){
-                case '平面005_1':
-                    visible = floor1Group;
-                    unvisible1 = floor2Group;
-                    unvisible2 = floor3Group;
-                    break;
-                case '平面017_1':
-                    visible = floor2Group;
-                    unvisible1 = floor1Group;
-                    unvisible2 = floor3Group;
-                    break;
-                case '平面014':
-                    visible = floor3Group;
-                    unvisible1 = floor1Group;
-                    unvisible2 = floor2Group;
-                    break;
-            }
 
-            moveObject(visible, 1, 1, 1, 1);
-            moveObject(unvisible1, 1, 0, 1, 0);
-            moveObject(unvisible2, 1, 0, 1, 0);
+            showFloor(intersectedObject.name);
 
         }
         else{
@@ -182,23 +164,7 @@ function onMouseClick(event) {
             intersectedObject.getWorldPosition(worldPosition);
             console.log(worldPosition); // ワールド座標を出力
 
-            // クリックされたオブジェクトの位置にカメラを動かす例
-            gsap.to(camera.position, {
-                x: worldPosition.x + 0, // オブジェクトの近くに移動するように
-                y: worldPosition.y + 0,
-                z: worldPosition.z + 10,
-                duration: 1.5, // 1.5秒かけて移動
-                onUpdate: function () {
-                    // 確認: 正しい座標を使用しているか
-                    camera.lookAt(worldPosition); // worldPositionで向く
-                },
-                onComplete: function () {
-                    console.log('Current Camera Position:', camera.position);
-                    // アニメーション終了後にカメラを固定
-                    camera.lookAt(worldPosition.x,worldPosition.y,worldPosition.z);
-                    console.log(worldPosition);
-                }
-            });
+            moveCamera("aiueo", worldPosition, intersectedObject);
 
             // gsap.to(intersectedObject.scale,
             //     {
@@ -208,7 +174,6 @@ function onMouseClick(event) {
             //     }
             // )
 
-            showInfoBox(intersectedObject);
         }
     }
     else {
@@ -235,6 +200,57 @@ function moveObject(group, x, y, z, duration) {
         z: z,  // z方向の拡大
         duration: duration,  // アニメーションの持続時間
     });
+}
+
+//Floorを出す
+function showFloor(name) {
+    switch(name){
+        case '平面005_1':
+            visible = floor1Group;
+            unvisible1 = floor2Group;
+            unvisible2 = floor3Group;
+            break;
+        case '平面017_1':
+            visible = floor2Group;
+            unvisible1 = floor1Group;
+            unvisible2 = floor3Group;
+            break;
+        case '平面014':
+            visible = floor3Group;
+            unvisible1 = floor1Group;
+            unvisible2 = floor2Group;
+            break;
+    }
+
+    moveObject(visible, 1, 1, 1, 1);
+    moveObject(unvisible1, 1, 0, 1, 0);
+    moveObject(unvisible2, 1, 0, 1, 0);
+}
+
+//カメラを動かす
+function moveCamera(name, worldPosition, intersectedObject) {
+    console.log(name);
+    // クリックされたオブジェクトの位置にカメラを動かす例
+    gsap.to(camera.position, {
+        x: worldPosition.x + 0, // オブジェクトの近くに移動するように
+        y: worldPosition.y + 0,
+        z: worldPosition.z + 10,
+        duration: 1.5, // 1.5秒かけて移動
+        onUpdate: function () {
+            // 確認: 正しい座標を使用しているか
+            // camera.lookAt(100,100,0); // worldPositionで向く
+            // console.log(worldPosition);
+        },
+        onComplete: function () {
+            console.log('Current Camera Position:', camera.position);
+            // アニメーション終了後にカメラを固定
+            // camera.lookAt(worldPosition.x,worldPosition.y,worldPosition.z);
+            // console.log(worldPosition);
+        }
+        
+    });
+    
+    showInfoBox(intersectedObject);
 }
 
 window.addEventListener('click', onMouseClick); //clickがあったらonMouseClickを作動させるのかな?

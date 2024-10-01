@@ -1,5 +1,11 @@
 import { Info } from './information.js';
 console.log('main.js is loaded'); // ファイルロード確認用のログ
+// const object = {
+//     "001":{
+//         "list":["りっぽうたい1","りっぽいうたい2"],
+//         "description":"２ねんいちくみ"
+//     }
+// }
 
 // シーン、カメラ、レンダラーのセットアップ
 const scene = new THREE.Scene(); //シーンの作成
@@ -43,6 +49,7 @@ const allModelGroup = new THREE.Group();
 const floor1Group = new THREE.Group(); // 1階のグループ
 const floor2Group = new THREE.Group(); // 2階のグループ
 const floor3Group = new THREE.Group(); // 3階のグループ
+const invisibleGroup = new THREE.Group(); //不可視にしたいグループ
 
 // GLTFモデルのロード
 const loader = new THREE.GLTFLoader();
@@ -59,6 +66,8 @@ loader.load(
         // クリック可能なオブジェクトをリストに追加
     
         // 1階のオブジェクトを1階のグループに追加
+
+        // const objectsFloor1 = [{'1_1':"001_1_1"}, ]
         const objectsFloor1 = ['1_1', '1_2', '1_3', '1_4', '1_Stair'];
         objectsFloor1.forEach(name => {
             const object = gltf.scene.getObjectByName(name);
@@ -80,8 +89,16 @@ loader.load(
         const objectsFloor3 = ['3_1', '3_2', '3_3', '3_4', '3_Stair'];
         objectsFloor3.forEach(name => {
             const object = gltf.scene.getObjectByName(name);
+            // object.name = 'aiueo';
             if (object) {
                 floor3Group.add(object); // 3階グループにオブジェクトを追加
+            }
+        });
+        const objectsInvisible = ['invisible', 'invisible2', 'invisible3', ];
+        objectsInvisible.forEach(name => {
+            const object = gltf.scene.getObjectByName(name);
+            if (object) {
+                invisibleGroup.add(object);
             }
         });
     
@@ -92,6 +109,8 @@ loader.load(
     
         // 全体のグループをシーンに追加
         scene.add(allModelGroup);
+
+        invisibleGroup.visible = false;
 
         //オブジェクトを消す！
         moveObject(floor1Group, 1, 0, 1, 0);
@@ -134,9 +153,9 @@ animate(); //アニメーション開始
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
-let visible;
-let unvisible1;
-let unvisible2;
+let visibleFloor; //見せるオブジェクト
+let invisibleFloor1; //見せないオブジェクト1,2
+let invisibleFloor2;
 
 //クリックイベント
 function onMouseClick(event) {
@@ -152,6 +171,7 @@ function onMouseClick(event) {
         const intersectedObject = intersects[0].object;
         console.log('Intersected object:', intersectedObject);
 
+        //階の選択
         if (intersectedObject.name.startsWith('平面')){
             console.log(intersectedObject.name);
 
@@ -159,20 +179,14 @@ function onMouseClick(event) {
 
         }
         else{
+
+            //クラスを選択
             
             const worldPosition = new THREE.Vector3();
             intersectedObject.getWorldPosition(worldPosition);
             console.log(worldPosition); // ワールド座標を出力
 
             moveCamera("aiueo", worldPosition, intersectedObject);
-
-            // gsap.to(intersectedObject.scale,
-            //     {
-            //         x:0,
-            //         y:0,
-            //         z:2,
-            //     }
-            // )
 
         }
     }
@@ -206,49 +220,49 @@ function moveObject(group, x, y, z, duration) {
 function showFloor(name) {
     switch(name){
         case '平面005_1':
-            visible = floor1Group;
-            unvisible1 = floor2Group;
-            unvisible2 = floor3Group;
+            visibleFloor = floor1Group;
+            invisibleFloor1 = floor2Group;
+            invisibleFloor2 = floor3Group;
             break;
         case '平面017_1':
-            visible = floor2Group;
-            unvisible1 = floor1Group;
-            unvisible2 = floor3Group;
+            visibleFloor = floor2Group;
+            invisibleFloor1 = floor1Group;
+            invisibleFloor2 = floor3Group;
             break;
         case '平面014':
-            visible = floor3Group;
-            unvisible1 = floor1Group;
-            unvisible2 = floor2Group;
+            visibleFloor = floor3Group;
+            invisibleFloor1 = floor1Group;
+            invisibleFloor2 = floor2Group;
             break;
     }
 
-    moveObject(visible, 1, 1, 1, 1);
-    moveObject(unvisible1, 1, 0, 1, 0);
-    moveObject(unvisible2, 1, 0, 1, 0);
+    moveObject(visibleFloor, 1, 1, 1, 1);
+    moveObject(invisibleFloor1, 1, 0, 1, 0);
+    moveObject(invisibleFloor2, 1, 0, 1, 0);
 }
 
 //カメラを動かす
 function moveCamera(name, worldPosition, intersectedObject) {
     console.log(name);
-    // クリックされたオブジェクトの位置にカメラを動かす例
-    gsap.to(camera.position, {
-        x: worldPosition.x + 0, // オブジェクトの近くに移動するように
-        y: worldPosition.y + 0,
-        z: worldPosition.z + 10,
-        duration: 1.5, // 1.5秒かけて移動
-        onUpdate: function () {
-            // 確認: 正しい座標を使用しているか
-            // camera.lookAt(100,100,0); // worldPositionで向く
-            // console.log(worldPosition);
-        },
-        onComplete: function () {
-            console.log('Current Camera Position:', camera.position);
-            // アニメーション終了後にカメラを固定
-            // camera.lookAt(worldPosition.x,worldPosition.y,worldPosition.z);
-            // console.log(worldPosition);
-        }
+    // // クリックされたオブジェクトの位置にカメラを動かす例
+    // gsap.to(camera.position, {
+    //     x: worldPosition.x + 0, // オブジェクトの近くに移動するように
+    //     y: worldPosition.y + 0,
+    //     z: worldPosition.z + 10,
+    //     duration: 1.5, // 1.5秒かけて移動
+    //     onUpdate: function () {
+    //         // 確認: 正しい座標を使用しているか
+    //         // camera.lookAt(100,100,0); // worldPositionで向く
+    //         // console.log(worldPosition);
+    //     },
+    //     onComplete: function () {
+    //         console.log('Current Camera Position:', camera.position);
+    //         // アニメーション終了後にカメラを固定
+    //         // camera.lookAt(worldPosition.x,worldPosition.y,worldPosition.z);
+    //         // console.log(worldPosition);
+    //     }
         
-    });
+    // });
     
     showInfoBox(intersectedObject);
 }

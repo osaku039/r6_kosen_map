@@ -21,4 +21,9 @@ export const Info = {
     '3_3': '3青',
     '3_4': '3黄',
 
+    'invisible': 'invisible',
+    'invisible2': 'invisible',
+    'invisible3': 'invisible',
+    'invisible4': 'invisible',
+
 };

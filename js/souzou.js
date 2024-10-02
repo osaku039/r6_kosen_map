@@ -13,7 +13,7 @@ const camera = new THREE.PerspectiveCamera(
     43, window.innerWidth / window.innerHeight, 0.1, 1000
 ); //カメラの作成
 // camera.position.z =5;
-camera.position.set(0, 200, 100); //カメラの位置
+camera.position.set(108, 113, 159); //カメラの位置
 // camera.lookAt(100,100,0); //カメラの見る方向
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight); //画面サイズ
@@ -29,8 +29,8 @@ controls.enableDamping = true; //カメラの動きをなめらかに
 controls.dampingFactor = 0.1; //なめらかさの度合い
 // controls.screenSpacePanning = false; //パンの無効化
 // // controls.enablePan = false; //パンを禁止
-controls.maxPolarAngle = Math.PI * 0.33;//カメラ最大値を0.33に
-controls.minPolarAngle = Math.PI * 0.33;//カメラ最小値を0.33に
+// controls.maxPolarAngle = Math.PI * 0.33;//カメラ最大値を0.33に
+// controls.minPolarAngle = Math.PI * 0.33;//カメラ最小値を0.33に
 
 // 光源の追加
 const ambientLight = new THREE.AmbientLight(0xf0f0f0); //環境光
@@ -54,7 +54,7 @@ const invisibleGroup = new THREE.Group(); //不可視にしたいグループ
 // GLTFモデルのロード
 const loader = new THREE.GLTFLoader();
 loader.load(
-    'models/floor_souzou2.glb',
+    'models/floor_souzou3.glb',
     function (gltf) {
         // const groupedModel = createGroupedModel(gltf); // グループ化されたモデルを取得
         originalModel = gltf.scene; //読み込んだモデルの取得
@@ -67,8 +67,7 @@ loader.load(
     
         // 1階のオブジェクトを1階のグループに追加
 
-        // const objectsFloor1 = [{'1_1':"001_1_1"}, ]
-        const objectsFloor1 = ['1_1', '1_2', '1_3', '1_4', '1_Stair'];
+        const objectsFloor1 = ['1_1', '1_2', '1_3', '1_4', 'Stair1', '1_other'];
         objectsFloor1.forEach(name => {
             const object = gltf.scene.getObjectByName(name);
             if (object) {
@@ -77,16 +76,17 @@ loader.load(
         });
     
         // 2階のオブジェクトを2階のグループに追加
-        const objectsFloor2 = ['2_1', '2_2', '2_3', '2_4', '2_Stair'];
+        const objectsFloor2 = ['2_1', '2_2', '2_3', '2_4', '2_5', 'Stair2', '2_other', 'zinja'];
         objectsFloor2.forEach(name => {
             const object = gltf.scene.getObjectByName(name);
             if (object) {
+                console.log(object);
                 floor2Group.add(object); // 2階グループにオブジェクトを追加
             }
         });
     
         // 3階のオブジェクトを3階のグループに追加
-        const objectsFloor3 = ['3_1', '3_2', '3_3', '3_4', '3_Stair'];
+        const objectsFloor3 = ['3_1', '3_2', '3_3', '3_4', '3_5', '3_6', 'Stair3', '3_other'];
         objectsFloor3.forEach(name => {
             const object = gltf.scene.getObjectByName(name);
             // object.name = 'aiueo';
@@ -94,7 +94,8 @@ loader.load(
                 floor3Group.add(object); // 3階グループにオブジェクトを追加
             }
         });
-        const objectsInvisible = ['invisible', 'invisible2', 'invisible3', ];
+
+        const objectsInvisible = ['invisible', 'invisible2', 'invisible3', 'invisible4', 'invisible5', 'invisible6', 'invisible7', 'invisible8'];
         objectsInvisible.forEach(name => {
             const object = gltf.scene.getObjectByName(name);
             if (object) {
@@ -172,11 +173,10 @@ function onMouseClick(event) {
         console.log('Intersected object:', intersectedObject);
 
         //階の選択
-        if (intersectedObject.name.startsWith('平面')){
+        if (intersectedObject.parent.name.startsWith('F')){
             console.log(intersectedObject.name);
 
-            showFloor(intersectedObject.name);
-
+            showFloor(intersectedObject.parent.name);
         }
         else{
 
@@ -187,6 +187,7 @@ function onMouseClick(event) {
             console.log(worldPosition); // ワールド座標を出力
 
             moveCamera("aiueo", worldPosition, intersectedObject);
+            showInfoBox(intersectedObject);
 
         }
     }
@@ -202,7 +203,8 @@ function onMouseClick(event) {
 function showInfoBox(object) {
     const infoBox = document.getElementById('infoBox');
     const info = Info[object.name] || '情報が見つかりません'; // オブジェクトの情報を取得
-    infoBox.innerHTML = `<strong>モデル名:</strong> ${object.name}<br><strong>情報:</strong><br> ${info}<br><button onclick="location.href='yatai.html'">移動</button>`;
+    const parent = object.parent || '親はいません';
+    infoBox.innerHTML = `<strong>モデル名:</strong> ${object.name}<br>${object.parent.name}<br><strong>情報:</strong><br> ${info}<br><button onclick="location.href='yatai.html'">移動</button>`;
     infoBox.style.display = 'block';
 }
 
@@ -219,17 +221,17 @@ function moveObject(group, x, y, z, duration) {
 //Floorを出す
 function showFloor(name) {
     switch(name){
-        case '平面005_1':
+        case 'F1':
             visibleFloor = floor1Group;
             invisibleFloor1 = floor2Group;
             invisibleFloor2 = floor3Group;
             break;
-        case '平面017_1':
+        case 'F2':
             visibleFloor = floor2Group;
             invisibleFloor1 = floor1Group;
             invisibleFloor2 = floor3Group;
             break;
-        case '平面014':
+        case 'F3':
             visibleFloor = floor3Group;
             invisibleFloor1 = floor1Group;
             invisibleFloor2 = floor2Group;
@@ -242,29 +244,28 @@ function showFloor(name) {
 }
 
 //カメラを動かす
-function moveCamera(name, worldPosition, intersectedObject) {
+function moveCamera(name, worldPosition) {
     console.log(name);
     // // クリックされたオブジェクトの位置にカメラを動かす例
-    // gsap.to(camera.position, {
-    //     x: worldPosition.x + 0, // オブジェクトの近くに移動するように
-    //     y: worldPosition.y + 0,
-    //     z: worldPosition.z + 10,
-    //     duration: 1.5, // 1.5秒かけて移動
-    //     onUpdate: function () {
-    //         // 確認: 正しい座標を使用しているか
-    //         // camera.lookAt(100,100,0); // worldPositionで向く
-    //         // console.log(worldPosition);
-    //     },
-    //     onComplete: function () {
-    //         console.log('Current Camera Position:', camera.position);
-    //         // アニメーション終了後にカメラを固定
-    //         // camera.lookAt(worldPosition.x,worldPosition.y,worldPosition.z);
-    //         // console.log(worldPosition);
-    //     }
+    gsap.to(camera.position, {
+        x: worldPosition.x + 0, // オブジェクトの近くに移動するように
+        y: worldPosition.y + 0,
+        z: worldPosition.z + 10,
+        duration: 1.5, // 1.5秒かけて移動
+        onUpdate: function () {
+                // OrbitControlsのターゲットを設定
+                controls.target.copy(worldPosition);
+                // カメラの更新
+                controls.update();
+        },
+        onComplete: function () {
+            console.log('Current Camera Position:', camera.position);
+            // アニメーション終了後にカメラを固定
+            // camera.lookAt(worldPosition.x,worldPosition.y,worldPosition.z);
+            // console.log(worldPosition);
+        }
         
-    // });
-    
-    showInfoBox(intersectedObject);
+    });
 }
 
 window.addEventListener('click', onMouseClick); //clickがあったらonMouseClickを作動させるのかな?

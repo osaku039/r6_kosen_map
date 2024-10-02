@@ -26,11 +26,51 @@
             display: none;
             overflow-y: auto;
         }
+        .button-container {
+            position: fixed; /* 固定位置 */
+            bottom: 0; /* 下部に配置 */
+            left: 0;
+            width: 100%; /* 横幅100% */
+            background-color: rgba(255, 255, 255, 0.8); /* 背景色を設定 */
+            padding: 10px; /* パディング */
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5); /* 上に影を付ける */
+            display: flex; /* フレックスボックスを使用 */
+            justify-content: space-around; /* ボタンを均等に配置 */
+        }
+        .button-container button {
+            flex: 1; /* 各ボタンを均等に配置 */
+            margin: 0 5px; /* ボタン間のマージン */
+        }
     </style>
 </head>
 <body>
     <div id="container"></div>
     <div id="infoBox"></div> <!-- 吹き出し用のdivを追加 -->
+
+    <!-- ボタンコンテナ -->
+    <div class="button-container">
+        <button onclick="location.href='souzou.html'">クラス企画 1</button>
+        <button onclick="location.href='souzou.html'">クラス企画 2</button>
+        <button onclick="location.href='souzou.html'">クラス企画 3</button>
+        <button onclick="location.href='souzou.html'">クラス企画 4</button>
+        <button onclick="location.href='souzou.html'">クラス企画 5</button>
+        <button onclick="location.href='souzou.html'">クラス企画 6</button>
+        <button onclick="location.href='souzou.html'">クラス企画 7</button>
+        <button onclick="location.href='souzou.html'">クラス企画 8</button>
+        <button onclick="location.href='souzou.html'">クラス企画 9</button>
+        <button onclick="location.href='souzou.html'">クラス企画 10</button>
+        <button onclick="location.href='souzou.html'">クラス企画 11</button>
+        <button onclick="location.href='souzou.html'">クラス企画 12</button>
+        <button onclick="location.href='souzou.html'">クラス企画 13</button>
+        <button onclick="location.href='souzou.html'">クラス企画 14</button>
+        <button onclick="location.href='souzou.html'">クラス企画 15</button>
+        <button onclick="location.href='souzou.html'">クラス企画 16</button>
+        <button onclick="location.href='souzou.html'">クラス企画 17</button>
+        <button onclick="location.href='yatai.html'">屋台企画 1</button>
+        <button onclick="location.href='yatai.html'">屋台企画 2</button>
+        <button onclick="location.href='yatai.html'">屋台企画 2</button>
+    </div>
+
     <!-- Three.jsライブラリ -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <!-- GLTFLoader -->

@@ -1,4 +1,4 @@
-console.log('main.js is loaded'); // ファイルロード確認用のログ
+console.log('yatai.js is loaded'); // ファイルロード確認用のログ
 
 // シーン、カメラ、レンダラーのセットアップ
 const scene = new THREE.Scene();

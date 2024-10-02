@@ -1,34 +1,138 @@
 // オブジェクトの情報
 export const Info = {
     //１階
-    'F1': '1地面',
-    '1_1': '1緑',
-    '1_2': '1赤',
-    '1_3': '1青',
-    '1_4': '1黄',
-    'Stair1': '1階段',
+    'F1':{
+        "description":"説明さ",
+        "Position":"0,0,0",
+        "cameraPosition":"0,0,0",
+    },
+    '1_1':{
+        "description":"説明さ",
+        "Position":"0,0,0",
+        "cameraPosition":"0,0,0",
+    },
+    '1_2':{
+        "description":"説明さ",
+        "Position":"0,0,0",
+        "cameraPosition":"0,0,0",
+    },
+    '1_3':{
+        "description":"説明さ",
+        "Position":"0,0,0",
+        "cameraPosition":"0,0,0",
+    },
+    '1_4':{
+        "description":"説明さ",
+        "Position":"0,0,0",
+        "cameraPosition":"0,0,0",
+    },
+    'Stair1':{
+        "description":"説明さ",
+        "Position":"0,0,0",
+        "cameraPosition":"0,0,0",
+    },
     //２階
-    'F2': '2地面',
-    '2_1': '2緑',
-    '2_2': '2赤',
-    '2_3': '2青',
-    '2_4': '2黄',
-    '2_5': '2御',
-    'zinja': 'jinja',
-    'Stair2': '2階段',
+    'F2':{
+        "description":"説明さ",
+        "Position":"0,0,0",
+        "cameraPosition":"0,0,0",
+    },
+    '2_1':{
+        "description":"説明さ",
+        "Position":"0,0,0",
+        "cameraPosition":"0,0,0",
+    },
+    '2_2':{
+        "description":"説明さ",
+        "Position":"0,0,0",
+        "cameraPosition":"0,0,0",
+    },
+    '2_3':{
+        "description":"説明さ",
+        "Position":"0,0,0",
+        "cameraPosition":"0,0,0",
+    },
+    '2_4':{
+        "description":"説明さ",
+        "Position":"0,0,0",
+        "cameraPosition":"0,0,0",
+    },
+    '2_5':{
+        "description":"説明さ",
+        "Position":"0,0,0",
+        "cameraPosition":"0,0,0",
+    },
+    'zinja':{
+        "description":"説明さ",
+        "Position":"0,0,0",
+        "cameraPosition":"0,0,0",
+    },
+    'Stair2':{
+        "description":"説明さ",
+        "Position":"0,0,0",
+        "cameraPosition":"0,0,0",
+    },
     //３階
-    'F3': '3地面',
-    '3_1': '3緑',
-    '3_2': '3赤',
-    '3_3': '3青',
-    '3_4': '3黄',
-    '3_5': '3御',
-    '3_6': '3ろく',
-    'Stair3': '3階段',
+    'F3':{
+        "description":"説明さ",
+        "Position":"0,0,0",
+        "cameraPosition":"0,0,0",
+    },
+    '3_1':{
+        "description":"説明さ",
+        "Position":"0,0,0",
+        "cameraPosition":"0,0,0",
+    },
+    '3_2':{
+        "description":"説明さ",
+        "Position":"0,0,0",
+        "cameraPosition":"0,0,0",
+    },
+    '3_3':{
+        "description":"説明さ",
+        "Position":"0,0,0",
+        "cameraPosition":"0,0,0",
+    },
+    '3_4':{
+        "description":"説明さ",
+        "Position":"0,0,0",
+        "cameraPosition":"0,0,0",
+    },
+    '3_5':{
+        "description":"説明さ",
+        "Position":"0,0,0",
+        "cameraPosition":"0,0,0",
+    },
+    '3_6':{
+        "description":"説明さ",
+        "Position":"0,0,0",
+        "cameraPosition":"0,0,0",
+    },
+    'Stair3':{
+        "description":"説明さ",
+        "Position":"0,0,0",
+        "cameraPosition":"0,0,0",
+    },
 
-    'invisible': 'invisible',
-    'invisible2': 'invisible',
-    'invisible3': 'invisible',
-    'invisible4': 'invisible',
+    'invisible':{
+        "description":"説明さ",
+        "Position":"0,0,0",
+        "cameraPosition":"0,0,0",
+    },
+    'invisible2':{
+        "description":"説明さ",
+        "Position":"0,0,0",
+        "cameraPosition":"0,0,0",
+    },
+    'invisible3':{
+        "description":"説明さ",
+        "Position":"0,0,0",
+        "cameraPosition":"0,0,0",
+    },
+    'invisible4':{
+        "description":"説明さ",
+        "Position":"0,0,0",
+        "cameraPosition":"0,0,0",
+    },
 
 };

@@ -73,21 +73,23 @@ loader.load(
 
         const objectsFloor1 = ['1_1', '1_2', '1_3', '1_4', '1_men', '1_women', '1_other'];
         addGroup(floor1ClassGroup, objectsFloor1, gltf);
+        const objectsAllFloor1 = ['F1', 'Stair1', 'hito', 'kanban'];
         floor1Group.add(floor1ClassGroup);
-        floor1Group.add('F1');
+        addGroup(floor1Group, objectsAllFloor1, gltf);
     
         // 2階のオブジェクトを2階のグループに追加
         const objectsFloor2 = ['2_1', '2_2', '2_3', '2_4', '2_5', '2_men', '2_women', '2_other', 'zinja'];
         addGroup(floor2ClassGroup, objectsFloor2, gltf);
+        const objectsAllFloor2 = ['F2', 'Stair2'];
         floor2Group.add(floor2ClassGroup);
-        floor2Group.add('F2');
+        addGroup(floor2Group, objectsAllFloor2, gltf);
     
         // 3階のオブジェクトを3階のグループに追加
         const objectsFloor3 = ['3_1', '3_2', '3_3', '3_4', '3_5', '3_6', '3_men', '3_women', '3_other'];
         addGroup(floor3ClassGroup, objectsFloor3, gltf);
         const objectsAllFloor3 = ['F3', 'Stair3'];
         floor3Group.add(floor3ClassGroup);
-        floor3Group.add('F3');
+        addGroup(floor3Group, objectsAllFloor3, gltf);
         
 
         const objectsInvisible = ['invisible', 'invisible2', 'invisible3', 'invisible4', 'invisible5', 'invisible6', 'invisible7', 'invisible8'];
@@ -220,9 +222,9 @@ function moveObject(group, x, y, z, duration) {
 }
 
 function changeFloor(selectedFloor) {
-    // floor1Group.visible = false;
-    // floor2Group.visible = false;
-    // floor3Group.visible = false;
+    floor1Group.visible = false;
+    floor2Group.visible = false;
+    floor3Group.visible = false;
     selectedFloor.visible = true;
     // moveObject(selectedFloor, 2, 2, 2, 1);
     console.log("selectedFloor = "+ selectedFloor);

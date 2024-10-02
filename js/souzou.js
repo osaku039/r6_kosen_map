@@ -67,7 +67,7 @@ loader.load(
     
         // 1階のオブジェクトを1階のグループに追加
 
-        const objectsFloor1 = ['1_1', '1_2', '1_3', '1_4', 'Stair1', '1_other'];
+        const objectsFloor1 = ['1_1', '1_2', '1_3', '1_4', '1_men', '1_women', '1_other'];
         objectsFloor1.forEach(name => {
             const object = gltf.scene.getObjectByName(name);
             if (object) {
@@ -76,7 +76,7 @@ loader.load(
         });
     
         // 2階のオブジェクトを2階のグループに追加
-        const objectsFloor2 = ['2_1', '2_2', '2_3', '2_4', '2_5', 'Stair2', '2_other', 'zinja'];
+        const objectsFloor2 = ['2_1', '2_2', '2_3', '2_4', '2_5', '2_men', '2_women', '2_other', 'zinja'];
         objectsFloor2.forEach(name => {
             const object = gltf.scene.getObjectByName(name);
             if (object) {
@@ -86,7 +86,7 @@ loader.load(
         });
     
         // 3階のオブジェクトを3階のグループに追加
-        const objectsFloor3 = ['3_1', '3_2', '3_3', '3_4', '3_5', '3_6', 'Stair3', '3_other'];
+        const objectsFloor3 = ['3_1', '3_2', '3_3', '3_4', '3_5', '3_6', '3_men', '3_women', '3_other'];
         objectsFloor3.forEach(name => {
             const object = gltf.scene.getObjectByName(name);
             // object.name = 'aiueo';

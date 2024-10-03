@@ -38,8 +38,9 @@ let newModel;
 let clickableObjects = []; // クリック可能なオブジェクトのリスト
 
 
-
 console.log(originalModel); // モデル内のオブジェクトの確認
+
+
 
 
 // GLTFモデルのロード
@@ -52,18 +53,23 @@ loader.load(
         scene.add(originalModel);
         console.log('Original model loaded'); // ロード成功ログ
 
-        // // クリック可能なオブジェクトをリストに追加
-        // for (let name in objectInfo) {
-        //     const clickableObject = scene.getObjectByName(name);
-        //     if (clickableObject) {
-        //         clickableObjects.push(clickableObject);
-        //         clickableObject.userData.info = objectInfo[name]; // オブジェクトに情報を紐付け
-        //         console.log('Clickable object:', clickableObject); // クリック可能なオブジェクトを確認
-        //     }
-        //     else {
-        //         console.log('Object not found:', name); // オブジェクトが見つからなかった場合のログ
-        //     }
-        // }
+        const objectList = ['building', 'souzouzissentou', 'shityoukakuho-ru', 'piano', 'yatai'];
+
+        
+        // クリック可能なオブジェクトをリストに追加
+        objectList.forEach(name => {
+            const clickableObject = scene.getObjectByName(name);
+            console.log('Checking name:', name);
+
+            if (clickableObject) {
+                clickableObjects.push(clickableObject);
+                console.log('Clickable object siroiyatsu', clickableObject);
+            }else {
+                console.log("無理でした...");
+            }
+        });
+
+        
         
         console.log('All clickable objects:', clickableObjects); // すべてのクリック可能なオブジェクトを確認
 
@@ -91,7 +97,7 @@ function animate() {
 
     //controls.update();      //カメラの動き要らないから削除して
     renderer.render(scene, camera);
-    // console.log(camera.position);
+    console.log(camera.position);
 }
 animate();
 
@@ -110,8 +116,8 @@ function onMouseClick(event) {
     if (intersects.length > 0) {
         const intersectedObject = intersects[0].object;
         console.log('Intersected object:', intersectedObject);
-
-        showInfoBox(intersectedObject);
+        console.log(intersectedObject.parent.name);
+        movePage(intersectedObject.parent.name, intersectedObject);
     }
     else {
         console.log('No clickable object was clicked.'); // クリックされた場所にオブジェクトがなかった場合
@@ -119,12 +125,92 @@ function onMouseClick(event) {
 }
     
 
-function showInfoBox(object) {
-    const infoBox = document.getElementById('infoBox');
-    const info = object.userData.info || '情報が見つかりません'; // オブジェクトの情報を取得
-    console.log('Showing info for object:', object.name, 'with info:', info); // 表示される情報を確認
-    infoBox.innerHTML = `<strong>モデル名:</strong> ${object.name}<br><strong>情報:</strong><br> ${info}<br><button onclick="location.href='souzou.html'">移動</button>`;
-    infoBox.style.display = 'block';
+function movePage(name, object) {
+    console.log("move");
+    switch (name){
+        case 'souzouzissentou':
+            link = "./souzou.html";
+            break;
+        case 'building':
+            link = "./souzou.html";
+            break;
+        case 'shityoukakuho-ru':
+            console.log("yaa");
+            link = "./sityoukaku.html";
+            break;
+        case 'piano':
+            link = "./sityoukaku.html";
+            break;
+        case 'yatai':
+            link = "./yatai.html";
+            moveCamera([73.49, 7.7, 55], [74, -3, 17], link, object);
+            break;
+    }
+
+}
+
+function moveCamera(cameraPositionValue, objectPositionValue, link, object) {
+    let cameraPosition;
+    let objectPosition;
+    cameraPosition = new THREE.Vector3(
+        cameraPositionValue[0], 
+        cameraPositionValue[1], 
+        cameraPositionValue[2]
+    );
+    objectPosition = new THREE.Vector3(
+        objectPositionValue[0], 
+        objectPositionValue[1], 
+        objectPositionValue[2]
+    );
+    console.log(cameraPosition);
+    // // クリックされたオブジェクトの位置にカメラを動かす例
+    gsap.to(camera.position, {
+        x: cameraPosition.x, // オブジェクトの近くに移動するように
+        y: cameraPosition.y,
+        z: cameraPosition.z,
+        duration: 1.5, // 1.5秒かけて移動
+        onUpdate: function () {
+                // OrbitControlsのターゲットを設定
+                // controls.target.copy(objectPosition);
+                // controls.update();
+                camera.lookAt(objectPosition);
+        },
+        onComplete: function () {
+            console.log('Current Camera Position:', camera.position);
+            // アニメーション終了後にカメラを固定
+            // camera.lookAt(worldPosition.x,worldPosition.y,worldPosition.z);
+            // console.log(worldPosition);
+            gsap.to(camera.position, {
+                x: objectPosition.x, // オブジェクトの近くに移動するように
+                y: objectPosition.y,
+                z: objectPosition.z,
+                duration: 2.0, // 2秒かけて移動
+                onUpdate: function () {
+                        // OrbitControlsのターゲットを設定
+                        // controls.target.copy(cameraPosition);
+                        // controls.update();
+                        camera.lookAt(objectPosition);
+                },
+                onComplete: function () {
+                    console.log('Current Camera Position:', camera.position);
+                    // アニメーション終了後にカメラを固定
+                    // camera.lookAt(worldPosition.x,worldPosition.y,worldPosition.z);
+                    // console.log(worldPosition);
+                
+                    // location.href = link;
+                }
+            
+            });
+            gsap.to(camera.position, {
+                duration: 2.0,
+                onComplete: function() {
+                    location.href = link;
+                }
+            })
+        }
+
+    });
+
 }
 
 

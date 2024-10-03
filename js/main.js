@@ -130,9 +130,13 @@ function movePage(name, object) {
     switch (name){
         case 'souzouzissentou':
             link = "./souzou.html";
+            firstPosition = [0,0,138.5];
+            secondPosition = [0,0,0];
             break;
         case 'building':
             link = "./souzou.html";
+            firstPosition = [0,0,138.5];
+            secondPosition = [0,0,0];
             break;
         case 'shityoukakuho-ru':
             link = "./sityoukaku.html";

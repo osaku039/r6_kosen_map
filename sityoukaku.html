@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css"><!---cssファイルとの紐づけ。任意のファイルに変更してください。-->
+    <title>3D Model Click Example</title>
+</head>
+<body>
+    <div class="button-container">
+        <button onclick="location.href='sityoukaku.html'">視聴覚ホール</button>
+        <button onclick="location.href='souzou.html'">クラス企画 1</button>
+        <button onclick="location.href='souzou.html'">クラス企画 2</button>
+        <button onclick="location.href='souzou.html'">クラス企画 3</button>
+        <button onclick="location.href='souzou.html'">クラス企画 4</button>
+        <button onclick="location.href='souzou.html'">クラス企画 5</button>
+        <button onclick="location.href='souzou.html'">クラス企画 6</button>
+        <button onclick="location.href='souzou.html'">クラス企画 7</button>
+        <button onclick="location.href='souzou.html'">クラス企画 8</button>
+        <button onclick="location.href='souzou.html'">クラス企画 9</button>
+        <button onclick="location.href='souzou.html'">クラス企画 10</button>
+        <button onclick="location.href='souzou.html'">クラス企画 11</button>
+        <button onclick="location.href='souzou.html'">クラス企画 12</button>
+        <button onclick="location.href='souzou.html'">クラス企画 13</button>
+        <button onclick="location.href='souzou.html'">クラス企画 14</button>
+        <button onclick="location.href='souzou.html'">クラス企画 15</button>
+        <button onclick="location.href='souzou.html'">クラス企画 16</button>
+        <button onclick="location.href='souzou.html'">クラス企画 17</button>
+        <button onclick="location.href='yatai.html'">屋台企画 1</button>
+        <button onclick="location.href='yatai.html'">屋台企画 2</button>
+        <button onclick="location.href='yatai.html'">屋台企画 2</button>
+        <!-- ここに20個のボタンを追加できます -->
+    </div>
+    <div class="base">
+        <div class="model">
+            <!---多分大事変更しないでください-->
+            <div id="container"></div>
+            <!-- Three.jsライブラリ -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+            <!-- GLTFLoader -->
+            <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+            <!-- OrbitControls -->
+            <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+            <!-- GSAPライブラリ -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script>
+            <!-- メインスクリプト -->
+            <script src="js/sityoukaku.js"></script>
+        </div>
+        
+        <div class="select-button">
+            <button class="class-select-button">やあ</button>
+        </div>
+    </div>
+</body>
+</html>

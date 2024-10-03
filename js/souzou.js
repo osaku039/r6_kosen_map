@@ -184,8 +184,7 @@ function onMouseClick(event) {
             const worldPosition = new THREE.Vector3();
             intersectedObject.getWorldPosition(worldPosition);
             console.log(intersectedObject.parent.name); // ワールド座標を出力
-            moveCamera(intersectedObject.parent.name);
-            showInfoBox(intersectedObject);
+            showInfoBox(intersectedObject.parent.name);
 
         }
     }
@@ -197,12 +196,12 @@ function onMouseClick(event) {
 }
     
 //クリックされたオブジェクトの情報を表示
-function showInfoBox(object) {
+function showInfoBox(name) {
     const infoBox = document.getElementById('infoBox');
-    const className = object.parent.name || object.name;
-    const info = Info[className]['description'] || '情報が見つかりません'; // オブジェクトの情報を取得
-    infoBox.innerHTML = `<strong>モデル名:</strong> ${object.name}<br>${className}<br><strong>情報:</strong><br> ${info}<br><button onclick="location.href='yatai.html'">移動</button>`;
+    const info = Info[name]['description'] || '情報が見つかりません'; // オブジェクトの情報を取得
+    infoBox.innerHTML = `<strong>モデル名:</strong> ${name}<br><strong>情報:</strong><br> ${info}<br><button onclick="location.href='yatai.html'">移動</button>`;
     infoBox.style.display = 'block';
+    moveCamera(name);
 }
 
 //Objectを動かす

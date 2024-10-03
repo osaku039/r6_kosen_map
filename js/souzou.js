@@ -1,11 +1,5 @@
 import { Info } from './information.js';
 console.log('main.js is loaded'); // ファイルロード確認用のログ
-// const object = {
-//     "001":{
-//         "list":["りっぽうたい1","りっぽいうたい2"],
-//         "description":"２ねんいちくみ"
-//     }
-// }
 
 // シーン、カメラ、レンダラーのセットアップ
 const scene = new THREE.Scene(); //シーンの作成
@@ -150,6 +144,7 @@ function animate() {
 
     controls.update(); //カメラのコントロールを更新
     renderer.render(scene, camera); //シーンを描画
+    // console.log(camera.position);
 }
 animate(); //アニメーション開始
 
@@ -180,6 +175,7 @@ function onMouseClick(event) {
         if (intersectedObject.parent.name.startsWith('F')){
             console.log(intersectedObject.parent.name);
 
+            moveCamera(intersectedObject.parent.name);
             showFloor(intersectedObject.parent.name);
         }
         else{
@@ -187,9 +183,8 @@ function onMouseClick(event) {
             //クラスを選択
             const worldPosition = new THREE.Vector3();
             intersectedObject.getWorldPosition(worldPosition);
-            console.log(worldPosition); // ワールド座標を出力
-
-            moveCamera("aiueo", worldPosition, intersectedObject);
+            console.log(intersectedObject.parent.name); // ワールド座標を出力
+            moveCamera(intersectedObject.parent.name);
             showInfoBox(intersectedObject);
 
         }
@@ -260,17 +255,33 @@ function showFloor(name) {
 }
 
 //カメラを動かす
-function moveCamera(name, worldPosition) {
+function moveCamera(name) {
     console.log(name);
+    let cameraPosition;
+    let objectPosition;
+    const cameraPositionValue = Info[name]['cameraPosition'] || [0,0,0]; // オブジェクトの情報を取得
+    const objectPositionValue = Info[name]['Position'] || [0,0,0];
+    console.log("x:"+cameraPositionValue[0]);
+    cameraPosition = new THREE.Vector3(
+        cameraPositionValue[0], 
+        cameraPositionValue[1], 
+        cameraPositionValue[2]
+    );
+    objectPosition = new THREE.Vector3(
+        parseFloat(objectPositionValue[0]), 
+        parseFloat(objectPositionValue[1]), 
+        parseFloat(objectPositionValue[2])
+    );
+    console.log(cameraPosition);
     // // クリックされたオブジェクトの位置にカメラを動かす例
     gsap.to(camera.position, {
-        x: worldPosition.x + 0, // オブジェクトの近くに移動するように
-        y: worldPosition.y + 0,
-        z: worldPosition.z + 10,
+        x: cameraPosition.x, // オブジェクトの近くに移動するように
+        y: cameraPosition.y,
+        z: cameraPosition.z,
         duration: 1.5, // 1.5秒かけて移動
         onUpdate: function () {
                 // OrbitControlsのターゲットを設定
-                controls.target.copy(worldPosition);
+                controls.target.copy(objectPosition);
                 // カメラの更新
                 controls.update();
         },

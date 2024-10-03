@@ -5,11 +5,11 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
     43, window.innerWidth / window.innerHeight, 0.1, 1000
 );
-camera.position.set(-50, 25, 0);  // カメラを正面に固定
+camera.position.set(90, 30, 101);  // カメラを正面に固定
 //camera.position.set(-30, 10, 0);    //テスト用
-camera.lookAt(20, -5, 0);  // カメラをシーンの中心に向ける
+camera.lookAt(0, -10, -10);  // カメラをシーンの中心に向ける
 //camera.lookAt(20, -5, -20); //テスト用
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({antialias: true,});
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById('container').appendChild(renderer.domElement);
 
@@ -17,11 +17,11 @@ renderer.setClearColor(0xfff2b9); //背景色
 
 
 
-// OrbitControlsのセットアップ      ...カメラの動きを制御するやつ。いらない
-const controls = new THREE.OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor = 0.25;
-controls.screenSpacePanning = false;
+// // OrbitControlsのセットアップ      ...カメラの動きを制御するやつ。いらない
+// const controls = new THREE.OrbitControls(camera, renderer.domElement);
+// controls.enableDamping = true;
+// controls.dampingFactor = 0.25;
+// controls.screenSpacePanning = false;
 
 
 // 光源の追加
@@ -46,7 +46,7 @@ console.log(originalModel); // モデル内のオブジェクトの確認
 const loader = new THREE.GLTFLoader();
 
 loader.load(
-    'models/souzou3.glb',
+    'models/souzou4.glb',
     function (gltf) {
         originalModel = gltf.scene;
         scene.add(originalModel);
@@ -91,6 +91,7 @@ function animate() {
 
     //controls.update();      //カメラの動き要らないから削除して
     renderer.render(scene, camera);
+    // console.log(camera.position);
 }
 animate();
 

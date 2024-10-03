@@ -190,8 +190,7 @@ function onMouseClick(event) {
         }
     }
     else {
-        const intersectedObject = intersects[0].object;
-        console.log('Intersected object:', intersectedObject);
+        console.log("ぱあ");
     }
 
 

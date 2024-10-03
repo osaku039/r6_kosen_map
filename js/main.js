@@ -17,11 +17,11 @@ renderer.setClearColor(0xfff2b9); //背景色
 
 
 
-// // OrbitControlsのセットアップ      ...カメラの動きを制御するやつ。いらない
-// const controls = new THREE.OrbitControls(camera, renderer.domElement);
-// controls.enableDamping = true;
-// controls.dampingFactor = 0.25;
-// controls.screenSpacePanning = false;
+// OrbitControlsのセットアップ      ...カメラの動きを制御するやつ。いらない
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.25;
+controls.screenSpacePanning = false;
 
 
 // 光源の追加
@@ -135,17 +135,22 @@ function movePage(name, object) {
             link = "./souzou.html";
             break;
         case 'shityoukakuho-ru':
-            console.log("yaa");
             link = "./sityoukaku.html";
+            firstPosition = [27.2, 17.11, 49.22];
+            secondPosition = [-16.7, -3, 50.17];
             break;
         case 'piano':
             link = "./sityoukaku.html";
+            firstPosition = [27.2, 17.11, 49.22];
+            secondPosition = [-16.7, -3, 50.17];
             break;
         case 'yatai':
             link = "./yatai.html";
-            moveCamera([73.49, 7.7, 55], [74, -3, 17], link, object);
+            firstPosition = [73.49, 7.7, 55];
+            secondPosition = [74, -3, 17];
             break;
     }
+    moveCamera(firstPosition, secondPosition, link, object);
 
 }
 
@@ -202,7 +207,7 @@ function moveCamera(cameraPositionValue, objectPositionValue, link, object) {
             
             });
             gsap.to(camera.position, {
-                duration: 2.0,
+                duration: 1.5,
                 onComplete: function() {
                     location.href = link;
                 }

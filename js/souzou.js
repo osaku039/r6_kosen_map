@@ -144,7 +144,7 @@ function animate() {
 
     controls.update(); //カメラのコントロールを更新
     renderer.render(scene, camera); //シーンを描画
-    // console.log(camera.position);
+    console.log(camera.position);
 }
 animate(); //アニメーション開始
 

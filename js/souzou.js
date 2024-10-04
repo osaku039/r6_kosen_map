@@ -97,6 +97,15 @@ loader.load(
         // // 全体のグループをシーンに追加
         allModelGroup.position.set(0,5,0);
         scene.add(allModelGroup);
+        
+        allModelGroup.traverse(function (child) {
+            if (child.isMesh) {
+                console.log("きえた:"+child.parent.name);
+                child.material.transparent = true;
+                child.material.alphaToCoverage = true;
+                child.material.opacity = 0.2;  // 透明度を設定
+            }
+        });
 
         invisibleGroup.visible = false;
 
@@ -144,7 +153,7 @@ function animate() {
 
     controls.update(); //カメラのコントロールを更新
     renderer.render(scene, camera); //シーンを描画
-    console.log(camera.position);
+    // console.log(camera.position);
 }
 animate(); //アニメーション開始
 
@@ -182,7 +191,33 @@ function onMouseClick(event) {
 
             //クラスを選択
             const worldPosition = new THREE.Vector3();
+            let objectClass;
             intersectedObject.getWorldPosition(worldPosition);
+            // const targetMeshNames = ['1_men', '2_3', '2_4']; // 透明化するメッシュ名のリスト
+            // targetMeshNames.forEach(name => {
+            //     const parent = scene.getObjectByName(name);
+            //     console.log("親氏:"+parent.name);
+            //     parent.children.forEach(child => {
+            //         console.log("ありし:"+child.name);
+            //         if (child.isMesh) {
+            //             console.log("選ばれし:"+child.name);
+            //             // メッシュに対する処理
+            //             child.material.transparent = true;
+            //             child.material.alphaToCoverage = true;
+            //             child.material.opacity = 0.2;
+            //         }
+            //     });
+            // });
+            // floor3ClassGroup.traverse(function (child) {
+            //     objectClass = child.parent;
+            //     console.log("もの:"+child.name +"\n親:"+objectClass.name);
+            //     if (child.isMesh && objectClass.parent === floor3ClassGroup) {
+            //         console.log("きえた:"+child.parent.name);
+            //         child.material.transparent = true;
+            //         child.material.alphaToCoverage = true;
+            //         child.material.opacity = 0.2;  // 透明度を設定
+            //     }
+            // });
             console.log(intersectedObject.parent.name); // ワールド座標を出力
             showInfoBox(intersectedObject.parent.name);
 

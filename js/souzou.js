@@ -48,57 +48,58 @@ const floor2Group = new THREE.Group();
 const floor3Group = new THREE.Group();
 const invisibleGroup = new THREE.Group(); //不可視にしたいグループ
 // playAnimation関数
+let currentAction = null;
+let objectToHide = null;
+
 function playAnimation(buttonId) {
     let glbFileName = '';
 
-    // ボタンのIDに基づいてGLBファイル名を設定
     switch (buttonId) {
         case 'animate1':
-            glbFileName = 'animation/animate1_1.glb'; // アニメーション1のファイル名
+            glbFileName = 'animation/animate1_1.glb';
             break;
         case 'animate2':
-            glbFileName = 'animation/animate1_2.glb'; // アニメーション2のファイル名
+            glbFileName = 'animation/animate1_2.glb';
             break;
         case 'animate3':
-            glbFileName = 'animation/animate1_3.glb'; // アニメーション3のファイル名
+            glbFileName = 'animation/animate1_3.glb';
             break;
         case 'animate4':
-            glbFileName = 'animation/animate1_4.glb'; // アニメーション3のファイル名
+            glbFileName = 'animation/animate1_4.glb';
             break;
         case 'animate5':
-            glbFileName = 'animation/animate2_1.glb'; // アニメーション3のファイル名
+            glbFileName = 'animation/animate2_1.glb';
             break;
         case 'animate6':
-            glbFileName = 'animation/animate2_2.glb'; // アニメーション3のファイル名
-            break;  
+            glbFileName = 'animation/animate2_2.glb';
+            break;
         case 'animate7':
-            glbFileName = 'animation/animate2_3.glb'; // アニメーション3のファイル名
-            break; 
+            glbFileName = 'animation/animate2_3.glb';
+            break;
         case 'animate8':
-            glbFileName = 'animation/animate2_4.glb'; // アニメーション3のファイル名
+            glbFileName = 'animation/animate2_4.glb';
             break;
         case 'animate9':
-            glbFileName = 'animation/animate2_5.glb'; // アニメーション3のファイル名
+            glbFileName = 'animation/animate2_5.glb';
             break;
         case 'animate10':
-            glbFileName = 'animation/animate3_1.glb'; // アニメーション3のファイル名
+            glbFileName = 'animation/animate3_1.glb';
             break;
         case 'animate11':
-            glbFileName = 'animation/animate3_2.glb'; // アニメーション3のファイル名
+            glbFileName = 'animation/animate3_2.glb';
             break;
         case 'animate12':
-            glbFileName = 'animation/animate3_3.glb'; // アニメーション3のファイル名
+            glbFileName = 'animation/animate3_3.glb';
             break;
         case 'animate13':
-            glbFileName = 'animation/animate3_4.glb'; // アニメーション3のファイル名
+            glbFileName = 'animation/animate3_4.glb';
             break;
         case 'animate14':
-            glbFileName = 'animation/animate3_5.glb'; // アニメーション3のファイル名
+            glbFileName = 'animation/animate3_5.glb';
             break;
         case 'animate15':
-            glbFileName = 'animation/animate3_6.glb'; // アニメーション3のファイル名
+            glbFileName = 'animation/animate3_6.glb';
             break;
-            
         default:
             console.error(`未対応のボタンID: ${buttonId}`);
             return;
@@ -110,33 +111,50 @@ function playAnimation(buttonId) {
         glbFileName,
         function (gltf) {
             // 読み込んだアニメーションをシーンに追加
-            const animation = gltf.scene;
-            scene.add(animation);
+            const model = gltf.scene;
+            scene.add(model);
 
-            // アニメーションの再生を行う
-            const mixer = new THREE.AnimationMixer(animation);
+         
+            const mixer = new THREE.AnimationMixer(model);
             const clips = gltf.animations; // アニメーションクリップを取得
 
             if (clips.length > 0) {
-                clips.forEach(clip => {
-                    mixer.clipAction(clip).play(); // アニメーションを再生
-                });
+                const clip = clips[0]; // 最初のクリップを再生（複数ある場合には調整が必要）
+                const action = mixer.clipAction(clip);
+                action.play(); // アニメーションを再生
+                currentAction = action; // 現在のアクションを保存
+                objectToHide = model; // 非表示にするオブジェクトを保存
             }
 
-            // アニメーションを更新するためのループを作成
+            // クリックでアニメーション停止
+            window.addEventListener('click', function stopAnimation() {
+                if (currentAction && objectToHide) {
+                    currentAction.stop(); // アニメーションを停止
+                    objectToHide.visible = false; // オブジェクトを非表示
+                    currentAction = null; 
+                    objectToHide = null;
+
+                    // イベントリスナーを解除
+                    window.removeEventListener('click', stopAnimation);
+                }
+            });
+
+            // アニメーションの更新ループ
             function animate() {
                 requestAnimationFrame(animate);
-                mixer.update(0.01); // 0.01秒の時間を進める
+                mixer.update(0.01); // 更新の間隔を調整
                 renderer.render(scene, camera);
             }
+
             animate(); // アニメーション開始
         },
         undefined,
         function (error) {
-            console.error('An error happened while loading animation', error);
+            console.error('アニメーションの読み込み中にエラーが発生しました', error);
         }
     );
 }
+
 // GLTFモデルのロード
 const loader = new THREE.GLTFLoader();
 loader.load(

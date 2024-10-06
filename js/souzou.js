@@ -55,7 +55,7 @@ loader.load(
     function (gltf) {
         // const groupedModel = createGroupedModel(gltf); // グループ化されたモデルを取得
         originalModel = gltf.scene; //読み込んだモデルの取得
-        originalModel.position.set(0,5,0);
+        originalModel.position.set(0,0,0);
 
         // scene.add(groupedModel); // シーンにグループ化されたモデルを追加
         scene.add(originalModel); //シーンに追加
@@ -95,7 +95,7 @@ loader.load(
         allModelGroup.add(floor3Group);
     
         // // 全体のグループをシーンに追加
-        allModelGroup.position.set(0,5,0);
+        allModelGroup.position.set(0,0,0);
         scene.add(allModelGroup);
         
         allModelGroup.traverse(function (child) {
@@ -328,7 +328,7 @@ function moveCamera(name) {
     });
 }
 
-window.addEventListener('click', onMouseClick); //clickがあったらonMouseClickを作動させるのかな?
+window.addEventListener('dblclick', onMouseClick); //clickがあったらonMouseClickを作動させるのかな?
 
 //ウィンドウサイズの調整
 window.addEventListener('resize', () => {

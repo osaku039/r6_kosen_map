@@ -3,28 +3,28 @@ export const Info = {
     //１階
     'F1':{
         "description":"説明さ",
-        "Position":[0,5,0],
-        "cameraPosition":[-40,35,70],
+        "Position":[0,-4,0],
+        "cameraPosition":[-34.29,27.79,53.17],
     },
     '1_1':{
         "description":"説明さ",
         "Position":[-20,5,5],
-        "cameraPosition":[-20,5,30],
+        "cameraPosition":[-20,-0.9,30],
     },
     '1_2':{
         "description":"説明さ",
         "Position":[-11.5,5,5],
-        "cameraPosition":[-11.5,5,30],
+        "cameraPosition":[-11.5,-0.9,30],
     },
     '1_3':{
         "description":"説明さ",
-        "Position":[15,5,5],
-        "cameraPosition":[15,5,30],
+        "Position":[15,-0.9,5],
+        "cameraPosition":[15,-0.9,30],
     },
     '1_4':{
         "description":"説明さ",
-        "Position":[23,5,5],
-        "cameraPosition":[23,5,30],
+        "Position":[23,-0.9,5],
+        "cameraPosition":[23,-0.9,30],
     },
     'Stair1':{
         "description":"説明さ",
@@ -34,38 +34,38 @@ export const Info = {
     //２階
     'F2':{
         "description":"説明さ",
-        "Position":[0,25,0],
-        "cameraPosition":[-40,55,70],
+        "Position":[0,16.6,0],
+        "cameraPosition":[-34.29,48.39,53.17],
     },
     '2_1':{
         "description":"説明さ",
-        "Position":[-20,28,5],
-        "cameraPosition":[-20,28,30],
+        "Position":[-20,19.3,5],
+        "cameraPosition":[-20,19.3,30],
     },
     '2_2':{
         "description":"説明さ",
-        "Position":[-11.5,28,5],
-        "cameraPosition":[-11.5,28,30],
+        "Position":[-11.5,19.3,5],
+        "cameraPosition":[-11.5,19.3,30],
     },
     '2_3':{
         "description":"説明さ",
-        "Position":[15,28,5],
-        "cameraPosition":[15,28,30],
+        "Position":[15,19.3,5],
+        "cameraPosition":[15,19.3,30],
     },
     '2_4':{
         "description":"説明さ",
-        "Position":[23,28,5],
-        "cameraPosition":[23,28,30],
+        "Position":[23,19.3,5],
+        "cameraPosition":[23,19.3,30],
     },
     '2_5':{
         "description":"説明さ",
-        "Position":[5,28,-6],
-        "cameraPosition":[5,28,-32.1],
+        "Position":[5,19.3,-6],
+        "cameraPosition":[5,19.3,-32.1],
     },
     'zinja':{
         "description":"説明さ",
-        "Position":[25,27.6,-5],
-        "cameraPosition":[33.8,27.6,-5],
+        "Position":[25,19.3,-5],
+        "cameraPosition":[33.8,21.3,-5],
     },
     'Stair2':{
         "description":"説明さ",
@@ -75,38 +75,38 @@ export const Info = {
     //３階
     'F3':{
         "description":"説明さ",
-        "Position":[0,50,0],
-        "cameraPosition":[-40,80,70],
+        "Position":[0,38,0],
+        "cameraPosition":[-34.29,69.79,53.17],
     },
     '3_1':{
         "description":"説明さ",
-        "Position":[-20,53,5],
-        "cameraPosition":[-20,53,30],
+        "Position":[-20,41.6,5],
+        "cameraPosition":[-20,41.6,30],
     },
     '3_2':{
         "description":"説明さ",
-        "Position":[-11.5,53,5],
-        "cameraPosition":[-11.5,53,30],
+        "Position":[-11.5,41.6,5],
+        "cameraPosition":[-11.5,41.6,30],
     },
     '3_3':{
         "description":"説明さ",
-        "Position":[15,53,5],
-        "cameraPosition":[15,53,30],
+        "Position":[15,41.6,5],
+        "cameraPosition":[15,41.6,30],
     },
     '3_4':{
         "description":"説明さ",
-        "Position":[23,53,5],
-        "cameraPosition":[23,53,30],
+        "Position":[23,41.6,5],
+        "cameraPosition":[23,41.6,30],
     },
     '3_5':{
         "description":"説明さ",
-        "Position":[23,53.53,1.78],
-        "cameraPosition":[-48,53.53,1.78],
+        "Position":[23,41.6,1.78],
+        "cameraPosition":[-48,41.6,1.78],
     },
     '3_6':{
         "description":"説明さ",
-        "Position":[23,53.53,-3],
-        "cameraPosition":[47,53.53,-3],
+        "Position":[23,41.6,-3],
+        "cameraPosition":[47,41.6,-3],
     },
     'Stair3':{
         "description":"説明さ",

@@ -39,28 +39,28 @@ export const Info = {
     },
     '2_1':{
         "description":"説明さ",
-        "Position":[-20,19.3,5],
-        "cameraPosition":[-20,19.3,30],
+        "Position":[-20,20.25,5],
+        "cameraPosition":[-20,20.25,30],
     },
     '2_2':{
         "description":"説明さ",
-        "Position":[-11.5,19.3,5],
-        "cameraPosition":[-11.5,19.3,30],
+        "Position":[-11.5,20.25,5],
+        "cameraPosition":[-11.5,20.25,30],
     },
     '2_3':{
         "description":"説明さ",
-        "Position":[15,19.3,5],
-        "cameraPosition":[15,19.3,30],
+        "Position":[15,20.25,5],
+        "cameraPosition":[15,20.25,30],
     },
     '2_4':{
         "description":"説明さ",
-        "Position":[23,19.3,5],
-        "cameraPosition":[23,19.3,30],
+        "Position":[23,20.25,5],
+        "cameraPosition":[23,20.25,30],
     },
     '2_5':{
         "description":"説明さ",
-        "Position":[5,19.3,-6],
-        "cameraPosition":[5,19.3,-32.1],
+        "Position":[5,20.25,-6],
+        "cameraPosition":[5,20.25,-32.1],
     },
     'zinja':{
         "description":"説明さ",

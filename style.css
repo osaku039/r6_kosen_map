@@ -1,39 +1,32 @@
-
-body {
-    display: flex;
-    flex-direction: row;
-    margin: 0;
-    overflow: hidden;
-}
-.base {
-    flex: 1;
-}
 .button-container {
-    position: fixed; /* 固定位置 */
-    bottom: 0; /* 下部に配置 */
-    left: 0;
-    width: 100%; /* 横幅100% */
-    background-color: rgba(255, 255, 255, 0.8); /* 背景色を設定 */
-    padding: 10px; /* パディング */
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5); /* 上に影を付ける */
-    display: flex; /* フレックスボックスを使用 */
-    justify-content: space-around; /* ボタンを均等に配置 */
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #f0f0f0;
+    padding: 10px;
 }
-.button-container button {
-    flex: 1; /* 各ボタンを均等に配置 */
-    margin: 0 5px; /* ボタン間のマージン */
-}
-.base{
+
+.button-top, .button-bottom {
     display: flex;
-    flex-direction: row;
-    width: 100vw;
-    height: 100vh
+    justify-content: center; /* ボタンを中央に配置 */
+    flex-wrap: wrap;
 }
-.model{
-    height: 30%;
+
+.button-top button, .button-bottom button {
+    width: calc(10% - 10px); /* ボタン幅を画面幅の10%にし、マージンを考慮 */
+    margin: 5px; /* ボタン間に5pxの余白を設定 */
+    padding: 10px;
+    font-size: 16px;
+    text-align: center;
 }
-.select-button{
-    display: flex;
-    flex-direction: column;
-    height: 70%;
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
 }

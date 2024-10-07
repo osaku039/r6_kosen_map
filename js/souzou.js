@@ -50,6 +50,7 @@ const invisibleGroup = new THREE.Group(); //不可視にしたいグループ
 // playAnimation関数
 let currentAction = null;
 let objectToHide = null;
+gsap.registerPlugin(CSSPlugin); //gsapのやつ
 
 function playAnimation(buttonId) {
     let glbFileName = '';
@@ -210,7 +211,7 @@ loader.load(
                 console.log("きえた:"+child.parent.name);
                 child.material.transparent = true;
                 child.material.alphaToCoverage = true;
-                child.material.opacity = 0.2;  // 透明度を設定
+                // child.material.opacity = 0.2;  // 透明度を設定
             }
         });
 
@@ -391,6 +392,16 @@ function moveObject(group, x, y, z, duration) {
         z: z,  // z方向の拡大
         duration: duration,  // アニメーションの持続時間
     });
+    // group.traverse((child) => {
+    //     if (child.isMesh) {
+    //         child.material.transparent = true;  // 透明化を許可
+    //         gsap.to(child.material, {
+    //             opacity: 0.5,  // 透明にする
+    //             duration: 1,  // アニメーションの持続時間
+    //         });
+    //     }
+    // });
+    console.log("gsap");
 }
 
 function changeFloor(selectedFloor) {
@@ -439,6 +450,7 @@ function moveCamera(name) {
     const cameraPositionValue = Info[name]['cameraPosition'] || [0,0,0]; // オブジェクトの情報を取得
     const objectPositionValue = Info[name]['Position'] || [0,0,0];
     console.log("x:"+cameraPositionValue[0]);
+    //配列を座標に変換
     cameraPosition = new THREE.Vector3(
         cameraPositionValue[0], 
         cameraPositionValue[1], 
@@ -449,7 +461,6 @@ function moveCamera(name) {
         parseFloat(objectPositionValue[1]), 
         parseFloat(objectPositionValue[2])
     );
-    console.log(cameraPosition);
     // // クリックされたオブジェクトの位置にカメラを動かす例
     gsap.to(camera.position, {
         x: cameraPosition.x, // オブジェクトの近くに移動するように

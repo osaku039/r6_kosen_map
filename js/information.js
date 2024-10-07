@@ -8,12 +8,12 @@ export const Info = {
     },
     '1_1':{
         "description":"説明さ",
-        "Position":[-20,5,5],
+        "Position":[-20,-0.9,5],
         "cameraPosition":[-20,-0.9,30],
     },
     '1_2':{
         "description":"説明さ",
-        "Position":[-11.5,5,5],
+        "Position":[-11.5,-0.9,5],
         "cameraPosition":[-11.5,-0.9,30],
     },
     '1_3':{

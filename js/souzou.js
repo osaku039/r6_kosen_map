@@ -194,6 +194,37 @@ function onMouseClick(event) {
 
 
 }
+
+// URLからクエリパラメータを取得する関数
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
+
+// ページがロードされたときにクエリパラメータを取得して showInfoBox 関数を呼び出す
+window.onload = function() {
+    const classId = getQueryParam('id');
+    if (classId != '') {
+        const floor = classId.charAt(0);
+        switch (floor){
+            case '1':
+                showFloor('F1');
+                break;
+            case '2':
+                showFloor('F2');
+                break;
+            case '3':
+                showFloor('F3');
+                break;
+        }
+        // 取得したidを showInfoBox に渡して実行
+        showInfoBox(classId);
+        classId = '';
+    }
+    else{
+        location.href='souzou.html';
+    }
+}
     
 //クリックされたオブジェクトの情報を表示
 function showInfoBox(name) {

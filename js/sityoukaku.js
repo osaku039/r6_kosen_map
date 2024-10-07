@@ -5,7 +5,7 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
     43, window.innerWidth / window.innerHeight, 0.1, 1000
 );
-camera.position.set(-0.68, 0.92, 5.21);  // カメラを正面に固定
+camera.position.set(-0.68, 1.20, 5.21);  // カメラを定位置
 //camera.position.set(-30, 10, 0);    //テスト用
 camera.lookAt(1, 0, 1);  // カメラをシーンの中心に向ける
 //camera.lookAt(20, -5, -20); //テスト用
@@ -81,6 +81,8 @@ const animatedObjects = [];
 // レンダリングループ
 function animate() {
     requestAnimationFrame(animate);
+
+    originalModel.rotation.y += 0.003;
 
     // アニメーション対象のオブジェクトを更新
     animatedObjects.forEach(obj => {

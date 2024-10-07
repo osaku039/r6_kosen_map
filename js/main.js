@@ -37,6 +37,8 @@ let newModel;
 
 let clickableObjects = []; // クリック可能なオブジェクトのリスト
 
+let mixer; // グローバルスコープでmixerを定義
+const clock = new THREE.Clock(); // 時計を作成
 
 console.log(originalModel); // モデル内のオブジェクトの確認
 
@@ -47,7 +49,7 @@ let floorGroup = new THREE.Group();
 const loader = new THREE.GLTFLoader();
 
 loader.load(
-    'models/zentai.glb',
+    'models/zentai2.glb',
     function (gltf) {
         originalModel = gltf.scene;
         scene.add(originalModel);
@@ -60,6 +62,19 @@ loader.load(
         //     console.log("hoooo");
         //     floorGroup.add(object);
         // }
+
+        // AnimationMixerの作成
+        mixer = new THREE.AnimationMixer(gltf.scene); // グローバルにmixerを定義
+
+        // アニメーションを取得
+        const animations = gltf.animations;
+        if (animations && animations.length > 0) {
+            const action = mixer.clipAction(animations[0]); // 最初のアニメーションを再生
+            action.play();
+            console.log('Animation started');
+        } else {
+            console.log('No animations found in the model');
+        }
 
         // クリック可能なオブジェクトをリストに追加
         objectList.forEach(name => {
@@ -92,7 +107,8 @@ const animatedObjects = [];
 // レンダリングループ
 function animate() {
     requestAnimationFrame(animate);
-
+    const delta = clock.getDelta(); // 時間差を取得
+    if (mixer) mixer.update(delta); // アニメーションの更新
     // アニメーション対象のオブジェクトを更新
     animatedObjects.forEach(obj => {
         if (obj.visible && obj.position.y < obj.targetY) {

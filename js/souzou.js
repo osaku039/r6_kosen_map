@@ -39,14 +39,14 @@ let newModel;
 const clickableObjects = []; // クリック可能なオブジェクトのリスト
 
 //グループの定義
-const allModelGroup = new THREE.Group();
-const floor1ClassGroup = new THREE.Group(); // 1階のクラスグループ
-const floor2ClassGroup = new THREE.Group(); // 2階のクラスグループ
-const floor3ClassGroup = new THREE.Group(); // 3階のクラスグループ
-const floor1Group = new THREE.Group();
-const floor2Group = new THREE.Group();
-const floor3Group = new THREE.Group();
-const invisibleGroup = new THREE.Group(); //不可視にしたいグループ
+let allModelGroup = new THREE.Group();
+let floor1ClassGroup = new THREE.Group(); // 1階のクラスグループ
+let floor2ClassGroup = new THREE.Group(); // 2階のクラスグループ
+let floor3ClassGroup = new THREE.Group(); // 3階のクラスグループ
+let floor1Group = new THREE.Group();
+let floor2Group = new THREE.Group();
+let floor3Group = new THREE.Group();
+let invisibleGroup = new THREE.Group(); //不可視にしたいグループ
 // playAnimation関数
 let currentAction = null;
 let objectToHide = null;
@@ -295,7 +295,8 @@ function getQueryParam(param) {
 // ページがロードされたときにクエリパラメータを取得して showInfoBox 関数を呼び出す
 window.onload = function() {
     const classId = getQueryParam('id');
-    if (classId != '') {
+    if (classId !== null) {
+        console.log(classId);
         const floor = classId.charAt(0);
         switch (floor){
             case '1':
@@ -313,7 +314,28 @@ window.onload = function() {
         classId = '';
     }
     else{
-        location.href='souzou.html';
+        let firstPosition = new THREE.Vector3(-0.66, -1.41, 10.2);
+
+        gsap.from(camera.position, {
+            delay:1,
+            x: firstPosition.x, // オブジェクトの近くに移動するように
+            y: firstPosition.y,
+            z: firstPosition.z,
+            duration: 4, // 1.5秒かけて移動
+            onUpdate: function () {
+                    // // OrbitControlsのターゲットを設定
+                    // controls.target.copy(objectPosition);
+                    // // カメラの更新
+                    // controls.update();
+            },
+            onComplete: function () {
+                console.log('Current Camera Position:', camera.position);
+                // アニメーション終了後にカメラを固定
+                // camera.lookAt(worldPosition.x,worldPosition.y,worldPosition.z);
+                // console.log(worldPosition);
+            }
+            
+        });
     }
 }
     

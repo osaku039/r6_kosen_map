@@ -46,42 +46,53 @@ let floorGroup = new THREE.Group();
 // GLTFモデルのロード
 const loader = new THREE.GLTFLoader();
 
+const clock = new THREE.Clock(); // Clockを定義
+
 loader.load(
-    'models/zentai.glb',
+    'models/zentai2.glb',
     function (gltf) {
         originalModel = gltf.scene;
         scene.add(originalModel);
-        console.log('Original model loaded'); // ロード成功ログ
+        console.log('Original model loaded');
+
+        const mixer = new THREE.AnimationMixer(originalModel);
+
+        // アニメーションの取得と追加
+        gltf.animations.forEach((clip) => {
+            mixer.clipAction(clip).play();
+            console.log('Playing animation:', clip.name); // アニメーション確認用ログ
+        });
 
         const objectList = ['building', 'piano', 'yatai'];
 
-        // const object = gltf.scene.getObjectByName('building');
-        // if (object) {
-        //     console.log("hoooo");
-        //     floorGroup.add(object);
-        // }
-
-        // クリック可能なオブジェクトをリストに追加
         objectList.forEach(name => {
             const clickableObject = scene.getObjectByName(name);
             console.log('Checking name:', name);
 
             if (clickableObject) {
                 clickableObjects.push(clickableObject);
-                console.log('Clickable object siroiyatsu', clickableObject);
-            }else {
+                console.log('Clickable object:', clickableObject);
+            } else {
                 console.log("無理でした...");
             }
         });
 
-        // floorGroup.visible = false;
-        
-        console.log('All clickable objects:', clickableObjects); // すべてのクリック可能なオブジェクトを確認
+        console.log('All clickable objects:', clickableObjects);
 
+        // アニメーションの更新用
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const delta = clock.getDelta();
+            if (mixer) mixer.update(delta);
+
+            renderer.render(scene, camera);
+        }
+        animate(); // アニメーションループ開始
     },
     undefined,
     function (error) {
-        console.error('An error happened', error);  //エラーログ
+        console.error('An error happened', error);
     }
 );
 

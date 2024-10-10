@@ -50,60 +50,9 @@ const invisibleGroup = new THREE.Group(); //不可視にしたいグループ
 // playAnimation関数
 let currentAction = null;
 let objectToHide = null;
+gsap.registerPlugin(CSSPlugin); //gsapのやつ
 
-function playAnimation(buttonId) {
-    let glbFileName = '';
-
-    switch (buttonId) {
-        case 'animate1':
-            glbFileName = 'animation/animate1_1.glb';
-            break;
-        case 'animate2':
-            glbFileName = 'animation/animate1_2.glb';
-            break;
-        case 'animate3':
-            glbFileName = 'animation/animate1_3.glb';
-            break;
-        case 'animate4':
-            glbFileName = 'animation/animate1_4.glb';
-            break;
-        case 'animate5':
-            glbFileName = 'animation/animate2_1.glb';
-            break;
-        case 'animate6':
-            glbFileName = 'animation/animate2_2.glb';
-            break;
-        case 'animate7':
-            glbFileName = 'animation/animate2_3.glb';
-            break;
-        case 'animate8':
-            glbFileName = 'animation/animate2_4.glb';
-            break;
-        case 'animate9':
-            glbFileName = 'animation/animate2_5.glb';
-            break;
-        case 'animate10':
-            glbFileName = 'animation/animate3_1.glb';
-            break;
-        case 'animate11':
-            glbFileName = 'animation/animate3_2.glb';
-            break;
-        case 'animate12':
-            glbFileName = 'animation/animate3_3.glb';
-            break;
-        case 'animate13':
-            glbFileName = 'animation/animate3_4.glb';
-            break;
-        case 'animate14':
-            glbFileName = 'animation/animate3_5.glb';
-            break;
-        case 'animate15':
-            glbFileName = 'animation/animate3_6.glb';
-            break;
-        default:
-            console.error(`未対応のボタンID: ${buttonId}`);
-            return;
-    }
+function playAnimation(glbFileName) {
 
     // GLTFLoaderを使用してGLBファイルを読み込む
     const loader = new THREE.GLTFLoader();
@@ -210,7 +159,7 @@ loader.load(
                 console.log("きえた:"+child.parent.name);
                 child.material.transparent = true;
                 child.material.alphaToCoverage = true;
-                child.material.opacity = 0.2;  // 透明度を設定
+                // child.material.opacity = 0.2;  // 透明度を設定
             }
         });
 
@@ -336,48 +285,48 @@ function onMouseClick(event) {
 
 
 }
+
+// URLからクエリパラメータを取得する関数
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
+
+// ページがロードされたときにクエリパラメータを取得して showInfoBox 関数を呼び出す
+window.onload = function() {
+    const classId = getQueryParam('id');
+    if (classId != '') {
+        const floor = classId.charAt(0);
+        switch (floor){
+            case '1':
+                showFloor('F1');
+                break;
+            case '2':
+                showFloor('F2');
+                break;
+            case '3':
+                showFloor('F3');
+                break;
+        }
+        // 取得したidを showInfoBox に渡して実行
+        showInfoBox(classId);
+        classId = '';
+    }
+    else{
+        location.href='souzou.html';
+    }
+}
     
 //クリックされたオブジェクトの情報を表示
 function showInfoBox(name) {
     const infoBox = document.getElementById('infoBox');
     const info = Info[name]['description'] || '情報が見つかりません'; // オブジェクトの情報を取得
+    const animationFile = Info[name]['animationFile'] || '';
     infoBox.innerHTML = `<strong>モデル名:</strong> ${name}<br><strong>情報:</strong><br> ${info}<br> 
-    <button id="animate1">1_1</button>
-    <button id="animate2">1_2</button>
-    <button id="animate3">1_3</button>
-    <button id="animate4">1_4</button>
-
-    <button id="animate5">2_1</button>
-    <button id="animate6">2_2</button>
-    <button id="animate7">2_3</button>
-    <button id="animate8">2_4</button>
-    <button id="animate9">2_5</button>
-
-    <button id="animate10">3_1</button>
-    <button id="animate11">3_2</button>
-    <button id="animate12">3_3</button>
-    <button id="animate13">3_4</button>
-    <button id="animate14">3_5</button>
-    <button id="animate15">3_6</button>
+    <button id="animation">経路選択</button>
     `;
      // ボタンのクリックイベントを設定
-     document.getElementById('animate1').addEventListener('click', () => playAnimation('animate1'));
-     document.getElementById('animate2').addEventListener('click', () => playAnimation('animate2'));
-     document.getElementById('animate3').addEventListener('click', () => playAnimation('animate3'));
-     document.getElementById('animate4').addEventListener('click', () => playAnimation('animate4'));
-     
-     document.getElementById('animate5').addEventListener('click', () => playAnimation('animate5'));
-     document.getElementById('animate6').addEventListener('click', () => playAnimation('animate6'));
-     document.getElementById('animate7').addEventListener('click', () => playAnimation('animate7'));
-     document.getElementById('animate8').addEventListener('click', () => playAnimation('animate8'));
-     document.getElementById('animate9').addEventListener('click', () => playAnimation('animate9'));
- 
-     document.getElementById('animate10').addEventListener('click', () => playAnimation('animate10'));
-     document.getElementById('animate11').addEventListener('click', () => playAnimation('animate11'));
-     document.getElementById('animate12').addEventListener('click', () => playAnimation('animate12'));
-     document.getElementById('animate13').addEventListener('click', () => playAnimation('animate13'));
-     document.getElementById('animate14').addEventListener('click', () => playAnimation('animate14'));
-     document.getElementById('animate15').addEventListener('click', () => playAnimation('animate15'));
+     document.getElementById('animation').addEventListener('click', () => playAnimation(animationFile));
      
     infoBox.style.display = 'block';
     moveCamera(name);
@@ -391,6 +340,16 @@ function moveObject(group, x, y, z, duration) {
         z: z,  // z方向の拡大
         duration: duration,  // アニメーションの持続時間
     });
+    // group.traverse((child) => {
+    //     if (child.isMesh) {
+    //         child.material.transparent = true;  // 透明化を許可
+    //         gsap.to(child.material, {
+    //             opacity: 0.5,  // 透明にする
+    //             duration: 1,  // アニメーションの持続時間
+    //         });
+    //     }
+    // });
+    console.log("gsap");
 }
 
 function changeFloor(selectedFloor) {
@@ -439,6 +398,7 @@ function moveCamera(name) {
     const cameraPositionValue = Info[name]['cameraPosition'] || [0,0,0]; // オブジェクトの情報を取得
     const objectPositionValue = Info[name]['Position'] || [0,0,0];
     console.log("x:"+cameraPositionValue[0]);
+    //配列を座標に変換
     cameraPosition = new THREE.Vector3(
         cameraPositionValue[0], 
         cameraPositionValue[1], 
@@ -449,7 +409,6 @@ function moveCamera(name) {
         parseFloat(objectPositionValue[1]), 
         parseFloat(objectPositionValue[2])
     );
-    console.log(cameraPosition);
     // // クリックされたオブジェクトの位置にカメラを動かす例
     gsap.to(camera.position, {
         x: cameraPosition.x, // オブジェクトの近くに移動するように
@@ -472,7 +431,7 @@ function moveCamera(name) {
     });
 }
 
-window.addEventListener('click', onMouseClick); //clickがあったらonMouseClickを作動させるのかな?
+window.addEventListener('dblclick', onMouseClick); //clickがあったらonMouseClickを作動させるのかな?
 
 //ウィンドウサイズの調整
 window.addEventListener('resize', () => {

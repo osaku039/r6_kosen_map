@@ -18,7 +18,7 @@ document.getElementById('container').appendChild(renderer.domElement); //レン�
 // renderer.setClearColor(0xfff2b9);  //背景色の追加
 renderer.setClearColor(0xffe271);  //背景色の追加
 
-
+let isShowInfo = false;
 
 // OrbitControlsのセットアップ
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -40,7 +40,6 @@ directionalLight.position.set(2, 30, 0).normalize(); //光の方向をセット
 scene.add(directionalLight); //シーンに追加
 
 let originalModel;
-let newModel;
 const clickableObjects = []; // クリック可能なオブジェクトのリスト
 
 //グループの定義
@@ -57,7 +56,9 @@ let currentAction = null;
 let objectToHide = null;
 gsap.registerPlugin(CSSPlugin); //gsapのやつ
 
-function playAnimation(glbFileName) {
+//経路選択のアニメーション
+function playAnimation(name) {
+    const glbFileName = Info[name]['animationFile'] || '';
 
     // GLTFLoaderを使用してGLBファイルを読み込む
     const loader = new THREE.GLTFLoader();
@@ -71,6 +72,27 @@ function playAnimation(glbFileName) {
          
             const mixer = new THREE.AnimationMixer(model);
             const clips = gltf.animations; // アニメーションクリップを取得
+            window.removeEventListener('dblclick', onMouseClick);
+
+            moveCamera('home', 2, "power1.out");
+
+            floor1Group.visible = true;
+            floor2Group.visible = true;
+            floor3Group.visible = true;
+            
+            moveObject(floor1ClassGroup, 1, 1, 1, 0);
+            moveObject(floor2ClassGroup, 1, 1, 1, 0);
+            moveObject(floor3ClassGroup, 1, 1, 1, 0);
+
+            //クラスをほんのり透明に
+            changeTransparent(floor1ClassGroup, 0.1);
+            changeTransparent(floor2ClassGroup, 0.1);
+            changeTransparent(floor3ClassGroup, 0.1);
+
+            //対象のクラスだけ濃く
+            const targetObject = scene.getObjectByName(name);
+            changeTransparent(targetObject, 0.5);
+
             if (clips.length > 0) {
                 const clip = clips[0]; // 最初のクリップを再生（複数ある場合には調整が必要）
                 const action = mixer.clipAction(clip);
@@ -89,6 +111,16 @@ function playAnimation(glbFileName) {
 
                     // イベントリスナーを解除
                     window.removeEventListener('click', stopAnimation);
+                    window.addEventListener('dblclick', onMouseClick);
+                    
+                    changeTransparent(floor1ClassGroup, 1);
+                    changeTransparent(floor2ClassGroup, 1);
+                    changeTransparent(floor3ClassGroup, 1);
+                    
+                    moveObject(floor1ClassGroup, 1, 0, 1, 0);
+                    moveObject(floor2ClassGroup, 1, 0, 1, 0);
+                    moveObject(floor3ClassGroup, 1, 0, 1, 0);
+        
                 }
             });
 
@@ -157,15 +189,6 @@ loader.load(
         // // 全体のグループをシーンに追加
         allModelGroup.position.set(0,0,0);
         scene.add(allModelGroup);
-        
-        allModelGroup.traverse(function (child) {
-            if (child.isMesh) {
-                console.log("きえた:"+child.parent.name);
-                child.material.transparent = true;
-                child.material.alphaToCoverage = true;
-                // child.material.opacity = 0.2;  // 透明度を設定
-            }
-        });
 
         invisibleGroup.visible = false;
 
@@ -324,37 +347,63 @@ window.onload = function() {
     
 //クリックされたオブジェクトの情報を表示
 function showInfoBox(name) {
+    isShowInfo = true;
     const infoBox = document.getElementById('infoBox');
     const info = Info[name]['description'] || '情報が見つかりません'; // オブジェクトの情報を取得
-    const animationFile = Info[name]['animationFile'] || '';
     infoBox.innerHTML = `<strong>モデル名:</strong> ${name}<br><strong>情報:</strong><br> ${info}<br> 
     <button id="animation">経路選択</button>
     `;
      // ボタンのクリックイベントを設定
-     document.getElementById('animation').addEventListener('click', () => playAnimation(animationFile));
+     document.getElementById('animation').addEventListener('click', () => playAnimation(name));
      
     infoBox.style.display = 'block';
     moveCamera(name, 1.5, "power1.out");
 }
 
+// InfoBox を非表示にする関数
+function hideInfoBox() {
+    const infoBox = document.getElementById('infoBox');
+    infoBox.style.display = 'none'; // 非表示にする
+}
+
+
 //Objectを動かす
 function moveObject(group, x, y, z, duration) {
-    gsap.to(group.scale, {
+    //黒い影の削除と縦に伸びるアニメーションを両立するために長いコードになっています
+    var tl = gsap.timeline();
+    if (y != 0) {
+        tl.to(group.scale, {
+            x: 1,
+            y: 0,
+            z: 1,
+            duration: 0,
+        })
+    };
+    tl.to(group.scale, {
         x: x,  // x方向の拡大
         y: y,  // y方向の拡大
         z: z,  // z方向の拡大
         duration: duration,  // アニメーションの持続時間
     });
-    // group.traverse((child) => {
-    //     if (child.isMesh) {
-    //         child.material.transparent = true;  // 透明化を許可
-    //         gsap.to(child.material, {
-    //             opacity: 0.5,  // 透明にする
-    //             duration: 1,  // アニメーションの持続時間
-    //         });
-    //     }
-    // });
-    console.log("gsap");
+    if (y === 0) {
+        tl.to(group.scale, {
+            x: 0,
+            y: 0,
+            z: 0,
+            duration: 0,
+        })
+    };
+}
+
+//透明度変更
+function changeTransparent(target, opacity) {
+    target.traverse(function (child) {
+        if (child.isMesh) {
+            child.material.transparent = true;
+            child.material.alphaToCoverage = true;
+            child.material.opacity = opacity;  // 透明度を設定
+        }
+    });
 }
 
 function changeFloor(selectedFloor) {
@@ -368,6 +417,10 @@ function changeFloor(selectedFloor) {
 
 //Floorを出す
 function showFloor(name) {
+    if (isShowInfo == true) {
+        hideInfoBox();
+        isShowInfo = false;
+    };
     switch(name){
         case 'F1':
             visibleClass = floor1ClassGroup;
@@ -440,7 +493,8 @@ function moveCamera(name, duration, ease) {
     }, 0); // タイムラインの0秒目から開始
 }
 
-window.addEventListener('dblclick', onMouseClick); //clickがあったらonMouseClickを作動させるのかな?
+//経路選択のところにも同じ処理あるから変更する時は全部変更するように
+window.addEventListener('dblclick', onMouseClick); //clickがあったらonMouseClickを作動させる
 
 //ウィンドウサイズの調整
 window.addEventListener('resize', () => {

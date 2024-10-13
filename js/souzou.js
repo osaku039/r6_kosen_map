@@ -93,13 +93,18 @@ function playAnimation(name) {
             const targetObject = scene.getObjectByName(name);
             changeTransparent(targetObject, 0.5);
 
-            if (clips.length > 0) {
-                const clip = clips[0]; // 最初のクリップを再生（複数ある場合には調整が必要）
-                const action = mixer.clipAction(clip);
-                action.play(); // アニメーションを再生
-                currentAction = action; // 現在のアクションを保存
-                objectToHide = model; // 非表示にするオブジェクトを保存
-            }
+            gsap.to({}, {
+                delay:2,
+                onComplete: function() {
+                    if (clips.length > 0) {
+                        const clip = clips[0]; // 最初のクリップを再生（複数ある場合には調整が必要）
+                        const action = mixer.clipAction(clip);
+                        action.play(); // アニメーションを再生
+                        currentAction = action; // 現在のアクションを保存
+                        objectToHide = model; // 非表示にするオブジェクトを保存
+                    }
+                }
+            });
 
             // クリックでアニメーション停止
             window.addEventListener('click', function stopAnimation() {
@@ -112,14 +117,19 @@ function playAnimation(name) {
                     // イベントリスナーを解除
                     window.removeEventListener('click', stopAnimation);
                     window.addEventListener('dblclick', onMouseClick);
+
+                    moveObject(floor1ClassGroup, 1, 0, 1, 0.3);
+                    moveObject(floor2ClassGroup, 1, 0, 1, 0.3);
+                    moveObject(floor3ClassGroup, 1, 0, 1, 0.3);
                     
-                    changeTransparent(floor1ClassGroup, 1);
-                    changeTransparent(floor2ClassGroup, 1);
-                    changeTransparent(floor3ClassGroup, 1);
-                    
-                    moveObject(floor1ClassGroup, 1, 0, 1, 0);
-                    moveObject(floor2ClassGroup, 1, 0, 1, 0);
-                    moveObject(floor3ClassGroup, 1, 0, 1, 0);
+                    gsap.to({}, {
+                        delay:0.4,
+                        onComplete: function() {
+                            changeTransparent(floor1ClassGroup, 1);
+                            changeTransparent(floor2ClassGroup, 1);
+                            changeTransparent(floor3ClassGroup, 1);
+                        }
+                    });
 
                     hideInfoBox();
         

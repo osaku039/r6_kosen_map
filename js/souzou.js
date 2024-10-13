@@ -7,12 +7,10 @@ const camera = new THREE.PerspectiveCamera(
     43, window.innerWidth / window.innerHeight, 0.1, 1000
 ); //カメラの作成
 // camera.position.z =5;
-
-let firstPosition = new THREE.Vector3(-0.66, 0, 1);
 let firstTargetPosition = new THREE.Vector3(-0.66, 0, 0);
-let homePosition = new THREE.Vector3(0, 89, 110);
+let homePosition = new THREE.Vector3(0, 70, 120);
 camera.position.set(-0.66, 0, 1); //カメラの位置
-// camera.lookAt(targetPosition); //カメラの見る方向
+// camera.lookAt(targetPositionValue); //カメラの見る方向
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight); //画面サイズ
 document.getElementById('container').appendChild(renderer.domElement); //レンダラーをHTMLに追加
@@ -73,7 +71,6 @@ function playAnimation(glbFileName) {
          
             const mixer = new THREE.AnimationMixer(model);
             const clips = gltf.animations; // アニメーションクリップを取得
-
             if (clips.length > 0) {
                 const clip = clips[0]; // 最初のクリップを再生（複数ある場合には調整が必要）
                 const action = mixer.clipAction(clip);
@@ -216,7 +213,7 @@ function animate() {
 
     controls.update(); //カメラのコントロールを更新
     renderer.render(scene, camera); //シーンを描画
-    console.log(camera.position);
+    // console.log(camera.position);
 }
 animate(); //アニメーション開始
 
@@ -247,7 +244,7 @@ function onMouseClick(event) {
         if (intersectedObject.parent.name.startsWith('F')){
             console.log(intersectedObject.parent.name);
 
-            moveCamera(intersectedObject.parent.name);
+            moveCamera(intersectedObject.parent.name, 1.5, "power1.out");
             showFloor(intersectedObject.parent.name);
         }
         else{
@@ -321,37 +318,7 @@ window.onload = function() {
         classId = '';
     }
     else{
-        // const startOrientation = camera.quaternion.clone();  // 現在のカメラの向き
-        // const targetOrientation = new THREE.Quaternion();    // ターゲットの向き
-        const targetPosition = new THREE.Vector3(0, 12, 0); // 目標地点
-        // controls.target.copy(targetPosition);  // 目標地点を向くためのクォータニオンを取得
-        // targetOrientation.copy(camera.quaternion);  // 目標のクォータニオンをコピー
-        controls.target.copy(firstTargetPosition);
-
-        // GSAPのタイムラインを使って、カメラの移動と視点の移動を同時に行う
-        gsap.timeline()
-            .to(camera.position, {
-              x: homePosition.x,
-              y: homePosition.y,
-              z: homePosition.z,
-              duration: 3, // 2秒間かけて移動
-              ease: "power3.in",
-              onUpdate: function () {
-                // カメラが動いたときに常にOrbitControlsを更新
-                controls.update();
-              }
-            }, 0) // タイムラインの0秒目から開始
-            .to(controls.target, {
-              x: targetPosition.x,
-              y: targetPosition.y,
-              z: targetPosition.z,
-              duration: 3, // 同じく2秒間かけて視点を変更
-              ease: "power3.in",
-              onUpdate: function () {
-                // OrbitControlsを更新して視点の変更を反映
-                controls.update();
-              }
-        }, 0); // タイムラインの0秒目から開始
+        moveCamera('home', 3, "power3.in");        
     }
 }
     
@@ -367,7 +334,7 @@ function showInfoBox(name) {
      document.getElementById('animation').addEventListener('click', () => playAnimation(animationFile));
      
     infoBox.style.display = 'block';
-    moveCamera(name);
+    moveCamera(name, 1.5, "power1.out");
 }
 
 //Objectを動かす
@@ -429,12 +396,12 @@ function showFloor(name) {
 }
 
 //カメラを動かす
-function moveCamera(name) {
+function moveCamera(name, duration, ease) {
     console.log(name);
     let cameraPosition;
-    let objectPosition;
+    let targetPosition;
     const cameraPositionValue = Info[name]['cameraPosition'] || [0,0,0]; // オブジェクトの情報を取得
-    const objectPositionValue = Info[name]['Position'] || [0,0,0];
+    const targetPositionValue = Info[name]['Position'] || [0,0,0];
     console.log("x:"+cameraPositionValue[0]);
     //配列を座標に変換
     cameraPosition = new THREE.Vector3(
@@ -442,31 +409,35 @@ function moveCamera(name) {
         cameraPositionValue[1], 
         cameraPositionValue[2]
     );
-    objectPosition = new THREE.Vector3(
-        parseFloat(objectPositionValue[0]), 
-        parseFloat(objectPositionValue[1]), 
-        parseFloat(objectPositionValue[2])
+    targetPosition = new THREE.Vector3(
+        parseFloat(targetPositionValue[0]), 
+        parseFloat(targetPositionValue[1]), 
+        parseFloat(targetPositionValue[2])
     );
-    // // クリックされたオブジェクトの位置にカメラを動かす例
-    gsap.to(camera.position, {
-        x: cameraPosition.x, // オブジェクトの近くに移動するように
-        y: cameraPosition.y,
-        z: cameraPosition.z,
-        duration: 1.5, // 1.5秒かけて移動
-        onUpdate: function () {
-                // OrbitControlsのターゲットを設定
-                controls.target.copy(objectPosition);
-                // カメラの更新
-                controls.update();
-        },
-        onComplete: function () {
-            console.log('Current Camera Position:', camera.position);
-            // アニメーション終了後にカメラを固定
-            // camera.lookAt(worldPosition.x,worldPosition.y,worldPosition.z);
-            // console.log(worldPosition);
-        }
-        
-    });
+    // GSAPのタイムラインを使って、カメラの移動と視点の移動を同時に行う
+    gsap.timeline()
+        .to(camera.position, {
+          x: cameraPosition.x,
+          y: cameraPosition.y,
+          z: cameraPosition.z,
+          duration: duration, // 2秒間かけて移動
+          ease: ease,
+          onUpdate: function () {
+            // カメラが動いたときに常にOrbitControlsを更新
+            controls.update();
+          }
+        }, 0) // タイムラインの0秒目から開始"power3.in"
+        .to(controls.target, {
+          x: targetPosition.x,
+          y: targetPosition.y,
+          z: targetPosition.z,
+          duration: duration, // 同じく2秒間かけて視点を変更
+          ease: ease,
+          onUpdate: function () {
+            // OrbitControlsを更新して視点の変更を反映
+            controls.update();
+          }
+    }, 0); // タイムラインの0秒目から開始
 }
 
 window.addEventListener('dblclick', onMouseClick); //clickがあったらonMouseClickを作動させるのかな?

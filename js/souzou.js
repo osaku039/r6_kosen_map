@@ -7,13 +7,18 @@ const camera = new THREE.PerspectiveCamera(
     43, window.innerWidth / window.innerHeight, 0.1, 1000
 ); //カメラの作成
 // camera.position.z =5;
-camera.position.set(108, 113, 159); //カメラの位置
-// camera.lookAt(100,100,0); //カメラの見る方向
+
+let firstPosition = new THREE.Vector3(-0.66, 0, 1);
+let firstTargetPosition = new THREE.Vector3(-0.66, 0, 0);
+let homePosition = new THREE.Vector3(0, 89, 110);
+camera.position.set(-0.66, 0, 1); //カメラの位置
+// camera.lookAt(targetPosition); //カメラの見る方向
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight); //画面サイズ
 document.getElementById('container').appendChild(renderer.domElement); //レンダラーをHTMLに追加
 
-renderer.setClearColor(0xfff2b9);  //背景色の追加
+// renderer.setClearColor(0xfff2b9);  //背景色の追加
+renderer.setClearColor(0xffe271);  //背景色の追加
 
 
 
@@ -25,6 +30,8 @@ controls.dampingFactor = 0.1; //なめらかさの度合い
 // // controls.enablePan = false; //パンを禁止
 // controls.maxPolarAngle = Math.PI * 0.33;//カメラ最大値を0.33に
 // controls.minPolarAngle = Math.PI * 0.33;//カメラ最小値を0.33に
+controls.target.copy(firstTargetPosition);
+controls.update();
 
 // 光源の追加
 const ambientLight = new THREE.AmbientLight(0xf0f0f0); //環境光
@@ -39,14 +46,14 @@ let newModel;
 const clickableObjects = []; // クリック可能なオブジェクトのリスト
 
 //グループの定義
-const allModelGroup = new THREE.Group();
-const floor1ClassGroup = new THREE.Group(); // 1階のクラスグループ
-const floor2ClassGroup = new THREE.Group(); // 2階のクラスグループ
-const floor3ClassGroup = new THREE.Group(); // 3階のクラスグループ
-const floor1Group = new THREE.Group();
-const floor2Group = new THREE.Group();
-const floor3Group = new THREE.Group();
-const invisibleGroup = new THREE.Group(); //不可視にしたいグループ
+let allModelGroup = new THREE.Group();
+let floor1ClassGroup = new THREE.Group(); // 1階のクラスグループ
+let floor2ClassGroup = new THREE.Group(); // 2階のクラスグループ
+let floor3ClassGroup = new THREE.Group(); // 3階のクラスグループ
+let floor1Group = new THREE.Group();
+let floor2Group = new THREE.Group();
+let floor3Group = new THREE.Group();
+let invisibleGroup = new THREE.Group(); //不可視にしたいグループ
 // playAnimation関数
 let currentAction = null;
 let objectToHide = null;
@@ -209,7 +216,7 @@ function animate() {
 
     controls.update(); //カメラのコントロールを更新
     renderer.render(scene, camera); //シーンを描画
-    // console.log(camera.position);
+    console.log(camera.position);
 }
 animate(); //アニメーション開始
 
@@ -295,7 +302,8 @@ function getQueryParam(param) {
 // ページがロードされたときにクエリパラメータを取得して showInfoBox 関数を呼び出す
 window.onload = function() {
     const classId = getQueryParam('id');
-    if (classId != '') {
+    if (classId !== null) {
+        console.log(classId);
         const floor = classId.charAt(0);
         switch (floor){
             case '1':
@@ -313,7 +321,37 @@ window.onload = function() {
         classId = '';
     }
     else{
-        location.href='souzou.html';
+        // const startOrientation = camera.quaternion.clone();  // 現在のカメラの向き
+        // const targetOrientation = new THREE.Quaternion();    // ターゲットの向き
+        const targetPosition = new THREE.Vector3(0, 12, 0); // 目標地点
+        // controls.target.copy(targetPosition);  // 目標地点を向くためのクォータニオンを取得
+        // targetOrientation.copy(camera.quaternion);  // 目標のクォータニオンをコピー
+        controls.target.copy(firstTargetPosition);
+
+        // GSAPのタイムラインを使って、カメラの移動と視点の移動を同時に行う
+        gsap.timeline()
+            .to(camera.position, {
+              x: homePosition.x,
+              y: homePosition.y,
+              z: homePosition.z,
+              duration: 3, // 2秒間かけて移動
+              ease: "power3.in",
+              onUpdate: function () {
+                // カメラが動いたときに常にOrbitControlsを更新
+                controls.update();
+              }
+            }, 0) // タイムラインの0秒目から開始
+            .to(controls.target, {
+              x: targetPosition.x,
+              y: targetPosition.y,
+              z: targetPosition.z,
+              duration: 3, // 同じく2秒間かけて視点を変更
+              ease: "power3.in",
+              onUpdate: function () {
+                // OrbitControlsを更新して視点の変更を反映
+                controls.update();
+              }
+        }, 0); // タイムラインの0秒目から開始
     }
 }
     

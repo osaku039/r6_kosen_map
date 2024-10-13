@@ -8,7 +8,6 @@ const camera = new THREE.PerspectiveCamera(
 ); //カメラの作成
 // camera.position.z =5;
 let firstTargetPosition = new THREE.Vector3(-0.66, 0, 0);
-let homePosition = new THREE.Vector3(0, 70, 120);
 camera.position.set(-0.66, 0, 1); //カメラの位置
 // camera.lookAt(targetPositionValue); //カメラの見る方向
 const renderer = new THREE.WebGLRenderer();
@@ -179,7 +178,6 @@ loader.load(
         const objectsAllFloor3 = ['F3', 'Stair3'];
         floor3Group.add(floor3ClassGroup);
         addGroup(floor3Group, objectsAllFloor3, gltf);
-        
 
         const objectsInvisible = ['invisible', 'invisible2', 'invisible3', 'invisible4', 'invisible5', 'invisible6', 'invisible7', 'invisible8','building'];
         addGroup(invisibleGroup, objectsInvisible, gltf);
@@ -326,6 +324,7 @@ function getQueryParam(param) {
 window.onload = function() {
     const classId = getQueryParam('id');
     if (classId !== null) {
+        moveCamera('home', 0, "power1.out");
         console.log(classId);
         const floor = classId.charAt(0);
         switch (floor){
@@ -372,6 +371,11 @@ function hideInfoBox() {
 
 //Objectを動かす
 function moveObject(group, x, y, z, duration) {
+    var floor = 'F' + group.children[0].name.charAt(0);
+    var originalPosition = Info[floor]['Position'] || 0;
+    var originalYPosition = originalPosition[1];
+    console.log("floor"+ floor + "original" + originalYPosition);
+
     //黒い影の削除と縦に伸びるアニメーションを両立するために長いコードになっています
     var tl = gsap.timeline();
     if (y != 0) {
@@ -387,6 +391,14 @@ function moveObject(group, x, y, z, duration) {
         y: y,  // y方向の拡大
         z: z,  // z方向の拡大
         duration: duration,  // アニメーションの持続時間
+        onUpdate: function() {
+            const scaleFactor = group.scale.y;  // 現在のスケール倍率
+            // スケールが1のときはY座標を0に、0に近づくほどoriginalYPositionに移動
+            const newYPosition = originalYPosition * (1 - scaleFactor);
+            // Y座標を更新
+            group.position.y = newYPosition;
+            console.log(group.position.y);
+        },
     });
     if (y === 0) {
         tl.to(group.scale, {
@@ -476,7 +488,7 @@ function moveCamera(name, duration, ease) {
           x: cameraPosition.x,
           y: cameraPosition.y,
           z: cameraPosition.z,
-          duration: duration, // 2秒間かけて移動
+          duration: duration,
           ease: ease,
           onUpdate: function () {
             // カメラが動いたときに常にOrbitControlsを更新
@@ -487,7 +499,7 @@ function moveCamera(name, duration, ease) {
           x: targetPosition.x,
           y: targetPosition.y,
           z: targetPosition.z,
-          duration: duration, // 同じく2秒間かけて視点を変更
+          duration: duration,
           ease: ease,
           onUpdate: function () {
             // OrbitControlsを更新して視点の変更を反映

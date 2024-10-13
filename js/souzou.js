@@ -28,6 +28,7 @@ controls.dampingFactor = 0.1; //なめらかさの度合い
 // // controls.enablePan = false; //パンを禁止
 // controls.maxPolarAngle = Math.PI * 0.33;//カメラ最大値を0.33に
 // controls.minPolarAngle = Math.PI * 0.33;//カメラ最小値を0.33に
+controls.maxPolarAngle = Math.PI * 0.5;
 controls.target.copy(firstTargetPosition);
 controls.update();
 
@@ -120,6 +121,8 @@ function playAnimation(name) {
                     moveObject(floor1ClassGroup, 1, 0, 1, 0);
                     moveObject(floor2ClassGroup, 1, 0, 1, 0);
                     moveObject(floor3ClassGroup, 1, 0, 1, 0);
+
+                    hideInfoBox();
         
                 }
             });

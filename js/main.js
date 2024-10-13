@@ -19,9 +19,10 @@ renderer.setClearColor(0xfff2b9); //背景色
 
 // OrbitControlsのセットアップ      ...カメラの動きを制御するやつ。いらない
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor = 0.25;
-controls.screenSpacePanning = false;
+// ユーザーの操作を無効にする
+controls.enableRotate = false;  // 回転を無効
+controls.enablePan = false;     // パンを無効
+controls.enableZoom = false;    // ズームを無効
 
 
 // 光源の追加
@@ -200,20 +201,19 @@ function moveCamera(cameraPositionValue, objectPositionValue, link, object) {
         x: cameraPosition.x, // オブジェクトの近くに移動するように
         y: cameraPosition.y,
         z: cameraPosition.z,
-        duration: 1.5, // 1.5秒かけて移動
+        duration: 1.5, // 1.5秒かけて移動  
+    }, 0);
+    tl.to(controls.target, {
+        x: objectPosition.x,
+        y: objectPosition.y,
+        z: objectPosition.z,
+        duration: 1.5,
+        ease: "power1.out",
         onUpdate: function () {
-                // OrbitControlsのターゲットを設定
-                // controls.target.copy(objectPosition);
-                // controls.update();
-                camera.lookAt(objectPosition);
-        },
-        onComplete: function () {
-            console.log('Current Camera Position:', camera.position);
-            // アニメーション終了後にカメラを固定
-            // camera.lookAt(worldPosition.x,worldPosition.y,worldPosition.z);
-            // console.log(worldPosition);
+          // OrbitControlsを更新して視点の変更を反映
+          controls.update();
         }
-    });
+    }, 0);
     tl.to(camera.position, {
         x: objectPosition.x, // オブジェクトの近くに移動するように
         y: objectPosition.y,

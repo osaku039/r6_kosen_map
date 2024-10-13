@@ -1,5 +1,11 @@
 // オブジェクトの情報
 export const Info = {
+    'home':{
+        "description":"homePosition",
+        "Position":[0,12,0],
+        "cameraPosition":[0, 70, 120],
+        "animationFile":"",
+    },
     //１階
     'F1':{
         "description":"説明さ",

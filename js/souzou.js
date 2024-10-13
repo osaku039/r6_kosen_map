@@ -74,7 +74,7 @@ function playAnimation(name) {
             const clips = gltf.animations; // アニメーションクリップを取得
             window.removeEventListener('dblclick', onMouseClick);
 
-            moveCamera('home', 2, "power1.out");
+            moveCamera('home', 2, "power1.in");
 
             floor1Group.visible = true;
             floor2Group.visible = true;
@@ -204,9 +204,9 @@ loader.load(
         invisibleGroup.visible = false;
 
         //オブジェクトを消す！
-        moveObject(floor1ClassGroup, 1, 0, 1, 1);
-        moveObject(floor2ClassGroup, 1, 0, 1, 1);
-        moveObject(floor3ClassGroup, 1, 0, 1, 1);
+        moveObject(floor1ClassGroup, 1, 0, 1, 0);
+        moveObject(floor2ClassGroup, 1, 0, 1, 0);
+        moveObject(floor3ClassGroup, 1, 0, 1, 0);
         
         const clickable = Object.keys(Info); // クリック可能なオブジェクト名のリスト
 
@@ -255,9 +255,6 @@ animate(); //アニメーション開始
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
-let visibleClass; //見せるオブジェクト
-let invisibleClass1; //見せないオブジェクト1,2
-let invisibleClass2;
 let selectedFloor; //選ばれたフロア
 
 //クリックイベント
@@ -287,31 +284,6 @@ function onMouseClick(event) {
             const worldPosition = new THREE.Vector3();
             let objectClass;
             intersectedObject.getWorldPosition(worldPosition);
-            // const targetMeshNames = ['1_men', '2_3', '2_4']; // 透明化するメッシュ名のリスト
-            // targetMeshNames.forEach(name => {
-            //     const parent = scene.getObjectByName(name);
-            //     console.log("親氏:"+parent.name);
-            //     parent.children.forEach(child => {
-            //         console.log("ありし:"+child.name);
-            //         if (child.isMesh) {
-            //             console.log("選ばれし:"+child.name);
-            //             // メッシュに対する処理
-            //             child.material.transparent = true;
-            //             child.material.alphaToCoverage = true;
-            //             child.material.opacity = 0.2;
-            //         }
-            //     });
-            // });
-            // floor3ClassGroup.traverse(function (child) {
-            //     objectClass = child.parent;
-            //     console.log("もの:"+child.name +"\n親:"+objectClass.name);
-            //     if (child.isMesh && objectClass.parent === floor3ClassGroup) {
-            //         console.log("きえた:"+child.parent.name);
-            //         child.material.transparent = true;
-            //         child.material.alphaToCoverage = true;
-            //         child.material.opacity = 0.2;  // 透明度を設定
-            //     }
-            // });
             console.log(intersectedObject.parent.name); // ワールド座標を出力
             showInfoBox(intersectedObject.parent.name);
 
@@ -319,7 +291,13 @@ function onMouseClick(event) {
     }
     else {
         console.log("ぱあ");
+        floor1Group.visible = true;
+        floor2Group.visible = true;
+        floor3Group.visible = true;
         moveCamera('home', 2, "power1.out");
+        moveObject(floor1ClassGroup, 1, 0, 1, 0.3);
+        moveObject(floor2ClassGroup, 1, 0, 1, 0.3);
+        moveObject(floor3ClassGroup, 1, 0, 1, 0.3);
     }
 
 
@@ -333,25 +311,31 @@ function getQueryParam(param) {
 
 // ページがロードされたときにクエリパラメータを取得して showInfoBox 関数を呼び出す
 window.onload = function() {
-    const classId = getQueryParam('id');
+    let classId = getQueryParam('id');
+    //とても汚い方法です
     if (classId !== null) {
         moveCamera('home', 0, "power1.out");
-        console.log(classId);
-        const floor = classId.charAt(0);
-        switch (floor){
-            case '1':
-                showFloor('F1');
-                break;
-            case '2':
-                showFloor('F2');
-                break;
-            case '3':
-                showFloor('F3');
-                break;
-        }
-        // 取得したidを showInfoBox に渡して実行
-        showInfoBox(classId);
-        classId = '';
+        gsap.to({}, {
+            delay:0.2,
+            onComplete: function() {
+                console.log("クエリ"+classId);
+                const floor = classId.charAt(0);
+                switch (floor){
+                    case '1':
+                        showFloor('F1');
+                        break;
+                    case '2':
+                        showFloor('F2');
+                        break;
+                    case '3':
+                        showFloor('F3');
+                        break;
+                }
+                // 取得したidを showInfoBox に渡して実行
+                showInfoBox(classId);
+                classId = "";
+            }
+        });
     }
     else{
         moveCamera('home', 3, "power3.in");        
@@ -382,12 +366,13 @@ function hideInfoBox() {
 
 //Objectを動かす
 function moveObject(group, x, y, z, duration) {
+    console.log(group.name);
+    console.log(group.children); // childrenのコピーを表示
     var floor = 'F' + group.children[0].name.charAt(0);
     var originalPosition = Info[floor]['Position'] || 0;
     var originalYPosition = originalPosition[1];
     console.log("floor"+ floor + "\noriginal" + originalYPosition);
 
-    //黒い影の削除と縦に伸びるアニメーションを両立するために長いコードになっています
     var tl = gsap.timeline();
     tl.to(group.scale, {
         x: x,  // x方向の拡大
@@ -431,28 +416,24 @@ function showFloor(name) {
     };
     switch(name){
         case 'F1':
-            visibleClass = floor1ClassGroup;
-            invisibleClass1 = floor2ClassGroup;
-            invisibleClass2 = floor3ClassGroup;
+            moveObject(floor1ClassGroup, 1, 1, 1, 1);
+            moveObject(floor2ClassGroup, 1, 0, 1, 0);
+            moveObject(floor3ClassGroup, 1, 0, 1, 0);
             selectedFloor = floor1Group;
             break;
         case 'F2':
-            visibleClass = floor2ClassGroup;
-            invisibleClass1 = floor1ClassGroup;
-            invisibleClass2 = floor3ClassGroup;
+            moveObject(floor2ClassGroup, 1, 1, 1, 1);
+            moveObject(floor1ClassGroup, 1, 0, 1, 0);
+            moveObject(floor3ClassGroup, 1, 0, 1, 0);
             selectedFloor = floor2Group;
             break;
         case 'F3':
-            visibleClass = floor3ClassGroup;
-            invisibleClass1 = floor1ClassGroup;
-            invisibleClass2 = floor2ClassGroup;
+            moveObject(floor3ClassGroup, 1, 1, 1, 1);
+            moveObject(floor1ClassGroup, 1, 0, 1, 0);
+            moveObject(floor2ClassGroup, 1, 0, 1, 0);
             selectedFloor = floor3Group;
             break;
     }
-
-    moveObject(visibleClass, 1, 1, 1, 1);
-    moveObject(invisibleClass1, 1, 0, 1, 0);
-    moveObject(invisibleClass2, 1, 0, 1, 0);
     changeFloor(selectedFloor);
 }
 

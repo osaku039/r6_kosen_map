@@ -159,8 +159,9 @@ function movePage(name, object) {
     switch (name){
         case 'building':
             link = "./souzou.html";
-            firstPosition = [0,0,138.5];
-            secondPosition = [0,0,0];
+            firstPosition = [-1.74,-1.5,138.5];
+            secondPosition = [-1.74,-1.5,55];
+            // secondPosition = [-1.74,-1.5,4.10];
             break;
         case 'piano':
             link = "./sityoukaku.html";
@@ -181,6 +182,7 @@ function moveCamera(cameraPositionValue, objectPositionValue, link, object) {
     console.log("link:"+link);
     let cameraPosition;
     let objectPosition;
+    let humanPosition;
     cameraPosition = new THREE.Vector3(
         cameraPositionValue[0], 
         cameraPositionValue[1], 
@@ -232,13 +234,14 @@ function moveCamera(cameraPositionValue, objectPositionValue, link, object) {
             // location.href = link;
         }
     });
+
+
     if (link === "./souzou.html") {
         console.log(object.material);
         object.material.transparent = true;
-        gsap.to(object.material, {
-            delay: 1.5,
-            opacity: 0.2,
-            duration: 0.1,
+        tl.to(object.material, {
+            opacity: 0,
+            duration: 1,
         });
         floorGroup.traverse((child) => {
             if (child.isMesh) {
@@ -252,15 +255,41 @@ function moveCamera(cameraPositionValue, objectPositionValue, link, object) {
                 });
             }
         });
+        humanPosition = new THREE.Vector3(-1.74,-1.5,0);
+        tl.to(camera.position, {
+            x: humanPosition.x, // オブジェクトの近くに移動するように
+            y: humanPosition.y,
+            z: humanPosition.z,
+            duration: 2.0, // 2秒かけて移動
+            onUpdate: function () {
+                    // OrbitControlsのターゲットを設定
+                    // controls.target.copy(cameraPosition);
+                    // controls.update();
+                    camera.lookAt(humanPosition);
+            },
+            onComplete: function () {
+                console.log('Current Camera Position:', camera.position);
+                // アニメーション終了後にカメラを固定
+                // camera.lookAt(worldPosition.x,worldPosition.y,worldPosition.z);
+                // console.log(worldPosition);
+            
+                // location.href = link;
+            }
+        });
+        tl.to(camera.position, {
+            onComplete: function() {
+                location.href = link;
+            }
+        })
+    }else {
+        gsap.to(camera.position, {
+            duration: 1.5,
+            delay: 1.5,
+            onComplete: function() {
+                location.href = link;
+            }
+        })
     }
-    // gsap.to(camera.position, {
-    //     duration: 1.5,
-    //     delay: 1.5,
-    //     onComplete: function() {
-    //         location.href = link;
-    //     }
-    // })
-
 }
 
 

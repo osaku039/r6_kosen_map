@@ -194,9 +194,9 @@ loader.load(
         invisibleGroup.visible = false;
 
         //オブジェクトを消す！
-        moveObject(floor1ClassGroup, 1, 0, 1, 0);
-        moveObject(floor2ClassGroup, 1, 0, 1, 0);
-        moveObject(floor3ClassGroup, 1, 0, 1, 0);
+        moveObject(floor1ClassGroup, 1, 0, 1, 1);
+        moveObject(floor2ClassGroup, 1, 0, 1, 1);
+        moveObject(floor3ClassGroup, 1, 0, 1, 1);
         
         const clickable = Object.keys(Info); // クリック可能なオブジェクト名のリスト
 
@@ -309,6 +309,7 @@ function onMouseClick(event) {
     }
     else {
         console.log("ぱあ");
+        moveCamera('home', 2, "power1.out");
     }
 
 
@@ -374,18 +375,10 @@ function moveObject(group, x, y, z, duration) {
     var floor = 'F' + group.children[0].name.charAt(0);
     var originalPosition = Info[floor]['Position'] || 0;
     var originalYPosition = originalPosition[1];
-    console.log("floor"+ floor + "original" + originalYPosition);
+    console.log("floor"+ floor + "\noriginal" + originalYPosition);
 
     //黒い影の削除と縦に伸びるアニメーションを両立するために長いコードになっています
     var tl = gsap.timeline();
-    if (y != 0) {
-        tl.to(group.scale, {
-            x: 1,
-            y: 0,
-            z: 1,
-            duration: 0,
-        })
-    };
     tl.to(group.scale, {
         x: x,  // x方向の拡大
         y: y,  // y方向の拡大
@@ -395,19 +388,9 @@ function moveObject(group, x, y, z, duration) {
             const scaleFactor = group.scale.y;  // 現在のスケール倍率
             // スケールが1のときはY座標を0に、0に近づくほどoriginalYPositionに移動
             const newYPosition = originalYPosition * (1 - scaleFactor);
-            // Y座標を更新
-            group.position.y = newYPosition;
-            console.log(group.position.y);
+            group.position.y = newYPosition; //y座標の更新
         },
     });
-    if (y === 0) {
-        tl.to(group.scale, {
-            x: 0,
-            y: 0,
-            z: 0,
-            duration: 0,
-        })
-    };
 }
 
 //透明度変更

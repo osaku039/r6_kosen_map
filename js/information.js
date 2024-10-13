@@ -46,7 +46,7 @@ export const Info = {
     //２階
     'F2':{
         "description":"説明さ",
-        "Position":[0,16.6,0],
+        "Position":[0,17,0],
         "cameraPosition":[-34.29,48.39,53.17],
         "animationFile":"",
     },
@@ -95,7 +95,7 @@ export const Info = {
     //３階
     'F3':{
         "description":"説明さ",
-        "Position":[0,38,0],
+        "Position":[0,39.17,0],
         "cameraPosition":[-34.29,69.79,53.17],
         "animationFile":"",
     },

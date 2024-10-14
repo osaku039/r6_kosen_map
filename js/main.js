@@ -19,9 +19,10 @@ renderer.setClearColor(0xfff2b9); //背景色
 
 // OrbitControlsのセットアップ      ...カメラの動きを制御するやつ。いらない
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor = 0.25;
-controls.screenSpacePanning = false;
+// ユーザーの操作を無効にする
+controls.enableRotate = false;  // 回転を無効
+controls.enablePan = false;     // パンを無効
+controls.enableZoom = false;    // ズームを無効
 
 
 // 光源の追加
@@ -45,7 +46,6 @@ console.log(originalModel); // モデル内のオブジェクトの確認
 let floorGroup = new THREE.Group();
 // GLTFモデルのロード
 const loader = new THREE.GLTFLoader();
-
 const clock = new THREE.Clock(); // Clockを定義
 
 loader.load(
@@ -53,8 +53,7 @@ loader.load(
     function (gltf) {
         originalModel = gltf.scene;
         scene.add(originalModel);
-        console.log('Original model loaded');
-
+        console.log('Original model loaded'); // ロード成功ログ
         const mixer = new THREE.AnimationMixer(originalModel);
 
         // アニメーションの取得と追加
@@ -62,9 +61,39 @@ loader.load(
             mixer.clipAction(clip).play();
             console.log('Playing animation:', clip.name); // アニメーション確認用ログ
         });
-
         const objectList = ['building', 'piano', 'yatai'];
+        // const floor = ['F1', 'F2', 'F3', 'F4'];
 
+        // floor.forEach(name => {
+        //     const object = gltf.scene.getObjectByName(name);
+        //     if (object) {
+        //         floorGroup.add(object);
+        //     }
+        // });
+        // floorGroup.traverse((child) => {
+        //     if (child.isMesh) {
+        //         child.material.transparent = true;  // 透明化を許可
+        //         gsap.to(child.material, {
+        //         opacity: 0,  // 透明にする
+        //         duration: 0,  // アニメーションの持続時間
+        //         });
+        //     }
+        // });
+
+        const object = gltf.scene.getObjectByName('media');
+        console.log(object);
+        object.children.forEach(child => {
+            console.log(child.parent.name);
+            if (child.isMesh && child.name === '立方体010') {
+                console.log(child.name);
+                // メッシュに対する処理
+                child.material.transparent = true;
+                child.material.alphaToCoverage = true;
+                child.material.opacity = 0.2;
+            }
+        });
+
+        // クリック可能なオブジェクトをリストに追加
         objectList.forEach(name => {
             const clickableObject = scene.getObjectByName(name);
             console.log('Checking name:', name);
@@ -72,13 +101,14 @@ loader.load(
             if (clickableObject) {
                 clickableObjects.push(clickableObject);
                 console.log('Clickable object:', clickableObject);
-            } else {
+            }else {
                 console.log("無理でした...");
             }
         });
 
-        console.log('All clickable objects:', clickableObjects);
-
+        // floorGroup.visible = false;
+        
+        console.log('All clickable objects:', clickableObjects); // すべてのクリック可能なオブジェクトを確認
         // アニメーションの更新用
         function animate() {
             requestAnimationFrame(animate);
@@ -92,7 +122,7 @@ loader.load(
     },
     undefined,
     function (error) {
-        console.error('An error happened', error);
+        console.error('An error happened', error);  //エラーログ
     }
 );
 
@@ -146,8 +176,9 @@ function movePage(name, object) {
     switch (name){
         case 'building':
             link = "./souzou.html";
-            firstPosition = [0,0,138.5];
-            secondPosition = [0,0,0];
+            firstPosition = [-1.74,-1.5,138.5];
+            secondPosition = [-1.74,-1.5,55];
+            // secondPosition = [-1.74,-1.5,4.10];
             break;
         case 'piano':
             link = "./sityoukaku.html";
@@ -165,8 +196,10 @@ function movePage(name, object) {
 }
 
 function moveCamera(cameraPositionValue, objectPositionValue, link, object) {
+    console.log("link:"+link);
     let cameraPosition;
     let objectPosition;
+    let humanPosition;
     cameraPosition = new THREE.Vector3(
         cameraPositionValue[0], 
         cameraPositionValue[1], 
@@ -184,20 +217,19 @@ function moveCamera(cameraPositionValue, objectPositionValue, link, object) {
         x: cameraPosition.x, // オブジェクトの近くに移動するように
         y: cameraPosition.y,
         z: cameraPosition.z,
-        duration: 1.5, // 1.5秒かけて移動
+        duration: 1.5, // 1.5秒かけて移動  
+    }, 0);
+    tl.to(controls.target, {
+        x: objectPosition.x,
+        y: objectPosition.y,
+        z: objectPosition.z,
+        duration: 1.5,
+        ease: "power1.out",
         onUpdate: function () {
-                // OrbitControlsのターゲットを設定
-                // controls.target.copy(objectPosition);
-                // controls.update();
-                camera.lookAt(objectPosition);
-        },
-        onComplete: function () {
-            console.log('Current Camera Position:', camera.position);
-            // アニメーション終了後にカメラを固定
-            // camera.lookAt(worldPosition.x,worldPosition.y,worldPosition.z);
-            // console.log(worldPosition);
+          // OrbitControlsを更新して視点の変更を反映
+          controls.update();
         }
-    });
+    }, 0);
     tl.to(camera.position, {
         x: objectPosition.x, // オブジェクトの近くに移動するように
         y: objectPosition.y,
@@ -217,16 +249,63 @@ function moveCamera(cameraPositionValue, objectPositionValue, link, object) {
         
             // location.href = link;
         }
-    
     });
-    gsap.to(camera.position, {
-        duration: 1.5,
-        delay: 1.5,
-        onComplete: function() {
-            location.href = link;
-        }
-    })
 
+
+    if (link === "./souzou.html") {
+        console.log(object.material);
+        object.material.transparent = true;
+        tl.to(object.material, {
+            opacity: 0,
+            duration: 1,
+        });
+        floorGroup.traverse((child) => {
+            if (child.isMesh) {
+                console.log("消えたよ:"+link);
+                console.log(child.name);
+                child.material.transparent = true;  // 透明化を許可
+                gsap.to(child.material, {
+                    delay: 1.5,
+                    opacity: 1,
+                    duration: 0.1,  // アニメーションの持続時間
+                });
+            }
+        });
+        humanPosition = new THREE.Vector3(-1.74,-1.5,0);
+        tl.to(camera.position, {
+            x: humanPosition.x, // オブジェクトの近くに移動するように
+            y: humanPosition.y,
+            z: humanPosition.z,
+            duration: 2.0, // 2秒かけて移動
+            onUpdate: function () {
+                    // OrbitControlsのターゲットを設定
+                    // controls.target.copy(cameraPosition);
+                    // controls.update();
+                    camera.lookAt(humanPosition);
+            },
+            onComplete: function () {
+                console.log('Current Camera Position:', camera.position);
+                // アニメーション終了後にカメラを固定
+                // camera.lookAt(worldPosition.x,worldPosition.y,worldPosition.z);
+                // console.log(worldPosition);
+            
+                // location.href = link;
+            }
+        });
+        tl.to(camera.position, {
+            onComplete: function() {
+                location.href = link;
+            }
+        })
+    }else {
+        gsap.to(camera.position, {
+            duration: 1.5,
+            delay: 1.5,
+            onComplete: function() {
+                location.href = link;
+            }
+        })
+    }
 }
 
 

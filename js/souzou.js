@@ -51,6 +51,7 @@ let floor1Group = new THREE.Group();
 let floor2Group = new THREE.Group();
 let floor3Group = new THREE.Group();
 let invisibleGroup = new THREE.Group(); //不可視にしたいグループ
+let F4, ground;
 // playAnimation関数
 let currentAction = null;
 let objectToHide = null;
@@ -74,15 +75,9 @@ function playAnimation(name) {
             const clips = gltf.animations; // アニメーションクリップを取得
             window.removeEventListener('dblclick', onMouseClick);
 
-            moveCamera('home', 2, "power1.in");
+            moveHomePosition(2, "power1.in", true, 1);
 
-            floor1Group.visible = true;
-            floor2Group.visible = true;
-            floor3Group.visible = true;
-            
-            moveObject(floor1ClassGroup, 1, 1, 1, 0);
-            moveObject(floor2ClassGroup, 1, 1, 1, 0);
-            moveObject(floor3ClassGroup, 1, 1, 1, 0);
+            moveCamera('home', 2, "power1.in");
 
             //クラスをほんのり透明に
             changeTransparent(floor1ClassGroup, 0.1);
@@ -207,6 +202,10 @@ loader.load(
         moveObject(floor1ClassGroup, 1, 0, 1, 0);
         moveObject(floor2ClassGroup, 1, 0, 1, 0);
         moveObject(floor3ClassGroup, 1, 0, 1, 0);
+
+        F4 = gltf.scene.getObjectByName('F4');
+        ground = gltf.scene.getObjectByName('ground');
+        changeTransparent(F4, 0.5);
         
         const clickable = Object.keys(Info); // クリック可能なオブジェクト名のリスト
 
@@ -247,7 +246,7 @@ function animate() {
 
     controls.update(); //カメラのコントロールを更新
     renderer.render(scene, camera); //シーンを描画
-    console.log(camera.position);
+    // console.log(camera.position);
 }
 animate(); //アニメーション開始
 
@@ -282,7 +281,6 @@ function onMouseClick(event) {
 
             //クラスを選択
             const worldPosition = new THREE.Vector3();
-            let objectClass;
             intersectedObject.getWorldPosition(worldPosition);
             console.log(intersectedObject.parent.name); // ワールド座標を出力
             showInfoBox(intersectedObject.parent.name);
@@ -291,13 +289,8 @@ function onMouseClick(event) {
     }
     else {
         console.log("ぱあ");
-        floor1Group.visible = true;
-        floor2Group.visible = true;
-        floor3Group.visible = true;
-        moveCamera('home', 2, "power1.out");
-        moveObject(floor1ClassGroup, 1, 0, 1, 0.3);
-        moveObject(floor2ClassGroup, 1, 0, 1, 0.3);
-        moveObject(floor3ClassGroup, 1, 0, 1, 0.3);
+        moveHomePosition(2, "power1.out", true, 0);
+        hideInfoBox();
     }
 
 
@@ -312,7 +305,7 @@ function getQueryParam(param) {
 // ページがロードされたときにクエリパラメータを取得して showInfoBox 関数を呼び出す
 window.onload = function() {
     let classId = getQueryParam('id');
-    //とても汚い方法です
+    //とても汚い方法です。gsapで0.2秒待つことによってgltfのロードを待っています。awaitとか使えるのかな?
     if (classId !== null) {
         moveCamera('home', 0, "power1.out");
         gsap.to({}, {
@@ -350,8 +343,8 @@ function showInfoBox(name) {
     infoBox.innerHTML = `<strong>モデル名:</strong> ${name}<br><strong>情報:</strong><br> ${info}<br> 
     <button id="animation">経路選択</button>
     `;
-     // ボタンのクリックイベントを設定
-     document.getElementById('animation').addEventListener('click', () => playAnimation(name));
+    // ボタンのクリックイベントを設定
+    document.getElementById('animation').addEventListener('click', () => playAnimation(name));
      
     infoBox.style.display = 'block';
     moveCamera(name, 1.5, "power1.out");
@@ -403,6 +396,7 @@ function changeFloor(selectedFloor) {
     floor1Group.visible = false;
     floor2Group.visible = false;
     floor3Group.visible = false;
+    F4.visible = false;
     selectedFloor.visible = true;
     // moveObject(selectedFloor, 2, 2, 2, 1);
     console.log("selectedFloor = "+ selectedFloor);
@@ -435,6 +429,18 @@ function showFloor(name) {
             break;
     }
     changeFloor(selectedFloor);
+}
+
+//ホームポジションに戻る
+function moveHomePosition(duration, ease, isVisible, scale) {
+    floor1Group.visible = isVisible;
+    floor2Group.visible = isVisible;
+    floor3Group.visible = isVisible;
+    F4.visible = isVisible;
+    moveCamera('home', duration, ease);
+    moveObject(floor1ClassGroup, 1, scale, 1, 0.3);
+    moveObject(floor2ClassGroup, 1, scale, 1, 0.3);
+    moveObject(floor3ClassGroup, 1, scale, 1, 0.3);
 }
 
 //カメラを動かす

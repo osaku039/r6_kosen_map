@@ -3,7 +3,7 @@ export const Info = {
     'home':{
         "description":"homePosition",
         "Position":[0,12,0],
-        "cameraPosition":[0, 70, 120],
+        "cameraPosition":[0, 80, 150],
         "animationFile":"",
     },
     //１階

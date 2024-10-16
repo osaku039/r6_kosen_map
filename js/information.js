@@ -80,6 +80,12 @@ export const Info = {
         "cameraPosition":[5,20.25,-32.1],
         "animationFile":'animation/animate2_5.glb',
     },
+    '2_6':{
+        "description":"説明さ",
+        "Position":[-2.3,20.25,-6],
+        "cameraPosition":[-2.3,20.25,-31],
+        "animationFile":'animation/animate2_5.glb',
+    },
     'zinja':{
         "description":"説明さ",
         "Position":[25,19.3,-5],

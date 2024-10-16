@@ -155,7 +155,7 @@ function playAnimation(name) {
 // GLTFモデルのロード
 const loader = new THREE.GLTFLoader();
 loader.load(
-    'models/souzou3.glb',
+    'models/souzou6.glb',
     function (gltf) {
         // const groupedModel = createGroupedModel(gltf); // グループ化されたモデルを取得
         originalModel = gltf.scene; //読み込んだモデルの取得
@@ -176,7 +176,7 @@ loader.load(
         addGroup(floor1Group, objectsAllFloor1, gltf);
     
         // 2階のオブジェクトを2階のグループに追加
-        const objectsFloor2 = ['2_1', '2_2', '2_3', '2_4', '2_5', '2_men', '2_women', '2_other', 'zinja'];
+        const objectsFloor2 = ['2_1', '2_2', '2_3', '2_4', '2_5', '2_6', '2_men', '2_women', '2_other', 'zinja'];
         addGroup(floor2ClassGroup, objectsFloor2, gltf);
         const objectsAllFloor2 = ['F2', 'Stair2'];
         floor2Group.add(floor2ClassGroup);
@@ -247,7 +247,7 @@ function animate() {
 
     controls.update(); //カメラのコントロールを更新
     renderer.render(scene, camera); //シーンを描画
-    // console.log(camera.position);
+    console.log(camera.position);
 }
 animate(); //アニメーション開始
 

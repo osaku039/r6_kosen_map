@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css"><!---cssファイルとの紐づけ。任意のファイルに変更してください。-->
     <title>3D Model Click Example</title>
-    <style>
+    <!--style>
         body { 
             margin: 0; 
             overflow: hidden;
@@ -41,7 +42,10 @@
             flex: 1; /* 各ボタンを均等に配置 */
             margin: 0 5px; /* ボタン間のマージン */
         }
-    </style>
+    </style-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="container"></div>
@@ -49,27 +53,32 @@
 
     <!-- ボタンコンテナ -->
     <div class="button-container">
-        <button onclick="location.href='souzou.html?id=1_1'">クラス企画 1-1</button>
-        <button onclick="location.href='souzou.html?id=1_2'">クラス企画 2</button>
-        <button onclick="location.href='souzou.html?id=1_3'">クラス企画 3</button>
-        <button onclick="location.href='souzou.html?id=1_4'">クラス企画 4</button>
-        <button onclick="location.href='souzou.html?id=2_1'">クラス企画 5</button>
-        <button onclick="location.href='souzou.html?id=2_2'">クラス企画 6</button>
-        <button onclick="location.href='souzou.html?id=2_3'">クラス企画 7</button>
-        <button onclick="location.href='souzou.html?id=2_4'">クラス企画 8</button>
-        <button onclick="location.href='souzou.html?id=2_5'">クラス企画 9</button>
-        <button onclick="location.href='souzou.html?id=3_1'">クラス企画 10</button>
-        <button onclick="location.href='souzou.html?id=3_2'">クラス企画 11</button>
-        <button onclick="location.href='souzou.html?id=3_3'">クラス企画 12</button>
-        <button onclick="location.href='souzou.html?id=3_4'">クラス企画 13</button>
-        <button onclick="location.href='souzou.html?id=3_5'">クラス企画 14</button>
-        <button onclick="location.href='souzou.html?id=3_6'">クラス企画 15</button>
-        <button onclick="location.href='souzou.html'">クラス企画 16</button>
-        <button onclick="location.href='souzou.html'">クラス企画 17</button>
-        <button onclick="location.href='yatai.html'">屋台企画 1</button>
-        <button onclick="location.href='yatai.html'">屋台企画 2</button>
-        <button onclick="location.href='yatai.html'">屋台企画 2</button>
-    </div>
+        <div class="button-top">
+            <button onclick="location.href='index.html'" class="yellow">ほーむ</button>
+            <button onclick="location.href='sityoukaku.html'" class="orange">視聴覚</button>
+            <button onclick="location.href='souzou.html?id=1_1'" class="yellow">1-1</button>
+            <button onclick="location.href='souzou.html'" class="orange">1-3</button>
+            <button onclick="location.href='souzou.html'" class="yellow">2-1</button>
+            <button onclick="location.href='souzou.html'" class="orange">2-3</button>
+            <button onclick="location.href='souzou.html'" class="yellow">3-1</button>
+            <button onclick="location.href='souzou.html'" class="orange">3-3</button>
+            <button onclick="location.href='souzou.html'" class="yellow">4-1</button>
+            <button onclick="location.href='souzou.html'" class="orange">4-3</button>
+            <button onclick="location.href='souzou.html'" class="yellow">5-1</button>
+            <button onclick="location.href='souzou.html'" class="orange">5-3</button>
+        </div>
+        <div class="button-bottom">
+            <button onclick="location.href='souzou.html'" class="yellow">1-2</button>
+            <button onclick="location.href='souzou.html'" class="orange">1-4</button>
+            <button onclick="location.href='souzou.html'" class="yellow">2-2</button>
+            <button onclick="location.href='souzou.html'" class="orange">2-4</button>
+            <button onclick="location.href='souzou.html'" class="yellow">3-2</button>
+            <button onclick="location.href='souzou.html'" class="orange">3-4</button>
+            <button onclick="location.href='souzou.html'" class="yellow">4-2</button>
+            <button onclick="location.href='yatai.html'" class="orange">4-4</button>
+            <button onclick="location.href='yatai.html'" class="yellow">5-2</button>
+            <button onclick="location.href='yatai.html'" class="orange">5-4</button>
+        </div>
 
     <!-- Three.jsライブラリ -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>

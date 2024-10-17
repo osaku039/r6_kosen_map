@@ -5,30 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css"><!---cssファイルとの紐づけ。任意のファイルに変更してください。-->
     <title>3D Model Click Example</title>
+    <script type="importmap">
+        {
+          "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.module.js",
+            "CSS2DRenderer": "https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/renderers/CSS2DRenderer.js",
+            "gsap": "https://cdn.jsdelivr.net/npm/gsap@3.11.0/index.js",
+            "GLTFLoader": "https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/loaders/GLTFLoader.js",
+            "OrbitControls": "https://cdn.jsdelivr.net/npm/three@0.167.0/examples/jsm/controls/OrbitControls.js"
+          }
+        }
+        </script>
 </head>
 <body>
     <div class="button-container">
-        <button onclick="location.href='sityoukaku.html'">視聴覚ホール</button>
-        <button onclick="location.href='souzou.html'">クラス企画 1</button>
-        <button onclick="location.href='souzou.html'">クラス企画 2</button>
-        <button onclick="location.href='souzou.html'">クラス企画 3</button>
-        <button onclick="location.href='souzou.html'">クラス企画 4</button>
-        <button onclick="location.href='souzou.html'">クラス企画 5</button>
-        <button onclick="location.href='souzou.html'">クラス企画 6</button>
-        <button onclick="location.href='souzou.html'">クラス企画 7</button>
-        <button onclick="location.href='souzou.html'">クラス企画 8</button>
-        <button onclick="location.href='souzou.html'">クラス企画 9</button>
-        <button onclick="location.href='souzou.html'">クラス企画 10</button>
-        <button onclick="location.href='souzou.html'">クラス企画 11</button>
-        <button onclick="location.href='souzou.html'">クラス企画 12</button>
-        <button onclick="location.href='souzou.html'">クラス企画 13</button>
-        <button onclick="location.href='souzou.html'">クラス企画 14</button>
-        <button onclick="location.href='souzou.html'">クラス企画 15</button>
-        <button onclick="location.href='souzou.html'">クラス企画 16</button>
-        <button onclick="location.href='souzou.html'">クラス企画 17</button>
-        <button onclick="location.href='yatai.html'">屋台企画 1</button>
-        <button onclick="location.href='yatai.html'">屋台企画 2</button>
-        <button onclick="location.href='yatai.html'">屋台企画 2</button>
+        <div class="text"><p>モデルをタップしてみてください！</p><br></div>
+        <button onclick="location.href='sityoukaku.html'" class="orange">sityo-kaku</button>
+        <button onclick="location.href='gym.html'" class="yellow">tai-kukan</button>
+        <button onclick="location.href='souzou.html'" class="orange">創造実践棟</button>
+        <button onclick="location.href='yatai.html'" class="yellow">123yatai567</button>
         <!-- ここに20個のボタンを追加できます -->
     </div>
     <div class="base">
@@ -36,15 +31,15 @@
             <!---多分大事変更しないでください-->
             <div id="container"></div>
             <!-- Three.jsライブラリ -->
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script> -->
             <!-- GLTFLoader -->
-            <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+            <!-- <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script> -->
             <!-- OrbitControls -->
-            <script src="js/OrbitControls.js"></script>
+            <!-- <script src="js/OrbitControls.js"></script> -->
             <!-- GSAPライブラリ -->
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script>
+            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script> -->
             <!-- メインスクリプト -->
-            <script src="js/sityoukaku.js"></script>
+            <script type="module" src="js/sityoukaku.js"></script>
         </div>
         
         <div class="select-button">

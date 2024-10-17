@@ -51,6 +51,7 @@ let floor1Group = new THREE.Group();
 let floor2Group = new THREE.Group();
 let floor3Group = new THREE.Group();
 let invisibleGroup = new THREE.Group(); //不可視にしたいグループ
+let F4, ground;
 // playAnimation関数
 let currentAction = null;
 let objectToHide = null;
@@ -74,15 +75,9 @@ function playAnimation(name) {
             const clips = gltf.animations; // アニメーションクリップを取得
             window.removeEventListener('dblclick', onMouseClick);
 
-            moveCamera('home', 2, "power1.in");
+            moveHomePosition(2, "power1.in", true, 1);
 
-            floor1Group.visible = true;
-            floor2Group.visible = true;
-            floor3Group.visible = true;
-            
-            moveObject(floor1ClassGroup, 1, 1, 1, 0);
-            moveObject(floor2ClassGroup, 1, 1, 1, 0);
-            moveObject(floor3ClassGroup, 1, 1, 1, 0);
+            moveCamera('home', 2, "power1.in");
 
             //クラスをほんのり透明に
             changeTransparent(floor1ClassGroup, 0.1);
@@ -155,7 +150,7 @@ function playAnimation(name) {
 // GLTFモデルのロード
 const loader = new THREE.GLTFLoader();
 loader.load(
-    'models/souzou3.glb',
+    'models/souzou6.glb',
     function (gltf) {
         // const groupedModel = createGroupedModel(gltf); // グループ化されたモデルを取得
         originalModel = gltf.scene; //読み込んだモデルの取得
@@ -171,21 +166,21 @@ loader.load(
 
         const objectsFloor1 = ['1_1', '1_2', '1_3', '1_4', '1_men', '1_women', '1_other'];
         addGroup(floor1ClassGroup, objectsFloor1, gltf);
-        const objectsAllFloor1 = ['F1', 'Stair1', 'hito', 'kanban'];
+        const objectsAllFloor1 = ['F1', 'Stair1', 'hito', 'kanban', 'monitor'];
         floor1Group.add(floor1ClassGroup);
         addGroup(floor1Group, objectsAllFloor1, gltf);
     
         // 2階のオブジェクトを2階のグループに追加
-        const objectsFloor2 = ['2_1', '2_2', '2_3', '2_4', '2_5', '2_men', '2_women', '2_other', 'zinja'];
+        const objectsFloor2 = ['2_1', '2_2', '2_3', '2_4', '2_5', '2_6', '2_men', '2_women', '2_other', 'zinja'];
         addGroup(floor2ClassGroup, objectsFloor2, gltf);
-        const objectsAllFloor2 = ['F2', 'Stair2'];
+        const objectsAllFloor2 = ['F2', 'Stair2', '2_fence', '2_tables', '2_kanban'];
         floor2Group.add(floor2ClassGroup);
         addGroup(floor2Group, objectsAllFloor2, gltf);
     
         // 3階のオブジェクトを3階のグループに追加
         const objectsFloor3 = ['3_1', '3_2', '3_3', '3_4', '3_5', '3_6', '3_men', '3_women', '3_other'];
         addGroup(floor3ClassGroup, objectsFloor3, gltf);
-        const objectsAllFloor3 = ['F3', 'Stair3'];
+        const objectsAllFloor3 = ['F3', 'Stair3', '3_fence', '3_tables', '3_kanban'];
         floor3Group.add(floor3ClassGroup);
         addGroup(floor3Group, objectsAllFloor3, gltf);
 
@@ -207,6 +202,10 @@ loader.load(
         moveObject(floor1ClassGroup, 1, 0, 1, 0);
         moveObject(floor2ClassGroup, 1, 0, 1, 0);
         moveObject(floor3ClassGroup, 1, 0, 1, 0);
+
+        F4 = gltf.scene.getObjectByName('F4');
+        ground = gltf.scene.getObjectByName('ground');
+        changeTransparent(F4, 0.5);
         
         const clickable = Object.keys(Info); // クリック可能なオブジェクト名のリスト
 
@@ -282,7 +281,6 @@ function onMouseClick(event) {
 
             //クラスを選択
             const worldPosition = new THREE.Vector3();
-            let objectClass;
             intersectedObject.getWorldPosition(worldPosition);
             console.log(intersectedObject.parent.name); // ワールド座標を出力
             showInfoBox(intersectedObject.parent.name);
@@ -291,13 +289,8 @@ function onMouseClick(event) {
     }
     else {
         console.log("ぱあ");
-        floor1Group.visible = true;
-        floor2Group.visible = true;
-        floor3Group.visible = true;
-        moveCamera('home', 2, "power1.out");
-        moveObject(floor1ClassGroup, 1, 0, 1, 0.3);
-        moveObject(floor2ClassGroup, 1, 0, 1, 0.3);
-        moveObject(floor3ClassGroup, 1, 0, 1, 0.3);
+        moveHomePosition(2, "power1.out", true, 0);
+        hideInfoBox();
     }
 
 
@@ -312,7 +305,7 @@ function getQueryParam(param) {
 // ページがロードされたときにクエリパラメータを取得して showInfoBox 関数を呼び出す
 window.onload = function() {
     let classId = getQueryParam('id');
-    //とても汚い方法です
+    //とても汚い方法です。gsapで0.2秒待つことによってgltfのロードを待っています。awaitとか使えるのかな?
     if (classId !== null) {
         moveCamera('home', 0, "power1.out");
         gsap.to({}, {
@@ -350,8 +343,8 @@ function showInfoBox(name) {
     infoBox.innerHTML = `<strong>モデル名:</strong> ${name}<br><strong>情報:</strong><br> ${info}<br> 
     <button id="animation">経路選択</button>
     `;
-     // ボタンのクリックイベントを設定
-     document.getElementById('animation').addEventListener('click', () => playAnimation(name));
+    // ボタンのクリックイベントを設定
+    document.getElementById('animation').addEventListener('click', () => playAnimation(name));
      
     infoBox.style.display = 'block';
     moveCamera(name, 1.5, "power1.out");
@@ -403,6 +396,7 @@ function changeFloor(selectedFloor) {
     floor1Group.visible = false;
     floor2Group.visible = false;
     floor3Group.visible = false;
+    F4.visible = false;
     selectedFloor.visible = true;
     // moveObject(selectedFloor, 2, 2, 2, 1);
     console.log("selectedFloor = "+ selectedFloor);
@@ -435,6 +429,18 @@ function showFloor(name) {
             break;
     }
     changeFloor(selectedFloor);
+}
+
+//ホームポジションに戻る
+function moveHomePosition(duration, ease, isVisible, scale) {
+    floor1Group.visible = isVisible;
+    floor2Group.visible = isVisible;
+    floor3Group.visible = isVisible;
+    F4.visible = isVisible;
+    moveCamera('home', duration, ease);
+    moveObject(floor1ClassGroup, 1, scale, 1, 0.3);
+    moveObject(floor2ClassGroup, 1, scale, 1, 0.3);
+    moveObject(floor3ClassGroup, 1, scale, 1, 0.3);
 }
 
 //カメラを動かす

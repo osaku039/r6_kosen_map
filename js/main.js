@@ -49,7 +49,7 @@ const loader = new THREE.GLTFLoader();
 const clock = new THREE.Clock(); // Clockを定義
 
 loader.load(
-    'models/zentai2.glb',
+    'models/zentai3.glb',
     function (gltf) {
         originalModel = gltf.scene;
         scene.add(originalModel);

@@ -97,3 +97,7 @@ button:hover {
     border-radius: 0.5rem;
     
 }
+
+.css2dRenderer {
+    pointer-events: none;
+}

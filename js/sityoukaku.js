@@ -77,6 +77,8 @@ loader.load(
         // earthLabel.layers.set( 0 );
         scene.add(earthLabel);
 
+        labelRenderer.domElement.style.pointerEvents = 'none';
+
         document.body.appendChild( labelRenderer.domElement );
 
         // // クリック可能なオブジェクトをリストに追加

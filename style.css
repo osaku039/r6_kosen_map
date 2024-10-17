@@ -102,4 +102,6 @@ button:hover {
     font-style: normal;
 }
 
-
+.css2dRenderer {
+    pointer-events: none;
+}

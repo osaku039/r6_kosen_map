@@ -9,12 +9,23 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=DotGothic16&family=Londrina+Sketch&family=Sixtyfour+Convergence&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    <script type="importmap">
+        {
+          "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.module.js",
+            "CSS2DRenderer": "https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/renderers/CSS2DRenderer.js",
+            "gsap": "https://cdn.jsdelivr.net/npm/gsap@3.11.0/index.js",
+            "GLTFLoader": "https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/loaders/GLTFLoader.js",
+            "OrbitControls": "https://cdn.jsdelivr.net/npm/three@0.167.0/examples/jsm/controls/OrbitControls.js"
+          }
+        }
+        </script>
 </head>
 <body>
     <div class="button-container">
         <div class="text"><p>モデルをタップしてみてください！</p><br></div>
         <button onclick="location.href='sityoukaku.html'" class="orange">sityo-kaku</button>
-        <button onclick="location.href='taiikukan.html'" class="yellow">tai-kukan</button>
+        <button onclick="location.href='gym.html'" class="yellow">tai-kukan</button>
         <button onclick="location.href='souzou.html'" class="orange">創造実践棟</button>
         <button onclick="location.href='yatai.html'" class="yellow">123yatai567</button>
         <!-- ここに20個のボタンを追加できます -->
@@ -24,15 +35,15 @@
             <!---多分大事変更しないでください-->
             <div id="container"></div>
             <!-- Three.jsライブラリ -->
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script> -->
             <!-- GLTFLoader -->
-            <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+            <!-- <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script> -->
             <!-- OrbitControls -->
-            <script src="js/OrbitControls.js"></script>
+            <!-- <script src="js/OrbitControls.js"></script> -->
             <!-- GSAPライブラリ -->
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script>
+            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script> -->
             <!-- メインスクリプト -->
-            <script src="js/sityoukaku.js"></script>
+            <script type="module" src="js/sityoukaku.js"></script>
         </div>
         
         <div class="select-button">

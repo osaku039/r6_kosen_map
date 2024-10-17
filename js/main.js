@@ -48,7 +48,7 @@ let floorGroup = new THREE.Group();
 const loader = new THREE.GLTFLoader();
 
 loader.load(
-    'models/zentai.glb',
+    'models/zentai2.glb',
     function (gltf) {
         originalModel = gltf.scene;
         scene.add(originalModel);

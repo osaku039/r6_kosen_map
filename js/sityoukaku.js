@@ -24,16 +24,17 @@ labelRenderer.setSize( window.innerWidth, window.innerHeight );
 labelRenderer.domElement.style.position = 'absolute';
 labelRenderer.domElement.style.top = '0px';
 
+document.getElementById('container').appendChild(labelRenderer.domElement);
 
 renderer.setClearColor(0xfff2b9); //背景色
 
 
 
-// // OrbitControlsのセットアップ      ...カメラの動きを制御するやつ。いらない
-// const controls = new OrbitControls(camera, labelRenderer.domElement);
-// controls.enableDamping = true;
-// controls.dampingFactor = 0.25;
-// controls.screenSpacePanning = false;
+// OrbitControlsのセットアップ      ...カメラの動きを制御するやつ。いらない
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.25;
+controls.screenSpacePanning = false;
 
 
 // 光源の追加
@@ -120,7 +121,7 @@ function animate() {
         }
     });
 
-    // controls.update();      //カメラの動き要らないから削除して
+    controls.update();      //カメラの動き要らないから削除して
     renderer.render(scene, camera);
     labelRenderer.render(scene, camera); // CSS2DRendererを更新
     // console.log(camera.position);
@@ -132,6 +133,7 @@ const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
 function onMouseClick(event) {
+    console.log("click");
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
@@ -167,3 +169,13 @@ window.addEventListener('resize', () => {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
+controls.domElement.addEventListener('touchstart', function(event) {
+    console.log('Touch start detected');
+}, { passive: false });
+
+// controls.domElement.addEventListener('touchstart', function(event) {
+//     event.preventDefault();  // この行でタッチ時のスクロールを防ぎます
+//     // タッチイベントに応じたカスタムロジックを追加できます
+// }, { passive: false });
+

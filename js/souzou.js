@@ -337,6 +337,7 @@ window.onload = function() {
     
 //クリックされたオブジェクトの情報を表示
 function showInfoBox(name) {
+    console.log(name + "showInfoBox");
     isShowInfo = true;
     const infoBox = document.getElementById('infoBox');
     const info = Info[name]['description'] || '情報が見つかりません'; // オブジェクトの情報を取得

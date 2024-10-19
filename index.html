@@ -1,26 +1,71 @@
 <!DOCTYPE html>
 <html lang="jp">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css"><!---cssファイルとの紐づけ。任意のファイルに変更してください。-->
-    <title>3D Model Click Example</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css"><!---cssファイルとの紐づけ。任意のファイルに変更してください。-->
+        <title>3D Model Click Example</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=DotGothic16&family=Londrina+Sketch&family=Sixtyfour+Convergence&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div class = button-container>
-        <div class="text"><p>モデルをタップしてみてください！</p><br></div>
-        <div class="button-top">
-            <button onclick="location.href='sityoukaku.html'" class="orange">sityo-kaku</button>
-            <button onclick="location.href='gym.html'" class="yellow">tai-kukan</button>
-            <button onclick="location.href='souzou.html'" class="orange">創造実践棟</button>
-            <button onclick="location.href='yatai.html'" class="yellow">123yatai567</button>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=DotGothic16&family=Londrina+Sketch&family=Sixtyfour+Convergence&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+        <style>
+            #overlay-text {
+                position: absolute;
+                top: 0px;
+                left: 50%;
+                transform: translateX(-50%);
+                color: rgb(68, 46, 10);
+                font-size: 40px;
+                z-index: 1;
+                pointer-events: none; /* テキストがクリックに干渉しないように */
+                margin-top: 30px;
+                background-color: transparent !important; /* 背景を透明に */
+
+                animation: moveUpDown 2s ease-in-out infinite;  /* アニメーションの追加 */
+            }
+
+            /*頑張って跳ねる文字*/
+            @keyframes moveUpDown { 
+                0% {
+                    transform: translate(-50%, 0);  /* 中央 */
+                }
+                30% {
+                    transform: translate(-50%, 4px);  /* 下に移動 */
+                }
+                50% {
+                    transform: translate(-50%, -3px);  /* 上に移動 */
+                }
+                80% {
+                    transform: translate(-50%, 8px);  /* 帰る */
+                }
+                100% {
+                    transform: translate(-50%, 0);  /* 中央 */
+                }
+            }
+
+            canvas {
+                display: block;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class=canvas-container>
+            <div id="overlay-text">こんちはー, Three.js!</div>
+            <canvas id="threejs-canvas"></canvas>
         </div>
-    </div>
-    <!--div class="button-container">
+
+        <div class = button-container>
+            <div class="button-top">
+                <button onclick="location.href='souzou.html'" class="orange">創造実践棟</button>
+                <button onclick="location.href='yatai.html'" class="yellow">屋台</button>
+                <button onclick="location.href='sityoukaku.html'" class="orange">視聴覚ホール</button>
+                <button onclick="location.href='gym.html'" class="yellow">体育館</button>
+            </div>
+        </div>
+        <!--div class="button-container">
         <div class="button-top">
             <button onclick="location.href='sityoukaku.html'" class="orange">視聴覚</button>
             <button onclick="location.href='souzou.html?id=1_1'" class="yellow">1-1</button>
@@ -47,23 +92,22 @@
             <button onclick="location.href='yatai.html'" class="orange">5-4</button>
         </div-->
         <!-- ここに20個のボタンを追加できます -->
-    </div>
-    <div class="base">
-        <div class="model">
-            <!---多分大事変更しないでください-->
-            <div id="container"></div>
-            <!-- Three.jsライブラリ -->
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-            <!-- GLTFLoader -->
-            <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-            <!-- OrbitControls -->
-            <script src="js/OrbitControls.js"></script>
-            <!-- GSAPライブラリ -->
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script>
-            <!-- メインスクリプト -->
-            <script src="js/main.js"></script>
+
+        <div class="base">
+            <div class="model">
+                <!---多分大事変更しないでください-->
+                <div id="container"></div>
+                <!-- Three.jsライブラリ -->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+                <!-- GLTFLoader -->
+                <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+                <!-- OrbitControls -->
+                <script src="js/OrbitControls.js"></script>
+                <!-- GSAPライブラリ -->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script>
+                <!-- メインスクリプト -->
+                <script src="js/main.js"></script>
+            </div>
         </div>
-        
-    </div>
-</body>
+    </body>
 </html>

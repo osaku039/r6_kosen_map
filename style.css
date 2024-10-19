@@ -1,10 +1,17 @@
-/*@import url('https://fonts.googleapis.com/css2?family=Amatic+SC&display=swap');*/
-
 
 body {
     margin: 0;
     overflow: hidden;
-    /* sans-serif, "ヒラギノ丸ゴ Pro W4", 'Caveat', cursive */
+    
+    font-family: "DotGothic16", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.canvas-container {
+    position: fixed;
+    width: 100%;
+    /*padding: 10px;*/
 }
 
 .text {
@@ -28,8 +35,11 @@ body {
 }
 
 .button-top button, .button-bottom button {
-    width: calc(5% - 10px); /* ボタン幅を画面幅の10%にし、マージンを考慮 */
-    margin: 15px; /* ボタン間に5pxの余白を設定 */
+    width: calc(12% - 10px); /* ボタン幅を画面幅の10%にし、マージンを考慮 */
+    margin-left: 42px; /* ボタン間に5pxの余白を設定 */
+    margin-right: 42px;
+    margin-top: 16px;
+    margin-bottom: 12px;
     padding: 10px;
     /*ont-size: 16px;*/
     text-align: center;

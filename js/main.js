@@ -5,16 +5,17 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
     43, window.innerWidth / window.innerHeight, 0.1, 1000
 );
-camera.position.set(90, 30, 101);  // カメラを正面に固定
-//camera.position.set(-30, 10, 0);    //テスト用
-camera.lookAt(0, -10, -10);  // カメラをシーンの中心に向ける
-//camera.lookAt(20, -5, -20); //テスト用
+camera.position.set(70, 40, 121);//私が好きな位置
+//camera.position.set(90, 30, 101);  // カメラを正面に固定
+camera.lookAt(30, 30, 30);  // カメラをシーンの中心に向ける
 const renderer = new THREE.WebGLRenderer({antialias: true,});
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById('container').appendChild(renderer.domElement);
 
 renderer.setClearColor(0xfff2b9); //背景色
+renderer.render(scene, camera);
 
+console.log(camera.lookAt);
 
 
 // OrbitControlsのセットアップ      ...カメラの動きを制御するやつ。いらない
@@ -39,9 +40,6 @@ let newModel;
 let clickableObjects = []; // クリック可能なオブジェクトのリスト
 
 
-console.log(originalModel); // モデル内のオブジェクトの確認
-
-
 
 let floorGroup = new THREE.Group();
 // GLTFモデルのロード
@@ -53,6 +51,9 @@ loader.load(
         originalModel = gltf.scene;
         scene.add(originalModel);
         console.log('Original model loaded'); // ロード成功ログ
+        console.log(gltf.scene);  // シーン内のオブジェクト全体を出力
+
+        console.log(originalModel); // モデル内のオブジェクトの確認
 
         const objectList = ['building', 'piano', 'yatai'];
         // const floor = ['F1', 'F2', 'F3', 'F4'];
@@ -124,6 +125,9 @@ function animate() {
             obj.position.y += 0.01;
         }
     });
+
+    //文字(※レンダリングが上手くいってない)
+    document.getElementById('overlay-text').innerText = '高専祭へようこそ！！';
 
     //controls.update();      //カメラの動き要らないから削除して
     renderer.render(scene, camera);

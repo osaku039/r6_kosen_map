@@ -3,7 +3,7 @@ export const Info = {
     'home':{
         "description":"homePosition",
         "Position":[0,12,0],
-        "cameraPosition":[0, 70, 120],
+        "cameraPosition":[0, 80, 150],
         "animationFile":"",
     },
     //１階
@@ -79,6 +79,12 @@ export const Info = {
         "description":"説明さ",
         "Position":[5,20.25,-6],
         "cameraPosition":[5,20.25,-32.1],
+        "animationFile":'animation/animate2_5.glb',
+    },
+    '2_6':{
+        "description":"説明さ",
+        "Position":[-2.3,20.25,-6],
+        "cameraPosition":[-2.3,20.25,-31],
         "animationFile":'animation/animate2_5.glb',
     },
     'zinja':{

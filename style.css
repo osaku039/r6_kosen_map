@@ -1,12 +1,17 @@
-/*@import url('https://fonts.googleapis.com/css2?family=Amatic+SC&display=swap');*/
 
 body {
-    font-family: "Afacad Flux", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 5;
+    margin: 0;
+    overflow: hidden;
+    
+    font-family: "DotGothic16", sans-serif;
+    font-weight: 400;
     font-style: normal;
-    font-variation-settings: "slnt" 0;
-    /* sans-serif, "ヒラギノ丸ゴ Pro W4", 'Caveat', cursive */
+}
+
+.canvas-container {
+    position: fixed;
+    width: 100%;
+    /*padding: 10px;*/
 }
 
 .text {
@@ -31,7 +36,23 @@ body {
 
 .button-top button, .button-bottom button {
     width: calc(5% - 10px); /* ボタン幅を画面幅の10%にし、マージンを考慮 */
-    margin: 15px; /* ボタン間に5pxの余白を設定 */
+    margin-left: 15px; /* ボタン間に5pxの余白を設定 */
+    margin-right: 15px;
+    margin-top: 16px;
+    margin-bottom: 12px;
+    padding: 10px;
+    /*ont-size: 16px;*/
+    text-align: center;
+    height: 40px;
+    border-radius: 3vh;
+}
+
+.index_button-top button, .index_button-bottom button {
+    width: calc(12% - 10px); /* ボタン幅を画面幅の10%にし、マージンを考慮 */
+    margin-left: 42px; /* ボタン間に5pxの余白を設定 */
+    margin-right: 42px;
+    margin-top: 16px;
+    margin-bottom: 12px;
     padding: 10px;
     /*ont-size: 16px;*/
     text-align: center;
@@ -72,6 +93,9 @@ button:hover {
     color: #212529;
     border-radius: 0.5rem;
     
+    font-family: "DotGothic16", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .yellow {
@@ -96,4 +120,11 @@ button:hover {
     color: #212529;
     border-radius: 0.5rem;
     
+    font-family: "DotGothic16", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.css2dRenderer {
+    pointer-events: none;
 }

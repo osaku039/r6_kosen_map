@@ -5,12 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css"><!---cssファイルとの紐づけ。任意のファイルに変更してください。-->
     <title>3D Model Click Example</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=DotGothic16&family=Londrina+Sketch&family=Sixtyfour+Convergence&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="infoBox"></div> <!-- 吹き出し用のdivを追加 -->
     <div class="button-container">
         <div class="text"><p>モデルをタップしてみてください！</p><br></div>
         <button onclick="location.href='sityoukaku.html'" class="orange">sityo-kaku</button>
-        <button onclick="location.href='taiikukan.html'" class="yellow">tai-kukan</button>
+        <button onclick="location.href='gym.html'" class="yellow">tai-kukan</button>
         <button onclick="location.href='souzou.html'" class="orange">創造実践棟</button>
         <button onclick="location.href='yatai.html'" class="yellow">123yatai567</button>
         <!-- ここに20個のボタンを追加できます -->
@@ -28,7 +33,7 @@
             <!-- GSAPライブラリ -->
             <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script>
             <!-- メインスクリプト -->
-            <script src="js/taiikukan.js"></script>
+            <script src="js/gym.js"></script>
         </div>
         
         <div class="select-button">

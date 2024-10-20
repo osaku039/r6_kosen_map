@@ -346,9 +346,30 @@ window.onload = function() {
 function showInfoBox(name) {
     isShowInfo = true;
     const infoBox = document.getElementById('infoBox');
+    const showClass = Info[name]['className'] || 'クラス名が見つかりません'; //クラス名を取得
     const info = Info[name]['description'] || '情報が見つかりません'; // オブジェクトの情報を取得
-    infoBox.innerHTML = `<strong>モデル名:</strong> ${name}<br><strong>情報:</strong><br> ${info}<br> 
-    <button id="animation">経路選択</button>
+    infoBox.innerHTML = `
+        <strong>${showClass}</strong>
+        <div class="card">
+            <img src="class-img/1-1.jpg"><br>
+        </div>
+        <strong>${info}</strong>
+        <button id="animation">経路選択</button>
+        <style>
+            .card img{
+                padding-top: (3/4*100%);
+                position: relative;
+            }
+            img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+        </style>
+
     `;
      // ボタンのクリックイベントを設定
      document.getElementById('animation').addEventListener('click', () => playAnimation(name));

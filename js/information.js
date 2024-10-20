@@ -14,6 +14,7 @@ export const Info = {
         "animationFile":"",
     },
     '1_1':{
+        "className":"1年1組",
         "description":"説明さ",
         "Position":[-20,-0.9,5],
         "cameraPosition":[-20,-0.9,30],

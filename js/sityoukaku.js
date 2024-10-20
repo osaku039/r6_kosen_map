@@ -29,12 +29,12 @@ renderer.setClearColor(0xfff2b9); //背景色
 
 
 
-// OrbitControlsのセットアップ      ...カメラの動きを制御するやつ。いらない
-// const controls = new OrbitControls(camera, labelRenderer.domElement);
-const controls = new THREE.OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor = 0.25;
-controls.screenSpacePanning = false;
+// // OrbitControlsのセットアップ      ...カメラの動きを制御するやつ。いらない
+// // const controls = new OrbitControls(camera, labelRenderer.domElement);
+// const controls = new THREE.OrbitControls(camera, renderer.domElement);
+// controls.enableDamping = true;
+// controls.dampingFactor = 0.25;
+// controls.screenSpacePanning = false;
 
 
 // 光源の追加
@@ -78,7 +78,7 @@ loader.load(
         // // earthLabel.layers.set( 0 );
         // scene.add(earthLabel);
 
-        labelRenderer.domElement.style.pointerEvents = 'none';
+        // labelRenderer.domElement.style.pointerEvents = 'none';
 
         // document.body.appendChild( labelRenderer.domElement );
 
@@ -121,7 +121,7 @@ function animate() {
         }
     });
 
-    controls.update();      //カメラの動き要らないから削除して
+    // controls.update();      //カメラの動き要らないから削除して
     renderer.render(scene, camera);
     // labelRenderer.render(scene, camera); // CSS2DRendererを更新
     // console.log(camera.position);

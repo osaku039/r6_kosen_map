@@ -1,4 +1,5 @@
 import { locateInfo } from './locateInformation.js';
+import { classInfo } from './classInformation.js';
 console.log('main.js is loaded'); // ファイルロード確認用のログ
 
 // シーン、カメラ、レンダラーのセットアップ

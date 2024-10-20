@@ -343,8 +343,18 @@ window.onload = function() {
 function showInfoBox(name) {
     isShowInfo = true;
     const infoBox = document.getElementById('infoBox');
-    const info = locateInfo[name]['description'] || '情報が見つかりません'; // オブジェクトの情報を取得
-    infoBox.innerHTML = `<strong>モデル名:</strong> ${name}<br><strong>情報:</strong><br> ${info}<br> 
+    const classId = locateInfo[name]['class'];
+    const className = classInfo[classId]['className'];
+    const program = classInfo[classId]['program'];
+    const category = classInfo[classId]['category'];
+    const comment = classInfo[classId]['comment'];
+    const iconFile = classInfo[classId]['iconFile'];
+    infoBox.innerHTML = 
+    `<strong>クラス:</strong> ${className}<br>
+    <strong>企画:</strong>${program}<br>
+    <strong>カテゴリー:</strong>${category}<br>
+    <strong>1言コメント:</strong><br>${comment}<br>
+    <p><img src=${iconFile} alt="icon"></p>
     <button id="animation">経路選択</button>
     `;
     // ボタンのクリックイベントを設定

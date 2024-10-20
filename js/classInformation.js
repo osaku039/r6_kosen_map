@@ -1,5 +1,5 @@
 // オブジェクトの情報
-export const classNameInfo = {
+export const classInfo = {
     '1-1':{
         "className":"1年1組",
         "program":"1-1が縁日、やるってよ。",

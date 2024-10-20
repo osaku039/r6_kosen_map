@@ -57,6 +57,8 @@ let currentAction = null;
 let objectToHide = null;
 gsap.registerPlugin(CSSPlugin); //gsapのやつ
 
+const locationText = document.getElementById('location-text');
+
 //経路選択のアニメーション
 function playAnimation(name) {
     const glbFileName = Info[name]['animationFile'] || '';
@@ -276,6 +278,7 @@ function onMouseClick(event) {
 
             moveCamera(intersectedObject.parent.name, 1.5, "power1.out");
             showFloor(intersectedObject.parent.name);
+            changeLocationText(intersectedObject.parent.name);
         }
         else{
 
@@ -348,12 +351,17 @@ function showInfoBox(name) {
      
     infoBox.style.display = 'block';
     moveCamera(name, 1.5, "power1.out");
+    changeLocationText(name);
 }
 
 // InfoBox を非表示にする関数
 function hideInfoBox() {
     const infoBox = document.getElementById('infoBox');
     infoBox.style.display = 'none'; // 非表示にする
+}
+
+function changeLocationText(name) {
+    locationText.innerHTML = Info[name]['locationText'] || '情報が見つかりません';
 }
 
 
@@ -399,7 +407,7 @@ function changeFloor(selectedFloor) {
     F4.visible = false;
     selectedFloor.visible = true;
     // moveObject(selectedFloor, 2, 2, 2, 1);
-    console.log("selectedFloor = "+ selectedFloor);
+    console.log("selectedFloor = "+ selectedFloor.name);
 }
 
 //Floorを出す
@@ -441,6 +449,7 @@ function moveHomePosition(duration, ease, isVisible, scale) {
     moveObject(floor1ClassGroup, 1, scale, 1, 0.3);
     moveObject(floor2ClassGroup, 1, scale, 1, 0.3);
     moveObject(floor3ClassGroup, 1, scale, 1, 0.3);
+    changeLocationText('home');
 }
 
 //カメラを動かす
@@ -453,13 +462,13 @@ function moveCamera(name, duration, ease) {
     console.log("x:"+cameraPositionValue[0]);
     //配列を座標に変換
     cameraPosition = new THREE.Vector3(
-        cameraPositionValue[0], 
-        cameraPositionValue[1], 
+        cameraPositionValue[0],
+        cameraPositionValue[1],
         cameraPositionValue[2]
     );
     targetPosition = new THREE.Vector3(
-        parseFloat(targetPositionValue[0]), 
-        parseFloat(targetPositionValue[1]), 
+        parseFloat(targetPositionValue[0]),
+        parseFloat(targetPositionValue[1]),
         parseFloat(targetPositionValue[2])
     );
     // GSAPのタイムラインを使って、カメラの移動と視点の移動を同時に行う

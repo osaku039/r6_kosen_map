@@ -1,5 +1,5 @@
 // オブジェクトの情報
-export const Info = {
+export const locateInfo = {
     'home':{
         "description":"homePosition",
         "Position":[0,12,0],

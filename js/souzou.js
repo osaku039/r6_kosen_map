@@ -1,4 +1,4 @@
-import { Info } from './information.js';
+import { locateInfo } from './locateInformation.js';
 console.log('main.js is loaded'); // ファイルロード確認用のログ
 
 // シーン、カメラ、レンダラーのセットアップ
@@ -61,7 +61,7 @@ const locationText = document.getElementById('location-text');
 
 //経路選択のアニメーション
 function playAnimation(name) {
-    const glbFileName = Info[name]['animationFile'] || '';
+    const glbFileName = locateInfo[name]['animationFile'] || '';
 
     // GLTFLoaderを使用してGLBファイルを読み込む
     const loader = new THREE.GLTFLoader();
@@ -209,7 +209,7 @@ loader.load(
         ground = gltf.scene.getObjectByName('ground');
         changeTransparent(F4, 0.5);
         
-        const clickable = Object.keys(Info); // クリック可能なオブジェクト名のリスト
+        const clickable = Object.keys(locateInfo); // クリック可能なオブジェクト名のリスト
 
         clickable.forEach(name => {
             const clickableObject = scene.getObjectByName(name);
@@ -342,7 +342,7 @@ window.onload = function() {
 function showInfoBox(name) {
     isShowInfo = true;
     const infoBox = document.getElementById('infoBox');
-    const info = Info[name]['description'] || '情報が見つかりません'; // オブジェクトの情報を取得
+    const info = locateInfo[name]['description'] || '情報が見つかりません'; // オブジェクトの情報を取得
     infoBox.innerHTML = `<strong>モデル名:</strong> ${name}<br><strong>情報:</strong><br> ${info}<br> 
     <button id="animation">経路選択</button>
     `;
@@ -361,7 +361,7 @@ function hideInfoBox() {
 }
 
 function changeLocationText(name) {
-    locationText.innerHTML = Info[name]['locationText'] || '情報が見つかりません';
+    locationText.innerHTML = locateInfo[name]['locationText'] || '情報が見つかりません';
 }
 
 
@@ -370,7 +370,7 @@ function moveObject(group, x, y, z, duration) {
     console.log(group.name);
     console.log(group.children); // childrenのコピーを表示
     var floor = 'F' + group.children[0].name.charAt(0);
-    var originalPosition = Info[floor]['Position'] || 0;
+    var originalPosition = locateInfo[floor]['Position'] || 0;
     var originalYPosition = originalPosition[1];
     console.log("floor"+ floor + "\noriginal" + originalYPosition);
 
@@ -457,8 +457,8 @@ function moveCamera(name, duration, ease) {
     console.log(name);
     let cameraPosition;
     let targetPosition;
-    const cameraPositionValue = Info[name]['cameraPosition'] || [0,0,0]; // オブジェクトの情報を取得
-    const targetPositionValue = Info[name]['Position'] || [0,0,0];
+    const cameraPositionValue = locateInfo[name]['cameraPosition'] || [0,0,0]; // オブジェクトの情報を取得
+    const targetPositionValue = locateInfo[name]['Position'] || [0,0,0];
     console.log("x:"+cameraPositionValue[0]);
     //配列を座標に変換
     cameraPosition = new THREE.Vector3(

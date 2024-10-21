@@ -16,9 +16,17 @@ const camera = new THREE.PerspectiveCamera(
 let firstTargetPosition = new THREE.Vector3(-0.66, 0, 0);
 camera.position.set(-0.66, 0, 1); //カメラの位置
 // camera.lookAt(targetPositionValue); //カメラの見る方向
+
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight); //画面サイズ
 document.getElementById('container').appendChild(renderer.domElement); //レンダラーをHTMLに追加
+
+const labelRenderer = new CSS2DRenderer();
+labelRenderer.setSize( window.innerWidth, window.innerHeight );
+labelRenderer.domElement.style.position = 'absolute';
+labelRenderer.domElement.style.top = '0px';
+
+document.getElementById('container').appendChild(labelRenderer.domElement);
 
 // renderer.setClearColor(0xfff2b9);  //背景色の追加
 renderer.setClearColor(0xffe271);  //背景色の追加
@@ -30,7 +38,6 @@ const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true; //カメラの動きをなめらかに
 controls.dampingFactor = 0.1; //なめらかさの度合い
 // controls.screenSpacePanning = false; //パンの無効化
-// // controls.enablePan = false; //パンを禁止
 // controls.maxPolarAngle = Math.PI * 0.33;//カメラ最大値を0.33に
 // controls.minPolarAngle = Math.PI * 0.33;//カメラ最小値を0.33に
 controls.maxPolarAngle = Math.PI * 0.5;
@@ -214,6 +221,12 @@ loader.load(
         F4 = gltf.scene.getObjectByName('F4');
         ground = gltf.scene.getObjectByName('ground');
         changeTransparent(F4, 0.5);
+
+        createCSS2D('現在地', 0, 5, 0,);
+        
+        labelRenderer.domElement.style.pointerEvents = 'none';
+
+        document.body.appendChild( labelRenderer.domElement );
         
         const clickable = Object.keys(locateInfo); // クリック可能なオブジェクト名のリスト
 
@@ -242,6 +255,23 @@ function addGroup(Group, list, gltf) {
     });
 }
 
+function createCSS2D(text, x, y, z) {
+    
+    const dom = document.createElement( 'div' );
+    dom.className = 'label';
+    dom.textContent = text;
+    dom.style.backgroundColor = 'transparent';
+
+    const domLabel = new CSS2DObject( dom );
+    console.log(domLabel); // earthLabelの全プロパティを確認
+    domLabel.position.set( x, y, z);
+    console.log(domLabel.position); // これが正しいオブジェクトか確認
+    // domLabel.center.set( 0, 1 );
+    domLabel.layers.set( 2 );
+
+    scene.add(domLabel);
+}
+
 
 // アニメーション対象のオブジェクト
 const animatedObjects = [];
@@ -255,6 +285,7 @@ function animate() {
     
     controls.update(); //カメラのコントロールを更新
     renderer.render(scene, camera); //シーンを描画
+    labelRenderer.render(scene, camera); // CSS2DRendererを更新
     // console.log(camera.position);
 }
 animate(); //アニメーション開始
@@ -312,8 +343,6 @@ function onMouseClick(event) {
         moveHomePosition(2, "power1.out", true, 0);
         hideInfoBox();
     }
-
-
 }
 
 // URLからクエリパラメータを取得する関数

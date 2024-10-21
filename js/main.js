@@ -55,7 +55,7 @@ loader.load(
 
         console.log(originalModel); // モデル内のオブジェクトの確認
 
-        const objectList = ['building', 'piano', 'yatai'];
+        const objectList = ['building', 'piano', 'yatai', 'gym'];
         // const floor = ['F1', 'F2', 'F3', 'F4'];
 
         // floor.forEach(name => {
@@ -126,10 +126,11 @@ function animate() {
         }
     });
 
-    //文字(※レンダリングが上手くいってない)
+    //ようこそ文字
     document.getElementById('overlay-text').innerText = '高専祭へようこそ！！';
+    document.getElementById('guide').innerText = 'モデルをタップしてみてください！';
 
-    //controls.update();      //カメラの動き要らないから削除して
+    // controls.update();      //カメラの動き要らないから削除して
     renderer.render(scene, camera);
     // console.log(camera.position);
 }
@@ -161,12 +162,26 @@ function onMouseClick(event) {
 
 function movePage(name, object) {
     console.log("move");
+
+    //ようこそのテキストを非表示にする
+    const welcomeText = document.getElementById('overlay-text');
+    const guideText = document.getElementById('guide');
+
+    if (welcomeText) {
+        welcomeText.style.display = 'none';
+        guideText.style.display = 'none';
+        console.log("welcomeText is now hidden.");
+    } 
+    else {
+        console.log("welcomeText not found.");
+    }
+
     switch (name){
         case 'building':
             link = "./souzou.html";
             firstPosition = [-1.74,-1.5,138.5];
             secondPosition = [-1.74,-1.5,55];
-            // secondPosition = [-1.74,-1.5,4.10];
+            // secondPosition = [-1.74,-1.5,0];
             break;
         case 'piano':
             link = "./sityoukaku.html";
@@ -175,8 +190,13 @@ function movePage(name, object) {
             break;
         case 'yatai':
             link = "./yatai.html";
-            firstPosition = [66.46, 8.12, 40.37];
+            firstPosition = [66.46, 18.12, 50.37];
             secondPosition = [66.66, 0, 16.30];
+            break;
+        case 'gym':
+            link = "./gym.html";
+            firstPosition = [4.7, 30.12, 35.37];
+            secondPosition = [2.7, 29, 30];
             break;
     }
     moveCamera(firstPosition, secondPosition, link, object);

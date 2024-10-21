@@ -1,4 +1,5 @@
-import { Info } from './information.js';
+import { locateInfo } from './locateInformation.js';
+import { classInfo } from './programInformation.js';
 console.log('main.js is loaded'); // ファイルロード確認用のログ
 
 // シーン、カメラ、レンダラーのセットアップ
@@ -57,9 +58,11 @@ let currentAction = null;
 let objectToHide = null;
 gsap.registerPlugin(CSSPlugin); //gsapのやつ
 
+const locationText = document.getElementById('location-text');
+
 //経路選択のアニメーション
 function playAnimation(name) {
-    const glbFileName = Info[name]['animationFile'] || '';
+    const glbFileName = locateInfo[name]['animationFile'] || '';
 
     // GLTFLoaderを使用してGLBファイルを読み込む
     const loader = new THREE.GLTFLoader();
@@ -207,7 +210,7 @@ loader.load(
         ground = gltf.scene.getObjectByName('ground');
         changeTransparent(F4, 0.5);
         
-        const clickable = Object.keys(Info); // クリック可能なオブジェクト名のリスト
+        const clickable = Object.keys(locateInfo); // クリック可能なオブジェクト名のリスト
 
         clickable.forEach(name => {
             const clickableObject = scene.getObjectByName(name);
@@ -243,7 +246,8 @@ function animate() {
     requestAnimationFrame(animate); //毎フレーム更新
 
     // originalModel.rotation.x += 0.2;
-
+    document.getElementById('guide').innerText = 'モデルをタップしてみてください！';
+    
     controls.update(); //カメラのコントロールを更新
     renderer.render(scene, camera); //シーンを描画
     // console.log(camera.position);
@@ -264,11 +268,21 @@ function onMouseClick(event) {
 
     const intersects = raycaster.intersectObjects(clickableObjects, true); //クリックしたオブジェクトの検出
 
+    const guideText = document.getElementById('guide');//テキストを非表示するため要素取得
 
     if (intersects.length > 0) {
         console.log('モデルがクリックされました！');
         const intersectedObject = intersects[0].object;
         console.log('Intersected object:', intersectedObject);
+
+        if (guideText) {
+            guideText.style.display = 'none';
+            guideText.style.display = 'none';
+            console.log("guideText is now hidden.");
+        } 
+        else {
+            console.log("guideText not found.");
+        }
 
         //階の選択
         if (intersectedObject.parent.name.startsWith('F')){
@@ -276,6 +290,7 @@ function onMouseClick(event) {
 
             moveCamera(intersectedObject.parent.name, 1.5, "power1.out");
             showFloor(intersectedObject.parent.name);
+            changeLocationText(intersectedObject.parent.name);
         }
         else{
 
@@ -339,20 +354,27 @@ window.onload = function() {
 function showInfoBox(name) {
     isShowInfo = true;
     const infoBox = document.getElementById('infoBox');
-    const showClass = Info[name]['className'] || 'クラス名が見つかりません'; //クラス名を取得
-    const info = Info[name]['description'] || '情報が見つかりません'; // オブジェクトの情報を取得
+    const classId = locateInfo[name]['class'];
+    const className = classInfo[classId]['className'];
+    const program = classInfo[classId]['program'];
+    const category = classInfo[classId]['category'];
+    const comment = classInfo[classId]['comment'];
+    const iconFile = classInfo[classId]['iconFile'];
     infoBox.innerHTML = `
         <div class="l-wrapper_01">
         <article class="card_01">
           <div class="card__header_01">
             <p class="card__title_01">${showClass}</p>
             <figure class="card__thumbnail_01">
-              <img src="class-img/1-1.jpg" alt="サムネイル" class="card__image_01">
+            <p><img src=${iconFile} alt="icon"></p>
           </figure>
           </div>
           <div class="card__body_01">
             <p class="card__text2_01">${info}</p>
           </div>
+          <strong>企画:</strong>${program}<br>
+        <strong>カテゴリー:</strong>${category}<br>
+        <strong>1言コメント:</strong><br>${comment}<br>
           <div class="card__footer_01">
             <button id="animation">経路選択</button>
           </div>
@@ -457,6 +479,7 @@ function showInfoBox(name) {
      
     infoBox.style.display = 'block';
     moveCamera(name, 1.5, "power1.out");
+    changeLocationText(name);
 }
 
 // InfoBox を非表示にする関数
@@ -465,13 +488,17 @@ function hideInfoBox() {
     infoBox.style.display = 'none'; // 非表示にする
 }
 
+function changeLocationText(name) {
+    locationText.innerHTML = locateInfo[name]['locationText'] || '情報が見つかりません';
+}
+
 
 //Objectを動かす
 function moveObject(group, x, y, z, duration) {
     console.log(group.name);
     console.log(group.children); // childrenのコピーを表示
     var floor = 'F' + group.children[0].name.charAt(0);
-    var originalPosition = Info[floor]['Position'] || 0;
+    var originalPosition = locateInfo[floor]['Position'] || 0;
     var originalYPosition = originalPosition[1];
     console.log("floor"+ floor + "\noriginal" + originalYPosition);
 
@@ -508,7 +535,7 @@ function changeFloor(selectedFloor) {
     F4.visible = false;
     selectedFloor.visible = true;
     // moveObject(selectedFloor, 2, 2, 2, 1);
-    console.log("selectedFloor = "+ selectedFloor);
+    console.log("selectedFloor = "+ selectedFloor.name);
 }
 
 //Floorを出す
@@ -550,6 +577,7 @@ function moveHomePosition(duration, ease, isVisible, scale) {
     moveObject(floor1ClassGroup, 1, scale, 1, 0.3);
     moveObject(floor2ClassGroup, 1, scale, 1, 0.3);
     moveObject(floor3ClassGroup, 1, scale, 1, 0.3);
+    changeLocationText('home');
 }
 
 //カメラを動かす
@@ -557,18 +585,18 @@ function moveCamera(name, duration, ease) {
     console.log(name);
     let cameraPosition;
     let targetPosition;
-    const cameraPositionValue = Info[name]['cameraPosition'] || [0,0,0]; // オブジェクトの情報を取得
-    const targetPositionValue = Info[name]['Position'] || [0,0,0];
+    const cameraPositionValue = locateInfo[name]['cameraPosition'] || [0,0,0]; // オブジェクトの情報を取得
+    const targetPositionValue = locateInfo[name]['Position'] || [0,0,0];
     console.log("x:"+cameraPositionValue[0]);
     //配列を座標に変換
     cameraPosition = new THREE.Vector3(
-        cameraPositionValue[0], 
-        cameraPositionValue[1], 
+        cameraPositionValue[0],
+        cameraPositionValue[1],
         cameraPositionValue[2]
     );
     targetPosition = new THREE.Vector3(
-        parseFloat(targetPositionValue[0]), 
-        parseFloat(targetPositionValue[1]), 
+        parseFloat(targetPositionValue[0]),
+        parseFloat(targetPositionValue[1]),
         parseFloat(targetPositionValue[2])
     );
     // GSAPのタイムラインを使って、カメラの移動と視点の移動を同時に行う

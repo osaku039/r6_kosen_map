@@ -13,6 +13,18 @@
         canvas {
             display: block;
         }
+        #location-text {
+                position: absolute;
+                top: 0px;
+                left: 1%;
+                /* transform: translateX(-50%); */
+                color: rgb(68, 46, 10);
+                font-size: 20px;
+                z-index: 1;
+                pointer-events: none; /* テキストがクリックに干渉しないように */
+                margin-top: 30px;
+                /* background-color: transparent !important; 背景を透明に */
+        }
         #infoBox {
             position: fixed;
             right: 0;
@@ -29,7 +41,11 @@
     </style>
 </head>
 <body>
-    <div id="container"></div>
+    
+    <div class=canvas-container>
+        <div id="location-text" class="loc">中庭 屋台スペース</div>
+        <canvas id="threejs-canvas"></canvas>
+    </div>
     <div id="infoBox"></div> <!-- 吹き出し用のdivを追加 -->
 
     <!-- ボタンコンテナ -->
@@ -40,7 +56,9 @@
         <button onclick="location.href='souzou.html'" class="orange">創造実践棟</button>
         <button onclick="location.href='yatai.html'" class="yellow">123yatai567</button>
     </div>
-  
+
+    
+    <div id="container"></div>
     <!-- Three.jsライブラリ -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <!-- GLTFLoader -->

@@ -47,16 +47,22 @@ const loader = new THREE.GLTFLoader();
 const clock = new THREE.Clock(); // Clockを定義
 
 loader.load(
-    'models/zentai2.glb',
+    'models/zentai4.glb',
     function (gltf) {
         originalModel = gltf.scene;
         scene.add(originalModel);
         console.log('Original model loaded'); // ロード成功ログ
+        const mixer = new THREE.AnimationMixer(originalModel);
         console.log(gltf.scene);  // シーン内のオブジェクト全体を出力
 
         console.log(originalModel); // モデル内のオブジェクトの確認
 
-        const objectList = ['building', 'piano', 'yatai', 'gym'];
+        // アニメーションの取得と追加
+        gltf.animations.forEach((clip) => {
+            mixer.clipAction(clip).play();
+            console.log('Playing animation:', clip.name); // アニメーション確認用ログ
+        });
+        const objectList = ['building', 'piano', 'yatai'];
         // const floor = ['F1', 'F2', 'F3', 'F4'];
 
         // floor.forEach(name => {
@@ -139,7 +145,7 @@ function animate() {
     //文字(※レンダリングが上手くいってない)
     document.getElementById('overlay-text').innerText = '高専祭へようこそ！！';
 
-    // controls.update();      //カメラの動き要らないから削除して
+    //controls.update();      //カメラの動き要らないから削除して
     renderer.render(scene, camera);
     // console.log(camera.position);
 }
@@ -176,7 +182,7 @@ function movePage(name, object) {
             link = "./souzou.html";
             firstPosition = [-1.74,-1.5,138.5];
             secondPosition = [-1.74,-1.5,55];
-            // secondPosition = [-1.74,-1.5,0];
+            // secondPosition = [-1.74,-1.5,4.10];
             break;
         case 'piano':
             link = "./sityoukaku.html";
@@ -185,13 +191,8 @@ function movePage(name, object) {
             break;
         case 'yatai':
             link = "./yatai.html";
-            firstPosition = [66.46, 18.12, 50.37];
+            firstPosition = [66.46, 8.12, 40.37];
             secondPosition = [66.66, 0, 16.30];
-            break;
-        case 'gym':
-            link = "./gym.html";
-            firstPosition = [4.7, 30.12, 35.37];
-            secondPosition = [2.7, 29, 30];
             break;
     }
     moveCamera(firstPosition, secondPosition, link, object);

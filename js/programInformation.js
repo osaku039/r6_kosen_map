@@ -180,4 +180,13 @@ export const classInfo = {
         "photo": "",
         "iconFile":"./icon/5-ic.png",
     },
+    'zinja':{
+        "className":"zinja",
+        "program":"高専神社",
+        "category":"神社",
+        "comment":"",
+        "location":"zinja",
+        "photo": "",
+        "iconFile":"",
+    },
 };

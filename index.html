@@ -11,6 +11,18 @@
         <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=DotGothic16&family=Londrina+Sketch&family=Sixtyfour+Convergence&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
 
         <style>
+            #location-text {
+                position: absolute;
+                top: 0px;
+                left: 1%;
+                /* transform: translateX(-50%); */
+                color: rgb(68, 46, 10);
+                font-size: 20px;
+                z-index: 1;
+                pointer-events: none; /* テキストがクリックに干渉しないように */
+                margin-top: 30px;
+                /* background-color: transparent !important; 背景を透明に */
+            }
             #overlay-text {
                 position: absolute;
                 top: 0px;
@@ -53,6 +65,7 @@
     <body>
 
         <div class=canvas-container>
+            <div id="location-text" class="orange">沖縄高専 全体図</div>
             <div id="overlay-text">こんちはー, Three.js!</div>
             <canvas id="threejs-canvas"></canvas>
         </div>

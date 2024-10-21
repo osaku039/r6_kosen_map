@@ -23,9 +23,9 @@ body {
     position: fixed;
     bottom: 0;
     width: 100%;
-    background-color: #f0f0f0;
+    background-color: rgba(255, 255, 255, 0.5);
     /*padding: 10px;*/
-    opacity: 0.9;
+    
 }
 
 .button-top, .button-bottom {
@@ -48,14 +48,15 @@ body {
 }
 
 .index_button-top button, .index_button-bottom button {
-    width: calc(12% - 10px); /* ボタン幅を画面幅の10%にし、マージンを考慮 */
-    margin-left: 42px; /* ボタン間に5pxの余白を設定 */
-    margin-right: 42px;
+    width: 12%; /* ボタン幅を画面幅の12%に */
+    margin-left: 6%; /* ボタン間に5pxの余白を設定 */
+    margin-right: 5.5%;
     margin-top: 16px;
     margin-bottom: 12px;
-    padding: 10px;
+    padding: 1px;
     /*ont-size: 16px;*/
     text-align: center;
+    
     height: 40px;
     border-radius: 3vh;
 }
@@ -99,8 +100,8 @@ button:hover {
 }
 
 .yellow {
-    background-color: #f6e59c;
-    border: 2px dashed #929028;
+    background-color: #ffeca6;
+    border: 2px dashed #717c26;
     font-weight: 700;
     line-height: 1.5;
     position: relative;

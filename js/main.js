@@ -15,8 +15,6 @@ document.getElementById('container').appendChild(renderer.domElement);
 renderer.setClearColor(0xfff2b9); //背景色
 renderer.render(scene, camera);
 
-console.log(camera.lookAt);
-
 
 // OrbitControlsのセットアップ      ...カメラの動きを制御するやつ。いらない
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -78,8 +76,7 @@ loader.load(
         console.log(object);
         object.children.forEach(child => {
             console.log(child.parent.name);
-            if (child.isMesh && child.name === '立方体010') {
-                console.log(child.name);
+            if (child.isMesh) {
                 // メッシュに対する処理
                 child.material.transparent = true;
                 child.material.alphaToCoverage = true;

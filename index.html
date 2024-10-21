@@ -37,6 +37,21 @@
 
                 animation: moveUpDown 2s ease-in-out infinite;  /* アニメーションの追加 */
             }
+            #guide {
+                /*モデルをタップしてみてくださいの案内*/
+                position: absolute;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                color: rgb(68, 46, 10);
+                font-size: 18px;
+                z-index: 1;
+                pointer-events: none; /* テキストがクリックに干渉しないように */
+                margin-top: 70px;
+                background-color: transparent !important; /* 背景を透明に */
+
+                animation: moveUpDown 2s ease-in-out infinite;  /* アニメーションの追加 */
+            }
 
             /*頑張って跳ねる文字*/
             @keyframes moveUpDown { 
@@ -65,8 +80,9 @@
     <body>
 
         <div class=canvas-container>
-            <div id="location-text" class="orange">沖縄高専 全体図</div>
-            <div id="overlay-text">こんちはー, Three.js!</div>
+            <div id="location-text" class="loc">沖縄高専 全体図</div>
+            <div id="overlay-text">Three.js!</div>
+            <div id="guide"></div>
             <canvas id="threejs-canvas"></canvas>
         </div>
 

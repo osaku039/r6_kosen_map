@@ -142,8 +142,9 @@ function animate() {
         }
     });
 
-    //文字(※レンダリングが上手くいってない)
+    //ようこそ文字
     document.getElementById('overlay-text').innerText = '高専祭へようこそ！！';
+    document.getElementById('guide').innerText = 'モデルをタップしてみてください！';
 
     //controls.update();      //カメラの動き要らないから削除して
     renderer.render(scene, camera);
@@ -177,6 +178,20 @@ function onMouseClick(event) {
 
 function movePage(name, object) {
     console.log("move");
+
+    //ようこそのテキストを非表示にする
+    const welcomeText = document.getElementById('overlay-text');
+    const guideText = document.getElementById('guide');
+
+    if (welcomeText) {
+        welcomeText.style.display = 'none';
+        guideText.style.display = 'none';
+        console.log("welcomeText is now hidden.");
+    } 
+    else {
+        console.log("welcomeText not found.");
+    }
+
     switch (name){
         case 'building':
             link = "./souzou.html";

@@ -1,9 +1,31 @@
+
+body {
+    margin: 0;
+    overflow: hidden;
+    
+    font-family: "DotGothic16", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.canvas-container {
+    position: fixed;
+    width: 100%;
+    /*padding: 10px;*/
+}
+
+.text {
+    text-align: center;
+    font-size: 12px;
+}
+
 .button-container {
     position: fixed;
     bottom: 0;
     width: 100%;
     background-color: #f0f0f0;
-    padding: 10px;
+    /*padding: 10px;*/
+    opacity: 0.9;
 }
 
 .button-top, .button-bottom {
@@ -13,20 +35,96 @@
 }
 
 .button-top button, .button-bottom button {
-    width: calc(10% - 10px); /* ボタン幅を画面幅の10%にし、マージンを考慮 */
-    margin: 5px; /* ボタン間に5pxの余白を設定 */
+    width: calc(5% - 10px); /* ボタン幅を画面幅の10%にし、マージンを考慮 */
+    margin-left: 15px; /* ボタン間に5pxの余白を設定 */
+    margin-right: 15px;
+    margin-top: 16px;
+    margin-bottom: 12px;
     padding: 10px;
-    font-size: 16px;
+    /*ont-size: 16px;*/
     text-align: center;
+    height: 40px;
+    border-radius: 3vh;
+}
+
+.index_button-top button, .index_button-bottom button {
+    width: calc(12% - 10px); /* ボタン幅を画面幅の10%にし、マージンを考慮 */
+    margin-left: 42px; /* ボタン間に5pxの余白を設定 */
+    margin-right: 42px;
+    margin-top: 16px;
+    margin-bottom: 12px;
+    padding: 10px;
+    /*ont-size: 16px;*/
+    text-align: center;
+    height: 40px;
+    border-radius: 3vh;
 }
 
 button {
-    background-color: #4CAF50;
+    white-space: nowrap;
     color: white;
     border: none;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #fff2d7;
+}
+
+.orange {
+    background-color: #ffd284;
+    border: 2px dashed #8d461a;
+    font-weight: 700;
+    line-height: 1.5;
+    position: relative;
+    display: inline-block;
+    padding: 1rem 4rem;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    color: #212529;
+    border-radius: 0.5rem;
+    
+    font-family: "DotGothic16", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.yellow {
+    background-color: #f6e59c;
+    border: 2px dashed #929028;
+    font-weight: 700;
+    line-height: 1.5;
+    position: relative;
+    display: inline-block;
+    padding: 1rem 4rem;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    color: #212529;
+    border-radius: 0.5rem;
+    
+    font-family: "DotGothic16", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.css2dRenderer {
+    pointer-events: none;
 }

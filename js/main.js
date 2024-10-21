@@ -5,16 +5,17 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
     43, window.innerWidth / window.innerHeight, 0.1, 1000
 );
-camera.position.set(90, 30, 101);  // カメラを正面に固定
-//camera.position.set(-30, 10, 0);    //テスト用
-camera.lookAt(0, -10, -10);  // カメラをシーンの中心に向ける
-//camera.lookAt(20, -5, -20); //テスト用
+camera.position.set(70, 40, 121);//私が好きな位置
+//camera.position.set(90, 30, 101);  // カメラを正面に固定
+camera.lookAt(30, 30, 30);  // カメラをシーンの中心に向ける
 const renderer = new THREE.WebGLRenderer({antialias: true,});
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById('container').appendChild(renderer.domElement);
 
 renderer.setClearColor(0xfff2b9); //背景色
+renderer.render(scene, camera);
 
+console.log(camera.lookAt);
 
 
 // OrbitControlsのセットアップ      ...カメラの動きを制御するやつ。いらない
@@ -39,9 +40,6 @@ let newModel;
 let clickableObjects = []; // クリック可能なオブジェクトのリスト
 
 
-console.log(originalModel); // モデル内のオブジェクトの確認
-
-
 
 let floorGroup = new THREE.Group();
 // GLTFモデルのロード
@@ -49,19 +47,16 @@ const loader = new THREE.GLTFLoader();
 const clock = new THREE.Clock(); // Clockを定義
 
 loader.load(
-    'models/zentai3.glb',
+    'models/zentai2.glb',
     function (gltf) {
         originalModel = gltf.scene;
         scene.add(originalModel);
         console.log('Original model loaded'); // ロード成功ログ
-        const mixer = new THREE.AnimationMixer(originalModel);
+        console.log(gltf.scene);  // シーン内のオブジェクト全体を出力
 
-        // アニメーションの取得と追加
-        gltf.animations.forEach((clip) => {
-            mixer.clipAction(clip).play();
-            console.log('Playing animation:', clip.name); // アニメーション確認用ログ
-        });
-        const objectList = ['building', 'piano', 'yatai'];
+        console.log(originalModel); // モデル内のオブジェクトの確認
+
+        const objectList = ['building', 'piano', 'yatai', 'gym'];
         // const floor = ['F1', 'F2', 'F3', 'F4'];
 
         // floor.forEach(name => {
@@ -141,7 +136,10 @@ function animate() {
         }
     });
 
-    //controls.update();      //カメラの動き要らないから削除して
+    //文字(※レンダリングが上手くいってない)
+    document.getElementById('overlay-text').innerText = '高専祭へようこそ！！';
+
+    // controls.update();      //カメラの動き要らないから削除して
     renderer.render(scene, camera);
     // console.log(camera.position);
 }
@@ -178,7 +176,7 @@ function movePage(name, object) {
             link = "./souzou.html";
             firstPosition = [-1.74,-1.5,138.5];
             secondPosition = [-1.74,-1.5,55];
-            // secondPosition = [-1.74,-1.5,4.10];
+            // secondPosition = [-1.74,-1.5,0];
             break;
         case 'piano':
             link = "./sityoukaku.html";
@@ -187,8 +185,13 @@ function movePage(name, object) {
             break;
         case 'yatai':
             link = "./yatai.html";
-            firstPosition = [66.46, 8.12, 40.37];
+            firstPosition = [66.46, 18.12, 50.37];
             secondPosition = [66.66, 0, 16.30];
+            break;
+        case 'gym':
+            link = "./gym.html";
+            firstPosition = [4.7, 30.12, 35.37];
+            secondPosition = [2.7, 29, 30];
             break;
     }
     moveCamera(firstPosition, secondPosition, link, object);

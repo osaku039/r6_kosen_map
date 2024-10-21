@@ -5,30 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css"><!---cssファイルとの紐づけ。任意のファイルに変更してください。-->
     <title>3D Model Click Example</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=DotGothic16&family=Londrina+Sketch&family=Sixtyfour+Convergence&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+    <style>
+        #location-text {
+            position: absolute;
+            top: 0px;
+            left: 1%;
+            /* transform: translateX(-50%); */
+            color: rgb(68, 46, 10);
+            font-size: 20px;
+            z-index: 1;
+            pointer-events: none; /* テキストがクリックに干渉しないように */
+            margin-top: 30px;
+            /* background-color: transparent !important; 背景を透明に */
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+
+    <!-- <script type="importmap">
+        {
+          "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.module.js",
+            "CSS2DRenderer": "https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/renderers/CSS2DRenderer.js",
+            "gsap": "https://cdn.jsdelivr.net/npm/gsap@3.11.0/index.js",
+            "GLTFLoader": "https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/loaders/GLTFLoader.js",
+            "OrbitControls": "https://cdn.jsdelivr.net/npm/three@0.167.0/examples/jsm/controls/OrbitControls.js"
+          }
+        }
+    </script> -->
 </head>
 <body>
+    <div class=canvas-container>
+        <div id="location-text" class="orange">メディア棟 3,4階 視聴覚室</div>
+        <canvas id="threejs-canvas"></canvas>
+    </div>
     <div class="button-container">
-        <button onclick="location.href='sityoukaku.html'">視聴覚ホール</button>
-        <button onclick="location.href='souzou.html'">クラス企画 1</button>
-        <button onclick="location.href='souzou.html'">クラス企画 2</button>
-        <button onclick="location.href='souzou.html'">クラス企画 3</button>
-        <button onclick="location.href='souzou.html'">クラス企画 4</button>
-        <button onclick="location.href='souzou.html'">クラス企画 5</button>
-        <button onclick="location.href='souzou.html'">クラス企画 6</button>
-        <button onclick="location.href='souzou.html'">クラス企画 7</button>
-        <button onclick="location.href='souzou.html'">クラス企画 8</button>
-        <button onclick="location.href='souzou.html'">クラス企画 9</button>
-        <button onclick="location.href='souzou.html'">クラス企画 10</button>
-        <button onclick="location.href='souzou.html'">クラス企画 11</button>
-        <button onclick="location.href='souzou.html'">クラス企画 12</button>
-        <button onclick="location.href='souzou.html'">クラス企画 13</button>
-        <button onclick="location.href='souzou.html'">クラス企画 14</button>
-        <button onclick="location.href='souzou.html'">クラス企画 15</button>
-        <button onclick="location.href='souzou.html'">クラス企画 16</button>
-        <button onclick="location.href='souzou.html'">クラス企画 17</button>
-        <button onclick="location.href='yatai.html'">屋台企画 1</button>
-        <button onclick="location.href='yatai.html'">屋台企画 2</button>
-        <button onclick="location.href='yatai.html'">屋台企画 2</button>
+        <div class="text"><p>モデルをタップしてみてください！</p><br></div>
+        <button onclick="location.href='sityoukaku.html'" class="orange">sityo-kaku</button>
+        <button onclick="location.href='gym.html'" class="yellow">tai-kukan</button>
+        <button onclick="location.href='souzou.html'" class="orange">創造実践棟</button>
+        <button onclick="location.href='yatai.html'" class="yellow">123yatai567</button>
         <!-- ここに20個のボタンを追加できます -->
     </div>
     <div class="base">
@@ -44,7 +66,7 @@
             <!-- GSAPライブラリ -->
             <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script>
             <!-- メインスクリプト -->
-            <script src="js/sityoukaku.js"></script>
+            <script type="module" src="js/sityoukaku.js"></script>
         </div>
         
         <div class="select-button">

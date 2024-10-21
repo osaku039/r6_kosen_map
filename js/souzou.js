@@ -1,5 +1,10 @@
 import { locateInfo } from './locateInformation.js';
 import { classInfo } from './programInformation.js';
+import * as THREE from 'three';
+import { CSS2DRenderer, CSS2DObject } from 'CSS2DRenderer';
+import { gsap } from 'gsap';
+import { GLTFLoader } from 'GLTFLoader';
+import { OrbitControls } from "OrbitControls";
 console.log('main.js is loaded'); // ファイルロード確認用のログ
 
 // シーン、カメラ、レンダラーのセットアップ
@@ -21,7 +26,7 @@ renderer.setClearColor(0xffe271);  //背景色の追加
 let isShowInfo = false;
 
 // OrbitControlsのセットアップ
-const controls = new THREE.OrbitControls(camera, renderer.domElement);
+const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true; //カメラの動きをなめらかに
 controls.dampingFactor = 0.1; //なめらかさの度合い
 // controls.screenSpacePanning = false; //パンの無効化
@@ -56,7 +61,7 @@ let F4, ground;
 // playAnimation関数
 let currentAction = null;
 let objectToHide = null;
-gsap.registerPlugin(CSSPlugin); //gsapのやつ
+// gsap.registerPlugin(CSSPlugin); //gsapのやつ
 
 const locationText = document.getElementById('location-text');
 
@@ -151,7 +156,7 @@ function playAnimation(name) {
 }
 
 // GLTFモデルのロード
-const loader = new THREE.GLTFLoader();
+const loader = new GLTFLoader();
 loader.load(
     'models/souzou6.glb',
     function (gltf) {

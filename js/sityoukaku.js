@@ -46,20 +46,17 @@ directionalLight.position.set(2, 30, 0).normalize();
 scene.add(directionalLight);
 
 let originalModel;
-let newModel;
 
 let clickableObjects = []; // クリック可能なオブジェクトのリスト
 
-
-
-console.log(originalModel); // モデル内のオブジェクトの確認
+let model;
 
 
 // GLTFモデルのロード
 const loader = new GLTFLoader();
 
 loader.load(
-    'models/piano2.glb',
+    'models/piano4.glb',
     function (gltf) {
         originalModel = gltf.scene;
         scene.add(originalModel);
@@ -82,20 +79,18 @@ loader.load(
 
         document.body.appendChild( labelRenderer.domElement );
 
-        // // クリック可能なオブジェクトをリストに追加
-        // for (let name in objectInfo) {
-        //     const clickableObject = scene.getObjectByName(name);
-        //     if (clickableObject) {
-        //         clickableObjects.push(clickableObject);
-        //         clickableObject.userData.info = objectInfo[name]; // オブジェクトに情報を紐付け
-        //         console.log('Clickable object:', clickableObject); // クリック可能なオブジェクトを確認
-        //     }
-        //     else {
-        //         console.log('Object not found:', name); // オブジェクトが見つからなかった場合のログ
-        //     }
-        // }
+        const clickableObject = scene.getObjectByName('piano');
+        model = scene.getObjectByName('piano');
+        console.log('Checking name:', clickableObject.name);
+
+        if (clickableObject) {
+            clickableObjects.push(clickableObject);
+            console.log('Clickable object:', clickableObject);
+        }else {
+            console.log("無理でした...");
+        }
         
-        console.log('All clickable objects:', clickableObjects); // すべてのクリック可能なオブジェクトを確認
+        console.log(clickableObjects[0].name); // すべてのクリック可能なオブジェクトを確認
 
     },
     undefined,
@@ -111,15 +106,17 @@ const animatedObjects = [];
 // レンダリングループ
 function animate() {
     requestAnimationFrame(animate);
-
-    originalModel.rotation.y += 0.003;
+    
+    if (model) {
+        model.rotation.y += 0.003;  // ロード後に回転
+    }
 
     // アニメーション対象のオブジェクトを更新
-    animatedObjects.forEach(obj => {
-        if (obj.visible && obj.position.y < obj.targetY) {
-            obj.position.y += 0.01;
-        }
-    });
+    // animatedObjects.forEach(obj => {
+    //     if (obj.visible && obj.position.y < obj.targetY) {
+    //         obj.position.y += 0.01;
+    //     }
+    // });
 
     controls.update();      //カメラの動き要らないから削除して
     renderer.render(scene, camera);
@@ -133,7 +130,7 @@ const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
 function onMouseClick(event) {
-    console.log("click");
+    console.log("Click");
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
@@ -170,9 +167,9 @@ window.addEventListener('resize', () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-controls.domElement.addEventListener('touchstart', function(event) {
-    console.log('Touch start detected');
-}, { passive: false });
+// controls.domElement.addEventListener('touchstart', function(event) {
+//     console.log('Touch start detected');
+// }, { passive: false });
 
 // controls.domElement.addEventListener('touchstart', function(event) {
 //     event.preventDefault();  // この行でタッチ時のスクロールを防ぎます

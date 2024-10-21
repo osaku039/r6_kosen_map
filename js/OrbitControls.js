@@ -882,10 +882,12 @@
 
 				if ( scope.enabled === false ) return;
 				// event.preventDefault(); // prevent scrolling
+				console.log(event);
 
 				switch ( event.touches.length ) {
 
 					case 1:
+						console.log(scope.touches.ONE);
 						switch ( scope.touches.ONE ) {
 
 							case THREE.TOUCH.ROTATE:

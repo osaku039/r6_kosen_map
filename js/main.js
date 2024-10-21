@@ -161,6 +161,17 @@ function onMouseClick(event) {
 
 function movePage(name, object) {
     console.log("move");
+
+    //ようこそのテキストを非表示にする
+    const welcomeText = document.getElementById('overlay-text');
+    if (welcomeText) {
+        welcomeText.style.display = 'none';
+        console.log("welcomeText is now hidden.");
+    } 
+    else {
+        console.log("welcomeText not found.");
+    }
+
     switch (name){
         case 'building':
             link = "./souzou.html";

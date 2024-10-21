@@ -5,8 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css"><!---cssファイルとの紐づけ。任意のファイルに変更してください。-->
     <title>3D Model Click Example</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=DotGothic16&family=Londrina+Sketch&family=Sixtyfour+Convergence&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    <style>
+        canvas {
+            display: block;
+        }
+        #location-text {
+                position: absolute;
+                top: 0px;
+                left: 1%;
+                /* transform: translateX(-50%); */
+                color: rgb(68, 46, 10);
+                font-size: 20px;
+                z-index: 1;
+                pointer-events: none; /* テキストがクリックに干渉しないように */
+                margin-top: 30px;
+                /* background-color: transparent !important; 背景を透明に */
+        }
+        #infoBox {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 30%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-left: 1px solid #cccccc;
+            padding: 20px;
+            box-sizing: border-box;
+            display: none;
+            overflow-y: auto;
+        }
+    </style>
 </head>
 <body>
+    <div class=canvas-container>
+        <div id="location-text" class="loc">体育館 ステージ</div>
+        <canvas id="threejs-canvas"></canvas>
+    </div>
     <div id="infoBox"></div> <!-- 吹き出し用のdivを追加 -->
     <div class="button-container">
         <div class="text"><p>モデルをタップしてみてください！</p><br></div>

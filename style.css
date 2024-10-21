@@ -1,12 +1,17 @@
-/*@import url('https://fonts.googleapis.com/css2?family=Amatic+SC&display=swap');*/
 
 body {
-    font-family: "Afacad Flux", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 5;
+    margin: 0;
+    overflow: hidden;
+    
+    font-family: "DotGothic16", sans-serif;
+    font-weight: 400;
     font-style: normal;
-    font-variation-settings: "slnt" 0;
-    /* sans-serif, "ヒラギノ丸ゴ Pro W4", 'Caveat', cursive */
+}
+
+.canvas-container {
+    position: fixed;
+    width: 100%;
+    /*padding: 10px;*/
 }
 
 .text {
@@ -18,9 +23,9 @@ body {
     position: fixed;
     bottom: 0;
     width: 100%;
-    background-color: #f0f0f0;
+    background-color: rgba(255, 255, 255, 0.5);
     /*padding: 10px;*/
-    opacity: 0.9;
+    
 }
 
 .button-top, .button-bottom {
@@ -30,11 +35,35 @@ body {
 }
 
 .button-top button, .button-bottom button {
-    width: calc(5% - 10px); /* ボタン幅を画面幅の10%にし、マージンを考慮 */
-    margin: 15px; /* ボタン間に5pxの余白を設定 */
-    padding: 10px;
+    width: 4%; /* ボタン幅を画面幅の10%にし、マージンを考慮 */
+    margin-left: 1%; /* ボタン間に5pxの余白を設定 */
+    margin-right: 1%;
+    padding: 1px;
     /*ont-size: 16px;*/
     text-align: center;
+    height: 40px;
+    border-radius: 3vh;
+}
+
+.button-top button {
+    margin-top: 16px;
+    margin-bottom: 5px;
+}
+.button-bottom button {
+    margin-top: 5px;
+    margin-bottom: 12px;
+}
+
+.index_button-top button, .index_button-bottom button {
+    width: 12%; /* ボタン幅を画面幅の12%に */
+    margin-left: 6%; /* ボタン間に5pxの余白を設定 */
+    margin-right: 5.5%;
+    margin-top: 16px;
+    margin-bottom: 12px;
+    padding: 1px;
+    /*ont-size: 16px;*/
+    text-align: center;
+    
     height: 40px;
     border-radius: 3vh;
 }
@@ -72,11 +101,14 @@ button:hover {
     color: #212529;
     border-radius: 0.5rem;
     
+    font-family: "DotGothic16", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .yellow {
-    background-color: #f6e59c;
-    border: 2px dashed #929028;
+    background-color: #ffeca6;
+    border: 2px dashed #717c26;
     font-weight: 700;
     line-height: 1.5;
     position: relative;
@@ -96,12 +128,44 @@ button:hover {
     color: #212529;
     border-radius: 0.5rem;
     
+    font-family: "DotGothic16", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .css2dRenderer {
     pointer-events: none;
 }
 
+<<<<<<< HEAD
 #labelRenderer {
     pointer-events: none;
 }
+=======
+.loc {
+    background-color: #ffe788;
+    border: 2px dashed #ac5520;
+    font-weight: 700;
+    line-height: 1.5;
+    position: relative;
+    display: inline-block;
+    padding: 1rem 4rem;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    color: #212529;
+    border-radius: 0.5rem;
+    
+    font-family: "DotGothic16", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+>>>>>>> main

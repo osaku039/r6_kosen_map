@@ -34,7 +34,7 @@ export const classInfo = {
         "comment":"『やっほ～！ゥチらちょーかわいいGALでぇ～す♡我等友情永久不滅♡』",
         "location":"2_2",
         "photo": "",
-        "iconFile":"./icon/1-4.png",
+        "iconFile":"./icon/1-4.jpg",
     },
     '2-1':{
         "className":"2年1組",

@@ -1,9 +1,9 @@
 console.log('yatai.js is loaded'); // ファイルロード確認用のログ
-import * as THREE from 'three';
-import { CSS2DRenderer, CSS2DObject } from 'CSS2DRenderer';
-import { gsap } from 'gsap';
-import { GLTFLoader } from 'GLTFLoader';
-import { OrbitControls } from "OrbitControls";
+// import * as THREE from 'three';
+// import { CSS2DRenderer, CSS2DObject } from 'CSS2DRenderer';
+// import { gsap } from 'gsap';
+// import { GLTFLoader } from 'GLTFLoader';
+// import { OrbitControls } from "OrbitControls";
 
 // シーン、カメラ、レンダラーのセットアップ
 const scene = new THREE.Scene();
@@ -53,7 +53,7 @@ let model;
 
 
 // GLTFモデルのロード
-const loader = new GLTFLoader();
+const loader = new THREE.GLTFLoader();
 
 loader.load(
     'models/piano2.glb',

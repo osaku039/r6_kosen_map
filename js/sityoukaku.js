@@ -19,22 +19,22 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById('container').appendChild(renderer.domElement);
 
 
-const labelRenderer = new CSS2DRenderer();
-labelRenderer.setSize( window.innerWidth, window.innerHeight );
-labelRenderer.domElement.style.position = 'absolute';
-labelRenderer.domElement.style.top = '0px';
+// const labelRenderer = new CSS2DRenderer();
+// labelRenderer.setSize( window.innerWidth, window.innerHeight );
+// labelRenderer.domElement.style.position = 'absolute';
+// labelRenderer.domElement.style.top = '0px';
 
-document.getElementById('container').appendChild(labelRenderer.domElement);
+// document.getElementById('container').appendChild(labelRenderer.domElement);
 
 renderer.setClearColor(0xfff2b9); //背景色
 
 
 
-// OrbitControlsのセットアップ      ...カメラの動きを制御するやつ。いらない
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor = 0.25;
-controls.screenSpacePanning = false;
+// // OrbitControlsのセットアップ      ...カメラの動きを制御するやつ。いらない
+// const controls = new OrbitControls(camera, renderer.domElement);
+// controls.enableDamping = true;
+// controls.dampingFactor = 0.25;
+// controls.screenSpacePanning = false;
 
 
 // 光源の追加
@@ -56,41 +56,42 @@ let model;
 const loader = new GLTFLoader();
 
 loader.load(
-    'models/piano4.glb',
+    'models/piano2.glb',
     function (gltf) {
         originalModel = gltf.scene;
         scene.add(originalModel);
         console.log('Original model loaded'); // ロード成功ログ
 
-        const earthDiv = document.createElement( 'div' );
-        earthDiv.className = 'label';
-        earthDiv.textContent = 'piano';
-        earthDiv.style.backgroundColor = 'transparent';
+        // const earthDiv = document.createElement( 'div' );
+        // earthDiv.className = 'label';
+        // earthDiv.textContent = 'piano';
+        // earthDiv.style.backgroundColor = 'transparent';
 
-        const earthLabel = new CSS2DObject( earthDiv );
-        console.log(earthLabel); // earthLabelの全プロパティを確認
-        earthLabel.position.set( 0, 0, 6);
-        console.log(earthLabel.position); // これが正しいオブジェクトか確認
-        // earthLabel.center.set( 0, 1 );
-        // earthLabel.layers.set( 0 );
-        scene.add(earthLabel);
+        // const earthLabel = new CSS2DObject( earthDiv );
+        // console.log(earthLabel); // earthLabelの全プロパティを確認
+        // earthLabel.position.set( 0, 0, 6);
+        // console.log(earthLabel.position); // これが正しいオブジェクトか確認
+        // // earthLabel.center.set( 0, 1 );
+        // // earthLabel.layers.set( 0 );
+        // scene.add(earthLabel);
 
-        labelRenderer.domElement.style.pointerEvents = 'none';
+        // labelRenderer.domElement.style.pointerEvents = 'none';
 
-        document.body.appendChild( labelRenderer.domElement );
+        // document.body.appendChild( labelRenderer.domElement );
 
-        const clickableObject = scene.getObjectByName('piano');
-        model = scene.getObjectByName('piano');
-        console.log('Checking name:', clickableObject.name);
+        // const clickableObject = scene.getObjectByName('piano');
+        // model = scene.getObjectByName('piano');
+        // // console.log('Checking name:', clickableObject.name);
 
-        if (clickableObject) {
-            clickableObjects.push(clickableObject);
-            console.log('Clickable object:', clickableObject);
-        }else {
-            console.log("無理でした...");
-        }
+        // if (clickableObject) {
+        //     clickableObjects.push(clickableObject);
+        //     console.log('Clickable object:', clickableObject);
+        // }else {
+        //     console.log("無理でした...");
+        // }
         
-        console.log(clickableObjects[0].name); // すべてのクリック可能なオブジェクトを確認
+        // console.log(clickableObjects[0].name); // すべてのクリック可能なオブジェクトを確認
+        showInfoBox();
 
     },
     undefined,
@@ -107,8 +108,8 @@ const animatedObjects = [];
 function animate() {
     requestAnimationFrame(animate);
     
-    if (model) {
-        model.rotation.y += 0.003;  // ロード後に回転
+    if (originalModel) {
+        originalModel.rotation.y += 0.003;  // ロード後に回転
     }
 
     // アニメーション対象のオブジェクトを更新
@@ -118,9 +119,9 @@ function animate() {
     //     }
     // });
 
-    controls.update();      //カメラの動き要らないから削除して
+    // controls.update();      //カメラの動き要らないから削除して
     renderer.render(scene, camera);
-    labelRenderer.render(scene, camera); // CSS2DRendererを更新
+    // labelRenderer.render(scene, camera); // CSS2DRendererを更新
     // console.log(camera.position);
 }
 animate();
@@ -150,11 +151,13 @@ function onMouseClick(event) {
 }
     
 
-function showInfoBox(object) {
+function showInfoBox() {
     const infoBox = document.getElementById('infoBox');
-    const info = object.userData.info || '情報が見つかりません'; // オブジェクトの情報を取得
-    console.log('Showing info for object:', object.name, 'with info:', info); // 表示される情報を確認
-    infoBox.innerHTML = `<strong>モデル名:</strong> ${object.name}<br><strong>情報:</strong><br> ${info}<br><button onclick="location.href='souzou.html'">移動</button>`;
+    // const info = Info[name]['description'] || '情報が見つかりません'; // オブジェクトの情報を取得
+    infoBox.innerHTML = `<strong>視聴覚室プログラム</strong>`;
+    //  // ボタンのクリックイベントを設定
+    // document.getElementById('animation').addEventListener('click', () => playAnimation(name));
+     
     infoBox.style.display = 'block';
 }
 
@@ -166,13 +169,3 @@ window.addEventListener('resize', () => {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
-
-// controls.domElement.addEventListener('touchstart', function(event) {
-//     console.log('Touch start detected');
-// }, { passive: false });
-
-// controls.domElement.addEventListener('touchstart', function(event) {
-//     event.preventDefault();  // この行でタッチ時のスクロールを防ぎます
-//     // タッチイベントに応じたカスタムロジックを追加できます
-// }, { passive: false });
-

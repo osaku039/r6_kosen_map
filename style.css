@@ -137,11 +137,9 @@ button:hover {
     pointer-events: none;
 }
 
-<<<<<<< HEAD
 #labelRenderer {
     pointer-events: none;
 }
-=======
 .loc {
     background-color: #ffe788;
     border: 2px dashed #ac5520;
@@ -168,4 +166,3 @@ button:hover {
     font-weight: 400;
     font-style: normal;
 }
->>>>>>> main

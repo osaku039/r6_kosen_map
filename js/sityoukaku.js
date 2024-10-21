@@ -30,20 +30,11 @@ renderer.setClearColor(0xfff2b9); //背景色
 
 
 
-<<<<<<< HEAD
 // OrbitControlsのセットアップ      ...カメラの動きを制御するやつ。いらない
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.25;
 controls.screenSpacePanning = false;
-=======
-// // OrbitControlsのセットアップ      ...カメラの動きを制御するやつ。いらない
-// // const controls = new OrbitControls(camera, labelRenderer.domElement);
-// const controls = new THREE.OrbitControls(camera, renderer.domElement);
-// controls.enableDamping = true;
-// controls.dampingFactor = 0.25;
-// controls.screenSpacePanning = false;
->>>>>>> main
 
 
 // 光源の追加

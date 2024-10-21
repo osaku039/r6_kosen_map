@@ -246,7 +246,8 @@ function animate() {
     requestAnimationFrame(animate); //毎フレーム更新
 
     // originalModel.rotation.x += 0.2;
-
+    document.getElementById('guide').innerText = 'モデルをタップしてみてください！';
+    
     controls.update(); //カメラのコントロールを更新
     renderer.render(scene, camera); //シーンを描画
     // console.log(camera.position);
@@ -267,11 +268,21 @@ function onMouseClick(event) {
 
     const intersects = raycaster.intersectObjects(clickableObjects, true); //クリックしたオブジェクトの検出
 
+    const guideText = document.getElementById('guide');//テキストを非表示するため要素取得
 
     if (intersects.length > 0) {
         console.log('モデルがクリックされました！');
         const intersectedObject = intersects[0].object;
         console.log('Intersected object:', intersectedObject);
+
+        if (guideText) {
+            guideText.style.display = 'none';
+            guideText.style.display = 'none';
+            console.log("guideText is now hidden.");
+        } 
+        else {
+            console.log("guideText not found.");
+        }
 
         //階の選択
         if (intersectedObject.parent.name.startsWith('F')){

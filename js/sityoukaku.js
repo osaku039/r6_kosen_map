@@ -1,9 +1,9 @@
 console.log('yatai.js is loaded'); // ファイルロード確認用のログ
-// import * as THREE from 'three';
-// import { CSS2DRenderer, CSS2DObject } from 'CSS2DRenderer';
-// import { gsap } from 'gsap';
-// import { GLTFLoader } from 'GLTFLoader';
-// import { OrbitControls } from "OrbitControls";
+import * as THREE from 'three';
+import { CSS2DRenderer, CSS2DObject } from 'CSS2DRenderer';
+import { gsap } from 'gsap';
+import { GLTFLoader } from 'GLTFLoader';
+import { OrbitControls } from "OrbitControls";
 
 // シーン、カメラ、レンダラーのセットアップ
 const scene = new THREE.Scene();
@@ -19,10 +19,10 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById('container').appendChild(renderer.domElement);
 
 
-// const labelRenderer = new CSS2DRenderer();
-// labelRenderer.setSize( window.innerWidth, window.innerHeight );
-// labelRenderer.domElement.style.position = 'absolute';
-// labelRenderer.domElement.style.top = '0px';
+const labelRenderer = new CSS2DRenderer();
+labelRenderer.setSize( window.innerWidth, window.innerHeight );
+labelRenderer.domElement.style.position = 'absolute';
+labelRenderer.domElement.style.top = '0px';
 
 document.getElementById('container').appendChild(labelRenderer.domElement);
 
@@ -53,7 +53,7 @@ let model;
 
 
 // GLTFモデルのロード
-const loader = new THREE.GLTFLoader();
+const loader = new GLTFLoader();
 
 loader.load(
     'models/piano4.glb',
@@ -62,22 +62,22 @@ loader.load(
         scene.add(originalModel);
         console.log('Original model loaded'); // ロード成功ログ
 
-        // const earthDiv = document.createElement( 'div' );
-        // earthDiv.className = 'label';
-        // earthDiv.textContent = 'piano';
-        // earthDiv.style.backgroundColor = 'transparent';
+        const earthDiv = document.createElement( 'div' );
+        earthDiv.className = 'label';
+        earthDiv.textContent = 'piano';
+        earthDiv.style.backgroundColor = 'transparent';
 
-        // const earthLabel = new CSS2DObject( earthDiv );
-        // console.log(earthLabel); // earthLabelの全プロパティを確認
-        // earthLabel.position.set( 0, 0, 6);
-        // console.log(earthLabel.position); // これが正しいオブジェクトか確認
-        // // earthLabel.center.set( 0, 1 );
-        // // earthLabel.layers.set( 0 );
-        // scene.add(earthLabel);
+        const earthLabel = new CSS2DObject( earthDiv );
+        console.log(earthLabel); // earthLabelの全プロパティを確認
+        earthLabel.position.set( 0, 0, 6);
+        console.log(earthLabel.position); // これが正しいオブジェクトか確認
+        // earthLabel.center.set( 0, 1 );
+        // earthLabel.layers.set( 0 );
+        scene.add(earthLabel);
 
-        // labelRenderer.domElement.style.pointerEvents = 'none';
+        labelRenderer.domElement.style.pointerEvents = 'none';
 
-        // document.body.appendChild( labelRenderer.domElement );
+        document.body.appendChild( labelRenderer.domElement );
 
         const clickableObject = scene.getObjectByName('piano');
         model = scene.getObjectByName('piano');
@@ -120,7 +120,7 @@ function animate() {
 
     controls.update();      //カメラの動き要らないから削除して
     renderer.render(scene, camera);
-    // labelRenderer.render(scene, camera); // CSS2DRendererを更新
+    labelRenderer.render(scene, camera); // CSS2DRendererを更新
     // console.log(camera.position);
 }
 animate();

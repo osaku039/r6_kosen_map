@@ -342,27 +342,115 @@ function showInfoBox(name) {
     const showClass = Info[name]['className'] || 'クラス名が見つかりません'; //クラス名を取得
     const info = Info[name]['description'] || '情報が見つかりません'; // オブジェクトの情報を取得
     infoBox.innerHTML = `
-        <strong>${showClass}</strong>
-        <div class="card">
-            <img src="class-img/1-1.jpg"><br>
-        </div>
-        <strong>${info}</strong>
-        <button id="animation">経路選択</button>
-        <style>
-            .card img{
-                padding-top: (3/4*100%);
-                position: relative;
-            }
-            img {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                object-fit: contain;
-            }
-        </style>
+        <div class="l-wrapper_01">
+        <article class="card_01">
+          <div class="card__header_01">
+            <p class="card__title_01">${showClass}</p>
+            <figure class="card__thumbnail_01">
+              <img src="class-img/1-1.jpg" alt="サムネイル" class="card__image_01">
+          </figure>
+          </div>
+          <div class="card__body_01">
+            <p class="card__text2_01">${info}</p>
+          </div>
+          <div class="card__footer_01">
+            <button id="animation">経路選択</button>
+          </div>
+          
+        </article>
+      </div>
+      <style>
+        .l-wrapper_01 {
+        margin: 1rem auto;
+        width: 95%;
+        }
 
+        .l-wrapper_01:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
+        transition: all .5s;
+        }
+
+        .card_01 {
+        background-color: #fff;
+        box-shadow: 0 0 8px rgba(0, 0, 0, .16);
+        color: #212121;
+        text-decoration: none;
+        }
+
+        .card__header_01 {
+        display: flex;
+        flex-wrap: wrap;
+        }
+
+        .card__title_01 {
+        padding: 1rem 1.5rem 0;
+        font-size: 1.6rem;
+        order: 1;
+        margin-bottom: 0.6rem;
+        font-weight: bold;
+        text-decoration: none;
+        }
+
+        .card__thumbnail_01 {
+        margin: 0;
+        order: 0;
+        }
+
+        .card__image_01 {
+        width: 100%;
+        }
+
+        .card__body_01 {
+        padding: 0 1.5rem;
+        }
+
+        .card__text_01 {
+        font-size: .8rem;
+        text-align:center;
+        text-decoration: none;
+            padding-bottom: 0;
+        }
+
+        .card__text2_01 {
+        font-size: .8rem;
+        margin-top: 0;
+        margin-bottom: 2rem;
+        }
+
+        .card__text_01 + .card__text_01 {
+        margin-top: .5rem;
+        }
+
+        .card__footer_01 {
+        padding: 1rem;
+        border-top: 1px solid #ddd;
+        }
+
+        .button_01 {
+        display: inline-block;
+        text-decoration: none;
+        transition: background-color .3s ease-in-out;
+        text-align: center;
+        }
+
+        .button_01 a {
+        text-decoration: none;
+        }
+
+        .button_01.-compact {
+        padding: .5rem 1rem;
+        border-radius: .25rem;
+        background-color: #4f96f6;
+        color: #fff;
+        font-weight: bold;
+            text-decoration: none;
+        }
+
+        .button_01.-compact:hover,
+        .button_01.-compact:focus {
+        background-color: #6bb6ff;
+        }
     `;
     // ボタンのクリックイベントを設定
     document.getElementById('animation').addEventListener('click', () => playAnimation(name));

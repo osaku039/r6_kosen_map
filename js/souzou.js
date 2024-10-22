@@ -72,12 +72,21 @@ let objectToHide = null;
 
 const locationText = document.getElementById('location-text');
 
+const labelDiv = document.createElement( 'div' );
+const label = new CSS2DObject( labelDiv );
+
+// クリックイベント
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+const direction = new THREE.Vector3();  // カメラからラベルへの方向
+
 //経路選択のアニメーション
 function playAnimation(name) {
     const glbFileName = locateInfo[name]['animationFile'] || '';
 
     // GLTFLoaderを使用してGLBファイルを読み込む
-    const loader = new THREE.GLTFLoader();
+    const loader = new GLTFLoader();
     loader.load(
         glbFileName,
         function (gltf) {
@@ -257,19 +266,19 @@ function addGroup(Group, list, gltf) {
 
 function createCSS2D(text, x, y, z) {
     
-    const dom = document.createElement( 'div' );
-    dom.className = 'label';
-    dom.textContent = text;
-    dom.style.backgroundColor = 'transparent';
+    labelDiv.className = 'label';
+    labelDiv.textContent = text;
+    labelDiv.style.backgroundColor = 'transparent';
+    labelDiv.style.opacity = '1';  // 初期状態を設定
 
-    const domLabel = new CSS2DObject( dom );
-    console.log(domLabel); // earthLabelの全プロパティを確認
-    domLabel.position.set( x, y, z);
-    console.log(domLabel.position); // これが正しいオブジェクトか確認
-    // domLabel.center.set( 0, 1 );
-    domLabel.layers.set( 2 );
 
-    scene.add(domLabel);
+    console.log(label); // earthLabelの全プロパティを確認
+    label.position.set( x, y, z);
+    console.log(label.position); // これが正しいオブジェクトか確認
+    // label.center.set( 0, 1 );
+    label.layers.set( 2 );
+
+    scene.add(label);
 }
 
 
@@ -280,6 +289,19 @@ const animatedObjects = [];
 function animate() {
     requestAnimationFrame(animate); //毎フレーム更新
 
+    // カメラからラベルに向かう方向を設定
+    direction.subVectors(label.position, camera.position).normalize();
+    // Raycasterでカメラからラベルに向かってオブジェクトがあるかを判定
+    raycaster.set(camera.position, direction);
+    const intersects = raycaster.intersectObjects(scene.children, true);
+
+    // ラベルの透明度を設定（オブジェクトがラベルの前にある場合）
+    if (intersects.length > 0 && intersects[0].distance < camera.position.distanceTo(label.position)) {
+        labelDiv.style.opacity = Math.max(0, parseFloat(labelDiv.style.opacity) - 0.05);  // フェードアウト
+    } else {
+        labelDiv.style.opacity = Math.min(1, parseFloat(labelDiv.style.opacity) + 0.05);  // フェードイン
+    }
+
     // originalModel.rotation.x += 0.2;
     document.getElementById('guide').innerText = 'モデルをタップしてみてください！';
     
@@ -289,10 +311,6 @@ function animate() {
     // console.log(camera.position);
 }
 animate(); //アニメーション開始
-
-// クリックイベント
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
 
 let selectedFloor; //選ばれたフロア
 

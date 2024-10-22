@@ -366,7 +366,7 @@ function showInfoBox(name) {
     <strong>企画:</strong>${program}<br>
     <strong>カテゴリー:</strong>${category}<br>
     <strong>1言コメント:</strong><br>${comment}<br>
-    <p><img src=${photo} alt="icon"></p>
+    <a href=${photo} data-lightbox="group"><img src=${photo}></a>
     <p><img src=${iconFile} alt="icon"></p>
     <button id="animation">経路選択</button>
     `;

@@ -101,7 +101,7 @@ export const locateInfo = {
         "animationFile":'animation/animate2_5.glb',
     },
     'zinja':{
-        "class":"説明さ",
+        "class":"zinja",
         "Position":[25,19.3,-5],
         "cameraPosition":[33.8,21.3,-5],
         "locationText": "2階 メディアコーナー2",

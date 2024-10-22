@@ -64,38 +64,10 @@ loader.load(
         originalModel = gltf.scene;
         scene.add(originalModel);
         console.log('Original model loaded'); // ロード成功ログ
-
-        // const earthDiv = document.createElement( 'div' );
-        // earthDiv.className = 'label';
-        // earthDiv.textContent = 'piano';
-        // earthDiv.style.backgroundColor = 'transparent';
-
-        // const earthLabel = new CSS2DObject( earthDiv );
-        // console.log(earthLabel); // earthLabelの全プロパティを確認
-        // earthLabel.position.set( 0, 0, 6);
-        // console.log(earthLabel.position); // これが正しいオブジェクトか確認
-        // // earthLabel.center.set( 0, 1 );
-        // // earthLabel.layers.set( 0 );
-        // scene.add(earthLabel);
-
-        // labelRenderer.domElement.style.pointerEvents = 'none';
-
-        // document.body.appendChild( labelRenderer.domElement );
-
-        // // クリック可能なオブジェクトをリストに追加
-        // for (let name in objectInfo) {
-        //     const clickableObject = scene.getObjectByName(name);
-        //     if (clickableObject) {
-        //         clickableObjects.push(clickableObject);
-        //         clickableObject.userData.info = objectInfo[name]; // オブジェクトに情報を紐付け
-        //         console.log('Clickable object:', clickableObject); // クリック可能なオブジェクトを確認
-        //     }
-        //     else {
-        //         console.log('Object not found:', name); // オブジェクトが見つからなかった場合のログ
-        //     }
-        // }
         
         console.log('All clickable objects:', clickableObjects); // すべてのクリック可能なオブジェクトを確認
+
+        showInfoBox();
 
     },
     undefined,
@@ -152,11 +124,13 @@ function onMouseClick(event) {
 }
     
 
-function showInfoBox(object) {
+function showInfoBox() {
     const infoBox = document.getElementById('infoBox');
-    const info = object.userData.info || '情報が見つかりません'; // オブジェクトの情報を取得
-    console.log('Showing info for object:', object.name, 'with info:', info); // 表示される情報を確認
-    infoBox.innerHTML = `<strong>モデル名:</strong> ${object.name}<br><strong>情報:</strong><br> ${info}<br><button onclick="location.href='souzou.html'">移動</button>`;
+    // const info = Info[name]['description'] || '情報が見つかりません'; // オブジェクトの情報を取得
+    infoBox.innerHTML = `<strong>視聴覚室プログラム</strong>`;
+    //  // ボタンのクリックイベントを設定
+    // document.getElementById('animation').addEventListener('click', () => playAnimation(name));
+     
     infoBox.style.display = 'block';
 }
 

@@ -80,7 +80,7 @@ loader.load(
                 // メッシュに対する処理
                 child.material.transparent = true;
                 child.material.alphaToCoverage = true;
-                child.material.opacity = 0.2;
+                child.material.opacity = 0.8;
             }
         });
 

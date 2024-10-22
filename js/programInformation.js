@@ -6,7 +6,7 @@ export const classInfo = {
         "category":"縁日",
         "comment":"『縁日、やるってよ。』",
         "location":"3_1",
-        "photo": "",
+        "photo": "./photo/1-1.jpg",
         "iconFile":"./icon/1-1.png",
     },
     '1-2':{
@@ -15,7 +15,7 @@ export const classInfo = {
         "category":"ゲーム",
         "comment":"『どんなひとでもたのしめます！！』",
         "location":"2_3",
-        "photo": "",
+        "photo": "./photo/1-2.jpg",
         "iconFile":"./icon/1-2.png",
     },
     '1-3':{
@@ -24,7 +24,7 @@ export const classInfo = {
         "category":"脱出ゲーム",
         "comment":"『Journey to Time～歪んだ先の終着点～』",
         "location":"3_2",
-        "photo": "",
+        "photo": "./photo.1-3.jpg",
         "iconFile":"./icon/1-3.png",
     },
     '1-4':{
@@ -33,7 +33,7 @@ export const classInfo = {
         "category":"クラブ",
         "comment":"『やっほ～！ゥチらちょーかわいいGALでぇ～す♡我等友情永久不滅♡』",
         "location":"2_2",
-        "photo": "",
+        "photo": "./photo/1-4.jpg",
         "iconFile":"./icon/1-4.jpg",
     },
     '2-1':{
@@ -42,7 +42,7 @@ export const classInfo = {
         "category":"屋台",
         "comment":"『お腹も心も満たす　焼きそば』",
         "location":"1_1",
-        "photo": "",
+        "photo": "./photo/2-1.jpg",
         "iconFile":"./icon/2-1.png",
     },
     '2-2':{
@@ -51,7 +51,7 @@ export const classInfo = {
         "category":"茶屋",
         "comment":"『伝統文化は金になる　さぁどうぞ』",
         "location":"3_6",
-        "photo": "",
+        "photo": "./photo/2-2.jpg",
         "iconFile":"./icon/2-2.png",
     },
     '2-3':{
@@ -60,7 +60,7 @@ export const classInfo = {
         "category":"お化け屋敷",
         "comment":"『廃校で起きた未解決殺人事件！その真相を暴き、君は現実に戻れるか？』",
         "location":"2_4",
-        "photo": "",
+        "photo": "./photo/2-3.jpeg",
         "iconFile":"./icon/2-3.png",
     },
     '2-4':{
@@ -69,7 +69,7 @@ export const classInfo = {
         "category":"縁日",
         "comment":"『江戸時代にタイムトラベルしたあなた。斬って撃って投げて、めいっぱい楽しんでください！目指せ、ランキング１位！！』",
         "location":"1_4",
-        "photo": "",
+        "photo": "./photo/2-4.jpg",
         "iconFile":"./icon/2-4.png",
     },
     '3-ms':{
@@ -78,7 +78,7 @@ export const classInfo = {
         "category":"フライトシミュレータ",
         "comment":"REMOVE BEFORE FLIGHT",
         "location":"3_7",
-        "photo": "",
+        "photo": "./photo/3-ms.jpg",
         "iconFile":"./icon/3-ms.png",
     },
     '3-br':{
@@ -87,7 +87,7 @@ export const classInfo = {
         "category":"屋台",
         "comment":"『はっ、はっ、はまちゃん！</br>　鶏肉や野菜を、鉄板で一本一本丁寧に焼き上げ、はまい串に。</br>　自然のおいしさ、そのままに』",
         "location":"1_1",
-        "photo": "",
+        "photo": "./photo/3-br.jpg",
         "iconFile":"./icon/3-br.jpg",
     },
     '3-mi':{
@@ -96,7 +96,7 @@ export const classInfo = {
         "category":"ゲーム",
         "comment":"自分たちでボードゲーム作りました.^-^)/",
         "location":"2_6",
-        "photo": "",
+        "photo": "./photo/3-mi.jpg",
         "iconFile":"./icon/3-mi.png",
     },
     '3-ic':{
@@ -105,7 +105,7 @@ export const classInfo = {
         "category":"縁日バー",
         "comment":"楽しませます",
         "location":"2_1",
-        "photo": "",
+        "photo": "./photo/3-ic.jpg",
         "iconFile":"./icon/3-ic.png",
     },
     '4-ms':{
@@ -114,7 +114,7 @@ export const classInfo = {
         "category":"屋台",
         "comment":"『今日だけは筋肉のために』",
         "location":"1_1",
-        "photo": "",
+        "photo": "./photo/4-ms.jfif",
         "iconFile":"./icon/4-ms.png",
     },
     '4-br':{
@@ -123,7 +123,7 @@ export const classInfo = {
         "category":"カフェ",
         "comment":"『楽しんでいってください』",
         "location":"1_1",
-        "photo": "",
+        "photo": "./photo/4-br.jfif",
         "iconFile":"./icon/4-br.png",
     },
     '4-mi':{
@@ -132,7 +132,7 @@ export const classInfo = {
         "category":"脱出ゲーム",
         "comment":"『アクションをクリアして謎を解け』",
         "location":"1_2",
-        "photo": "",
+        "photo": "./photo/4-mi.jpeg",
         "iconFile":"./icon/4-mi.png",
     },
     '4-ic':{
@@ -141,7 +141,7 @@ export const classInfo = {
         "category":"カジノ",
         "comment":"去年大人気だったルーレットは引き続き、新しく江戸にタイムスリップしたかのような気分になれる花札で遊べます。場内チップを介して楽しく賭けてみてください。",
         "location":"3_4",
-        "photo": "",
+        "photo": "./photo/4-ic.jpeg",
         "iconFile":"./icon/4-ic.png",
     },
     '5-ms':{
@@ -168,7 +168,7 @@ export const classInfo = {
         "category":"カジノ",
         "comment":"『今 か ら 皆 さ ん に は ゲ ー ム を し て い た だ き ま す 。(デスゲーム風ボイス)』",
         "location":"1_3",
-        "photo": "",
+        "photo": "./photo/5-mi.jpg",
         "iconFile":"./icon/5-mi.png",
     },
     '5-ic':{
@@ -179,5 +179,14 @@ export const classInfo = {
         "location":"3_5",
         "photo": "",
         "iconFile":"./icon/5-ic.png",
+    },
+    'zinja':{
+        "className":"zinja",
+        "program":"高専神社",
+        "category":"神社",
+        "comment":"",
+        "location":"zinja",
+        "photo": "",
+        "iconFile":"",
     },
 };

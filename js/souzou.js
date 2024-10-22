@@ -18,7 +18,8 @@ document.getElementById('container').appendChild(renderer.domElement); //レン�
 // renderer.setClearColor(0xfff2b9);  //背景色の追加
 renderer.setClearColor(0xffe271);  //背景色の追加
 
-let isShowInfo = false;
+let isShowInfo = false; //Infoを消すときに使っていると思う
+let currentFloor = 'home'; //1個前の視点に戻るときに使うと思う
 
 // OrbitControlsのセットアップ
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -58,6 +59,7 @@ let currentAction = null;
 let objectToHide = null;
 gsap.registerPlugin(CSSPlugin); //gsapのやつ
 
+
 const locationText = document.getElementById('location-text');
 
 //経路選択のアニメーション
@@ -76,7 +78,6 @@ function playAnimation(name) {
          
             const mixer = new THREE.AnimationMixer(model);
             const clips = gltf.animations; // アニメーションクリップを取得
-            window.removeEventListener('dblclick', onMouseClick);
 
             moveHomePosition(2, "power1.in", true, 1);
 
@@ -114,7 +115,7 @@ function playAnimation(name) {
 
                     // イベントリスナーを解除
                     window.removeEventListener('click', stopAnimation);
-                    window.addEventListener('dblclick', onMouseClick);
+                    //onMouseClickを復活させるのはhideInfoBox()の中に変更しました。
 
                     moveObject(floor1ClassGroup, 1, 0, 1, 0.3);
                     moveObject(floor2ClassGroup, 1, 0, 1, 0.3);
@@ -305,7 +306,6 @@ function onMouseClick(event) {
     else {
         console.log("ぱあ");
         moveHomePosition(2, "power1.out", true, 0);
-        hideInfoBox();
     }
 
 
@@ -320,7 +320,7 @@ function getQueryParam(param) {
 // ページがロードされたときにクエリパラメータを取得して showInfoBox 関数を呼び出す
 window.onload = function() {
     let classId = getQueryParam('id');
-    //とても汚い方法です。gsapで0.2秒待つことによってgltfのロードを待っています。awaitとか使えるのかな?
+    //gsapで0.2秒待つことによってgltfのロードを待つという力技を使いました。awaitとか使えるのかな?
     if (classId !== null) {
         moveCamera('home', 0, "power1.out");
         gsap.to({}, {
@@ -387,12 +387,20 @@ function showInfoBox(name) {
     infoBox.style.display = 'block';
     moveCamera(name, 1.5, "power1.out");
     changeLocationText(name); 
+    
+    window.removeEventListener('dblclick', onMouseClick);
+    window.addEventListener('dblclick', function returnFloor() {
+        moveCamera(currentFloor, 1.5, "power1.out");
+        showFloor(currentFloor);
+        hideInfoBox();
+    });
 }
 
 // InfoBox を非表示にする関数
 function hideInfoBox() {
     const infoBox = document.getElementById('infoBox');
     infoBox.style.display = 'none'; // 非表示にする
+    window.addEventListener('dblclick', onMouseClick);
 }
 
 function changeLocationText(name) {
@@ -402,8 +410,6 @@ function changeLocationText(name) {
 
 //Objectを動かす
 function moveObject(group, x, y, z, duration) {
-    console.log(group.name);
-    console.log(group.children); // childrenのコピーを表示
     var floor = 'F' + group.children[0].name.charAt(0);
     var originalPosition = locateInfo[floor]['Position'] || 0;
     var originalYPosition = originalPosition[1];
@@ -435,22 +441,8 @@ function changeTransparent(target, opacity) {
     });
 }
 
-function changeFloor(selectedFloor) {
-    floor1Group.visible = false;
-    floor2Group.visible = false;
-    floor3Group.visible = false;
-    F4.visible = false;
-    selectedFloor.visible = true;
-    // moveObject(selectedFloor, 2, 2, 2, 1);
-    console.log("selectedFloor = "+ selectedFloor.name);
-}
-
 //Floorを出す
 function showFloor(name) {
-    if (isShowInfo == true) {
-        hideInfoBox();
-        isShowInfo = false;
-    };
     switch(name){
         case 'F1':
             moveObject(floor1ClassGroup, 1, 1, 1, 1);
@@ -470,8 +462,24 @@ function showFloor(name) {
             moveObject(floor2ClassGroup, 1, 0, 1, 0);
             selectedFloor = floor3Group;
             break;
+        default:
+            moveHomePosition;
+            break;
     }
-    changeFloor(selectedFloor);
+    
+    floor1Group.visible = false;
+    floor2Group.visible = false;
+    floor3Group.visible = false;
+    F4.visible = false;
+    ground.visible = false;
+    selectedFloor.visible = true;
+
+    currentFloor = name;
+
+    changeLocationText(name);
+
+    console.log("selectedFloor = "+ selectedFloor.name);
+
 }
 
 //ホームポジションに戻る
@@ -480,11 +488,13 @@ function moveHomePosition(duration, ease, isVisible, scale) {
     floor2Group.visible = isVisible;
     floor3Group.visible = isVisible;
     F4.visible = isVisible;
+    ground.visible = isVisible;
     moveCamera('home', duration, ease);
     moveObject(floor1ClassGroup, 1, scale, 1, 0.3);
     moveObject(floor2ClassGroup, 1, scale, 1, 0.3);
     moveObject(floor3ClassGroup, 1, scale, 1, 0.3);
     changeLocationText('home');
+    currentFloor = 'home';
 }
 
 //カメラを動かす

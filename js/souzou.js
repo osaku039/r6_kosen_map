@@ -359,12 +359,14 @@ function showInfoBox(name) {
     const program = classInfo[classId]['program'];
     const category = classInfo[classId]['category'];
     const comment = classInfo[classId]['comment'];
+    const photo = classInfo[classId]['photo'];
     const iconFile = classInfo[classId]['iconFile'];
     infoBox.innerHTML = 
     `<strong>クラス:</strong> ${className}<br>
     <strong>企画:</strong>${program}<br>
     <strong>カテゴリー:</strong>${category}<br>
     <strong>1言コメント:</strong><br>${comment}<br>
+    <p><img src=${photo} alt="icon"></p>
     <p><img src=${iconFile} alt="icon"></p>
     <button id="animation">経路選択</button>
     `;

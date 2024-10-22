@@ -356,25 +356,22 @@ function showInfoBox(name) {
     const infoBox = document.getElementById('infoBox');
     const classId = locateInfo[name]['class'];
     const className = classInfo[classId]['className'];
-    const program = classInfo[classId]['program'];
-    const category = classInfo[classId]['category'];
-    const comment = classInfo[classId]['comment'];
-    const iconFile = classInfo[classId]['iconFile'];
+    // const program = classInfo[classId]['program'];
+    // const category = classInfo[classId]['category'];
+     const comment = classInfo[classId]['comment'];
+     const iconFile = classInfo[classId]['iconFile'];
     infoBox.innerHTML = `
         <div class="l-wrapper_01">
         <article class="card_01">
           <div class="card__header_01">
-            <p class="card__title_01">${showClass}</p>
             <figure class="card__thumbnail_01">
-            <p><img src=${iconFile} alt="icon"></p>
-          </figure>
+                <p><img src=${iconFile} alt="icon"></p>
+            </figure>
           </div>
           <div class="card__body_01">
-            <p class="card__text2_01">${info}</p>
+            <strong>クラス:</strong> ${className}<br>
+            <p class="card__text2_01">${comment}</p>
           </div>
-          <strong>企画:</strong>${program}<br>
-        <strong>カテゴリー:</strong>${category}<br>
-        <strong>1言コメント:</strong><br>${comment}<br>
           <div class="card__footer_01">
             <button id="animation">経路選択</button>
           </div>
@@ -479,7 +476,7 @@ function showInfoBox(name) {
      
     infoBox.style.display = 'block';
     moveCamera(name, 1.5, "power1.out");
-    changeLocationText(name);
+    changeLocationText(name); 
 }
 
 // InfoBox を非表示にする関数

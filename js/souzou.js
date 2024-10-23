@@ -389,11 +389,13 @@ function showInfoBox(name) {
     changeLocationText(name); 
     
     window.removeEventListener('dblclick', onMouseClick);
-    window.addEventListener('dblclick', function returnFloor() {
-        moveCamera(currentFloor, 1.5, "power1.out");
-        showFloor(currentFloor);
-        hideInfoBox();
-    });
+    window.addEventListener('dblclick', returnFloor);
+}
+
+function returnFloor() {
+    moveCamera(currentFloor, 1.5, "power1.out");
+    showFloor(currentFloor);
+    hideInfoBox();
 }
 
 // InfoBox を非表示にする関数
@@ -401,6 +403,7 @@ function hideInfoBox() {
     const infoBox = document.getElementById('infoBox');
     infoBox.style.display = 'none'; // 非表示にする
     window.addEventListener('dblclick', onMouseClick);
+    window.removeEventListener('dblclick', returnFloor);
 }
 
 function changeLocationText(name) {
@@ -463,7 +466,7 @@ function showFloor(name) {
             selectedFloor = floor3Group;
             break;
         default:
-            moveHomePosition;
+            moveHomePosition(2, "power1.out", true, 0);
             break;
     }
     

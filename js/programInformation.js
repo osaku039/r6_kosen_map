@@ -24,7 +24,7 @@ export const classInfo = {
         "category":"脱出ゲーム",
         "comment":"『Journey to Time～歪んだ先の終着点～』",
         "location":"3_2",
-        "photo": "./photo.1-3.jpg",
+        "photo": "./photo/1-3.jpg",
         "iconFile":"./icon/1-3.png",
     },
     '1-4':{
@@ -60,7 +60,7 @@ export const classInfo = {
         "category":"お化け屋敷",
         "comment":"『廃校で起きた未解決殺人事件！その真相を暴き、君は現実に戻れるか？』",
         "location":"2_4",
-        "photo": "./photo/2-3.jpeg",
+        "photo": "./photo/2-3.jpg",
         "iconFile":"./icon/2-3.png",
     },
     '2-4':{
@@ -114,7 +114,7 @@ export const classInfo = {
         "category":"屋台",
         "comment":"『今日だけは筋肉のために』",
         "location":"1_1",
-        "photo": "./photo/4-ms.jfif",
+        "photo": "./photo/4-ms.jpg",
         "iconFile":"./icon/4-ms.png",
     },
     '4-br':{
@@ -123,7 +123,7 @@ export const classInfo = {
         "category":"カフェ",
         "comment":"『楽しんでいってください』",
         "location":"1_1",
-        "photo": "./photo/4-br.jfif",
+        "photo": "./photo/4-br.jpg",
         "iconFile":"./icon/4-br.png",
     },
     '4-mi':{

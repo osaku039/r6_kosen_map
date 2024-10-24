@@ -15,8 +15,6 @@ document.getElementById('container').appendChild(renderer.domElement);
 renderer.setClearColor(0xfff2b9); //背景色
 renderer.render(scene, camera);
 
-console.log(camera.lookAt);
-
 
 // OrbitControlsのセットアップ      ...カメラの動きを制御するやつ。いらない
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -78,12 +76,11 @@ loader.load(
         console.log(object);
         object.children.forEach(child => {
             console.log(child.parent.name);
-            if (child.isMesh && child.name === '立方体010') {
-                console.log(child.name);
+            if (child.isMesh) {
                 // メッシュに対する処理
                 child.material.transparent = true;
                 child.material.alphaToCoverage = true;
-                child.material.opacity = 0.2;
+                child.material.opacity = 0.8;
             }
         });
 
@@ -166,10 +163,12 @@ function movePage(name, object) {
     //ようこそのテキストを非表示にする
     const welcomeText = document.getElementById('overlay-text');
     const guideText = document.getElementById('guide');
+    const locationText = document.getElementById('location-text');
 
     if (welcomeText) {
         welcomeText.style.display = 'none';
         guideText.style.display = 'none';
+        locationText.style.display = 'none';
         console.log("welcomeText is now hidden.");
     } 
     else {

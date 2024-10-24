@@ -61,36 +61,10 @@ loader.load(
         originalModel = gltf.scene;
         scene.add(originalModel);
         console.log('Original model loaded'); // ロード成功ログ
-
-        // const earthDiv = document.createElement( 'div' );
-        // earthDiv.className = 'label';
-        // earthDiv.textContent = 'piano';
-        // earthDiv.style.backgroundColor = 'transparent';
-
-        // const earthLabel = new CSS2DObject( earthDiv );
-        // console.log(earthLabel); // earthLabelの全プロパティを確認
-        // earthLabel.position.set( 0, 0, 6);
-        // console.log(earthLabel.position); // これが正しいオブジェクトか確認
-        // // earthLabel.center.set( 0, 1 );
-        // // earthLabel.layers.set( 0 );
-        // scene.add(earthLabel);
-
-        // labelRenderer.domElement.style.pointerEvents = 'none';
-
-        // document.body.appendChild( labelRenderer.domElement );
-
-        // const clickableObject = scene.getObjectByName('piano');
-        // model = scene.getObjectByName('piano');
-        // // console.log('Checking name:', clickableObject.name);
-
-        // if (clickableObject) {
-        //     clickableObjects.push(clickableObject);
-        //     console.log('Clickable object:', clickableObject);
-        // }else {
-        //     console.log("無理でした...");
-        // }
         
         // console.log(clickableObjects[0].name); // すべてのクリック可能なオブジェクトを確認
+        showInfoBox();
+
         showInfoBox();
 
     },

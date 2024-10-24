@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css"><!---cssファイルとの紐づけ。任意のファイルに変更してください。-->
     <title>3D Model Click Example</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/css/lightbox.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/js/lightbox.min.js" type="text/javascript"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,17 +34,108 @@
             top: 0;
             width: 30%;
             height: 100%;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-left: 1px solid #cccccc;
+            background-color: transparent !important; /* 背景を透明に */
             padding: 20px;
             box-sizing: border-box;
             display: none;
             overflow-y: auto;
         }
+        .l-wrapper_01 {
+        margin: 1rem auto;
+        width: 95%;
+        }
+
+        .l-wrapper_01:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
+        transition: all .5s;
+        }
+
+        .card_01 {
+        background-color: #fff;
+        box-shadow: 0 0 8px rgba(0, 0, 0, .16);
+        color: #212121;
+        text-decoration: none;
+        }
+
+        .card__header_01 {
+        display: flex;
+        flex-wrap: wrap;
+        }
+
+        .card__title_01 {
+        padding: 1rem 1.5rem 0;
+        font-size: 1.6rem;
+        order: 1;
+        margin-bottom: 0.6rem;
+        font-weight: bold;
+        text-decoration: none;
+        }
+
+        .card__thumbnail_01 {
+        margin: 0;
+        order: 0;
+        }
+
+        .card__image_01 {
+        width: 100%;
+        }
+
+        .card__body_01 {
+        padding: 0 1.5rem;
+        }
+
+        .card__text_01 {
+        font-size: .8rem;
+        text-align:center;
+        text-decoration: none;
+            padding-bottom: 0;
+        }
+
+        .card__text2_01 {
+        font-size: .8rem;
+        margin-top: 0;
+        margin-bottom: 2rem;
+        }
+
+        .card__text_01 + .card__text_01 {
+        margin-top: .5rem;
+        }
+
+        .card__footer_01 {
+        padding: 1rem;
+        border-top: 1px solid #ddd;
+        }
+
+        .button_01 {
+        display: inline-block;
+        text-decoration: none;
+        transition: background-color .3s ease-in-out;
+        text-align: center;
+        }
+
+        .button_01 a {
+        text-decoration: none;
+        }
+
+        .button_01.-compact {
+        padding: .5rem 1rem;
+        border-radius: .25rem;
+        background-color: #4f96f6;
+        color: #fff;
+        font-weight: bold;
+            text-decoration: none;
+        }
+
+        .button_01.-compact:hover,
+        .button_01.-compact:focus {
+        background-color: #6bb6ff;
+        }
+
         #guide {
             /*モデルをタップしてみてくださいの案内*/
             position: absolute;
-            top: 20px;
+            top: 50px;
             left: 50%;
             transform: translateX(-50%);
             color: rgb(68, 46, 10);

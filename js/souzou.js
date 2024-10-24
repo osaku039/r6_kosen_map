@@ -352,7 +352,7 @@ function getQueryParam(param) {
 }
 
 // ページがロードされたときにクエリパラメータを取得して showInfoBox 関数を呼び出す
-window.onload = function() {
+window.addEventListener('load', function() {
     let classId = getQueryParam('id');
     //gsapで0.2秒待つことによってgltfのロードを待つという力技を使いました。awaitとか使えるのかな?
     if (classId !== null) {
@@ -379,76 +379,88 @@ window.onload = function() {
     } 
   else {
         moveCamera('home', 3, "power3.in");
-}
+    }
 
     // playAnimation関数
-function playAnimation(name, onComplete = null) {
-    const glbFileName = locateInfo[name]['animationFile'] || '';
+    function playAnimation(name, onComplete = null) {
+        const glbFileName = locateInfo[name]['animationFile'] || '';
 
-    const loader = new THREE.GLTFLoader();
-    loader.load(
-        glbFileName,
-        function (gltf) {
-            const model = gltf.scene;
-            scene.add(model);
+        const loader = new THREE.GLTFLoader();
+        loader.load(
+            glbFileName,
+            function (gltf) {
+                const model = gltf.scene;
+                scene.add(model);
 
-            const mixer = new THREE.AnimationMixer(model);
-            const clips = gltf.animations;
+                const mixer = new THREE.AnimationMixer(model);
+                const clips = gltf.animations;
 
-            if (clips.length > 0) {
-                const action = mixer.clipAction(clips[0]);
-                
-                // アニメーションの設定
-                if (name === 'genzaiti') {
-                    action.loop = THREE.LoopRepeat; // genzaitiはループ
-                } else {
-                    action.loop = THREE.LoopOnce; 
-                    action.clampWhenFinished = true; //最後の状態で止める
+                if (clips.length > 0) {
+                    const action = mixer.clipAction(clips[0]);
+
+                    // アニメーションの設定
+                    if (name === 'genzaiti') {
+                        action.loop = THREE.LoopRepeat; // genzaitiはループ
+                    } else {
+                        action.loop = THREE.LoopOnce; 
+                        action.clampWhenFinished = true; //最後の状態で止める
+                    }
+
+                    action.play();
+
+                    action.onFinished = () => {
+                        if (onComplete) onComplete(); 
+                        if (name !== 'genzaiti') {
+                            model.visible = false; // genzaiti以外は非表示
+                        }
+                    };
                 }
 
-                action.play();
+                function animate() {
+                    requestAnimationFrame(animate);
+                    mixer.update(0.01);
+                    renderer.render(scene, camera);
+                }
 
-                action.onFinished = () => {
-                    if (onComplete) onComplete(); 
-                    if (name !== 'genzaiti') {
-                        model.visible = false; // genzaiti以外は非表示
-                    }
-                };
+                animate();
+            },
+            undefined,
+            function (error) {
+                console.error('アニメーションの読み込み中にエラーが発生しました', error);
             }
-
-            function animate() {
-                requestAnimationFrame(animate);
-                mixer.update(0.01);
-                renderer.render(scene, camera);
-            }
-
-            animate();
-        },
-        undefined,
-        function (error) {
-            console.error('アニメーションの読み込み中にエラーが発生しました', error);
-        }
-    );
-
-}
-
-
-playAnimation('hairu', () => {
-    // アニメーション終了後、aruku4を非表示にする
-    const aruku4Object = scene.getObjectByName('hairu');
-    if (aruku4Object) {
-        aruku4Object.visible = false; // 非表示
+        );
     }
-});
-   
- // genzaitiアニメーションをループ再生
- playAnimation('genzaiti', () => {
-});
-// hito.glb（ループしない）
-playAnimation('hito', () => {
-});
 
-};
+
+    playAnimation('hairu', () => {
+        // アニメーション終了後、aruku4を非表示にする
+        const aruku4Object = scene.getObjectByName('hairu');
+        if (aruku4Object) {
+            aruku4Object.visible = false; // 非表示
+        }
+    });
+    
+     // genzaitiアニメーションをループ再生
+    playAnimation('genzaiti', () => {
+    });
+    // hito.glb（ループしない）
+    playAnimation('hito', () => {
+    });
+
+
+    // data-role="action" の属性を持つ全ての要素を取得
+    const buttons = document.querySelectorAll('[data-role="category"]');
+    console.log(buttons);
+
+    buttons.forEach(button => {
+        button.addEventListener('click', function(event) {
+            const buttonId = button.getAttribute('data-id');
+            event.stopPropagation();  // クリックイベントがシーンに伝播するのを防ぐ
+            console.log(`Button ${buttonId} clicked!`);
+        });
+    });
+
+});
 
 
 

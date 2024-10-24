@@ -15,8 +15,6 @@ document.getElementById('container').appendChild(renderer.domElement);
 renderer.setClearColor(0xfff2b9); //背景色
 renderer.render(scene, camera);
 
-console.log(camera.lookAt);
-
 
 // OrbitControlsのセットアップ      ...カメラの動きを制御するやつ。いらない
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -193,10 +191,12 @@ function movePage(name, object) {
     //ようこそのテキストを非表示にする
     const welcomeText = document.getElementById('overlay-text');
     const guideText = document.getElementById('guide');
+    const locationText = document.getElementById('location-text');
 
     if (welcomeText) {
         welcomeText.style.display = 'none';
         guideText.style.display = 'none';
+        locationText.style.display = 'none';
         console.log("welcomeText is now hidden.");
     } 
     else {

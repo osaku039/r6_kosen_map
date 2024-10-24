@@ -86,14 +86,14 @@ export const locateInfo = {
         "locationText": "講義室2-4",
         "animationFile":'animation/animate2_4.glb',
     },
-    '2_6':{
+    '2_5':{
         "class":"5-br",
         "Position":[-2.3,20.25,-6],
         "cameraPosition":[-2.3,20.25,-31],
         "locationText": "講義室2-5",
         "animationFile":'animation/animate2_5.glb',
     },
-    '2_5':{
+    '2_6':{
         "class":"3-mi",
         "Position":[5,20.25,-6],
         "cameraPosition":[5,20.25,-32.1],
@@ -101,7 +101,7 @@ export const locateInfo = {
         "animationFile":'animation/animate2_5.glb',
     },
     'zinja':{
-        "class":"説明さ",
+        "class":"zinja",
         "Position":[25,19.3,-5],
         "cameraPosition":[33.8,21.3,-5],
         "locationText": "2階 メディアコーナー2",

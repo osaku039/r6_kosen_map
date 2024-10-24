@@ -365,10 +365,12 @@ function showInfoBox(name) {
       <div class="l-wrapper_01">
         <article class="card_01">
           <div class="card__header_01">
-            <figure class="card__thumbnail_01">
-                <p><img src=${iconFile} alt="icon"></p>
+            <div class="class_photo">
                 <a href=${photo} data-lightbox="group"><img src=${photo}></a>
-            </figure>
+            </div>
+            <div>
+                <img src=${iconFile} alt="icon" class="class_icon">
+            </div>
           </div>
           <div class="card__body_01">
             <strong>クラス:</strong> ${className}<br>

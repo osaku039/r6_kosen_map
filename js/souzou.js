@@ -379,11 +379,11 @@ window.addEventListener('load', function() {
     } 
   else {
         moveCamera('home', 3, "power3.in");
-    }
+}
 
     // playAnimation関数
-    function playAnimation(name, onComplete = null) {
-        const glbFileName = locateInfo[name]['animationFile'] || '';
+function playAnimation(name, onComplete = null) {
+    const glbFileName = locateInfo[name]['animationFile'] || '';
 
         const loader = new THREE.GLTFLoader();
         loader.load(

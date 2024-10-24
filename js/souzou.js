@@ -116,7 +116,7 @@ function playAnimation(name) {
 
                     // イベントリスナーを解除
                     window.removeEventListener('click', stopAnimation);
-                    window.addEventListener('click', onMouseClick);
+                    window.addEventListener('click', handleClick);
 
                     moveObject(floor1ClassGroup, 1, 0, 1, 0.3);
                     moveObject(floor2ClassGroup, 1, 0, 1, 0.3);
@@ -287,10 +287,11 @@ function onMouseClick(event) {
         //階の選択
         if (intersectedObject.parent.name.startsWith('F')){
             console.log(intersectedObject.parent.name);
-
-            moveCamera(intersectedObject.parent.name, 1.5, "power1.out");
-            showFloor(intersectedObject.parent.name);
-            changeLocationText(intersectedObject.parent.name);
+            if (currentFloor != intersectedObject.parent.name){
+                moveCamera(intersectedObject.parent.name, 1.5, "power1.out");
+                showFloor(intersectedObject.parent.name);
+                changeLocationText(intersectedObject.parent.name);
+            }
         }
         else{
 
@@ -578,7 +579,6 @@ function handleClick(event) {
 
 
 //経路選択のところにも同じ処理あるから変更する時は全部変更するように
-// window.addEventListener('dblclick', returnCameraPosition); //clickがあったらonMouseClickを作動させる
 window.addEventListener('click', handleClick); //clickがあったらonMouseClickを作動させる
 
 //ウィンドウサイズの調整

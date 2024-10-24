@@ -138,8 +138,7 @@ button:hover {
 }
 
 .loc {
-    background-color: #ffe788;
-    border: 2px dashed #ac5520;
+    background-color: rgba(255, 255, 255, 0.6);
     font-weight: 700;
     line-height: 1.5;
     position: relative;

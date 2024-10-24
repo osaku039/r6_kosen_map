@@ -18,7 +18,9 @@ document.getElementById('container').appendChild(renderer.domElement); //レン�
 // renderer.setClearColor(0xfff2b9);  //背景色の追加
 renderer.setClearColor(0xffe271);  //背景色の追加
 
-let isShowInfo = false;
+let isShowInfo = false; //Infoを消すときに使っていると思う
+let currentFloor = 'home'; //1個前の視点に戻るときに使うと思う
+let clickTimeout = null;
 
 // OrbitControlsのセットアップ
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -58,6 +60,7 @@ let currentAction = null;
 let objectToHide = null;
 gsap.registerPlugin(CSSPlugin); //gsapのやつ
 
+
 const locationText = document.getElementById('location-text');
 
 //経路選択のアニメーション
@@ -76,7 +79,6 @@ function playAnimation(name) {
          
             const mixer = new THREE.AnimationMixer(model);
             const clips = gltf.animations; // アニメーションクリップを取得
-            window.removeEventListener('dblclick', onMouseClick);
 
             moveHomePosition(2, "power1.in", true, 1);
 
@@ -114,7 +116,7 @@ function playAnimation(name) {
 
                     // イベントリスナーを解除
                     window.removeEventListener('click', stopAnimation);
-                    window.addEventListener('dblclick', onMouseClick);
+                    window.addEventListener('click', handleClick);
 
                     moveObject(floor1ClassGroup, 1, 0, 1, 0.3);
                     moveObject(floor2ClassGroup, 1, 0, 1, 0.3);
@@ -153,7 +155,7 @@ function playAnimation(name) {
 // GLTFモデルのロード
 const loader = new THREE.GLTFLoader();
 loader.load(
-    'models/souzou6.glb',
+    'models/souzou7.glb',
     function (gltf) {
         // const groupedModel = createGroupedModel(gltf); // グループ化されたモデルを取得
         originalModel = gltf.scene; //読み込んだモデルの取得
@@ -216,7 +218,6 @@ loader.load(
             const clickableObject = scene.getObjectByName(name);
             if (clickableObject) {
                 clickableObjects.push(clickableObject);
-                console.log('Clickable object siroiyatsu', clickableObject);
             }
         });
         // bitton();
@@ -251,6 +252,7 @@ function animate() {
     controls.update(); //カメラのコントロールを更新
     renderer.render(scene, camera); //シーンを描画
     // console.log(camera.position);
+    // console.log(currentFloor);
 }
 animate(); //アニメーション開始
 
@@ -271,9 +273,7 @@ function onMouseClick(event) {
     const guideText = document.getElementById('guide');//テキストを非表示するため要素取得
 
     if (intersects.length > 0) {
-        console.log('モデルがクリックされました！');
         const intersectedObject = intersects[0].object;
-        console.log('Intersected object:', intersectedObject);
 
         if (guideText) {
             guideText.style.display = 'none';
@@ -287,10 +287,11 @@ function onMouseClick(event) {
         //階の選択
         if (intersectedObject.parent.name.startsWith('F')){
             console.log(intersectedObject.parent.name);
-
-            moveCamera(intersectedObject.parent.name, 1.5, "power1.out");
-            showFloor(intersectedObject.parent.name);
-            changeLocationText(intersectedObject.parent.name);
+            if (currentFloor != intersectedObject.parent.name){
+                moveCamera(intersectedObject.parent.name, 1.5, "power1.out");
+                showFloor(intersectedObject.parent.name);
+                changeLocationText(intersectedObject.parent.name);
+            }
         }
         else{
 
@@ -303,9 +304,14 @@ function onMouseClick(event) {
         }
     }
     else {
+        if (isShowInfo == true) {
+            hideInfoBox();
+            isShowInfo = false;
+        };
         console.log("ぱあ");
-        moveHomePosition(2, "power1.out", true, 0);
-        hideInfoBox();
+        if (currentFloor != 'home'){
+            moveHomePosition(2, "power1.out", true, 0);
+        }
     }
 
 
@@ -320,7 +326,7 @@ function getQueryParam(param) {
 // ページがロードされたときにクエリパラメータを取得して showInfoBox 関数を呼び出す
 window.onload = function() {
     let classId = getQueryParam('id');
-    //とても汚い方法です。gsapで0.2秒待つことによってgltfのロードを待っています。awaitとか使えるのかな?
+    //gsapで0.2秒待つことによってgltfのロードを待つという力技を使いました。awaitとか使えるのかな?
     if (classId !== null) {
         moveCamera('home', 0, "power1.out");
         gsap.to({}, {
@@ -386,7 +392,26 @@ function showInfoBox(name) {
      
     infoBox.style.display = 'block';
     moveCamera(name, 1.5, "power1.out");
-    changeLocationText(name); 
+    changeLocationText(name);
+    if (currentFloor.startsWith('F')){
+        currentFloor = "_" + currentFloor;
+    }
+}
+
+function returnCameraPosition(event) {
+    console.log("リターン!");
+    switch (currentFloor.slice(0,1)) {
+        case '_':
+            currentFloor = currentFloor.slice(1);
+            moveCamera(currentFloor, 1.5, "power1.out");
+            showFloor(currentFloor);
+            break;
+        case 'F':
+            moveHomePosition(2, "power1.out", true, 0);
+            break;
+        default:
+            break;
+    }
 }
 
 // InfoBox を非表示にする関数
@@ -402,8 +427,6 @@ function changeLocationText(name) {
 
 //Objectを動かす
 function moveObject(group, x, y, z, duration) {
-    console.log(group.name);
-    console.log(group.children); // childrenのコピーを表示
     var floor = 'F' + group.children[0].name.charAt(0);
     var originalPosition = locateInfo[floor]['Position'] || 0;
     var originalYPosition = originalPosition[1];
@@ -435,16 +458,6 @@ function changeTransparent(target, opacity) {
     });
 }
 
-function changeFloor(selectedFloor) {
-    floor1Group.visible = false;
-    floor2Group.visible = false;
-    floor3Group.visible = false;
-    F4.visible = false;
-    selectedFloor.visible = true;
-    // moveObject(selectedFloor, 2, 2, 2, 1);
-    console.log("selectedFloor = "+ selectedFloor.name);
-}
-
 //Floorを出す
 function showFloor(name) {
     if (isShowInfo == true) {
@@ -470,8 +483,24 @@ function showFloor(name) {
             moveObject(floor2ClassGroup, 1, 0, 1, 0);
             selectedFloor = floor3Group;
             break;
+        default:
+            moveHomePosition(2, "power1.out", true, 0);
+            break;
     }
-    changeFloor(selectedFloor);
+    
+    floor1Group.visible = false;
+    floor2Group.visible = false;
+    floor3Group.visible = false;
+    F4.visible = false;
+    ground.visible = false;
+    selectedFloor.visible = true;
+
+    currentFloor = name;
+
+    changeLocationText(name);
+
+    console.log("selectedFloor = "+ selectedFloor.name);
+
 }
 
 //ホームポジションに戻る
@@ -480,21 +509,21 @@ function moveHomePosition(duration, ease, isVisible, scale) {
     floor2Group.visible = isVisible;
     floor3Group.visible = isVisible;
     F4.visible = isVisible;
+    ground.visible = isVisible;
     moveCamera('home', duration, ease);
     moveObject(floor1ClassGroup, 1, scale, 1, 0.3);
     moveObject(floor2ClassGroup, 1, scale, 1, 0.3);
     moveObject(floor3ClassGroup, 1, scale, 1, 0.3);
     changeLocationText('home');
+    currentFloor = 'home';
 }
 
 //カメラを動かす
 function moveCamera(name, duration, ease) {
-    console.log(name);
     let cameraPosition;
     let targetPosition;
     const cameraPositionValue = locateInfo[name]['cameraPosition'] || [0,0,0]; // オブジェクトの情報を取得
     const targetPositionValue = locateInfo[name]['Position'] || [0,0,0];
-    console.log("x:"+cameraPositionValue[0]);
     //配列を座標に変換
     cameraPosition = new THREE.Vector3(
         cameraPositionValue[0],
@@ -532,8 +561,25 @@ function moveCamera(name, duration, ease) {
     }, 0); // タイムラインの0秒目から開始
 }
 
+// クリックイベントハンドラー
+function handleClick(event) {
+    if (clickTimeout !== null) {
+        // 2回目のクリック: ダブルクリックと判定
+        clearTimeout(clickTimeout);
+        clickTimeout = null;
+        returnCameraPosition(event);
+    } else {
+        // 1回目のクリック: ダブルクリックが来るか待機
+        clickTimeout = setTimeout(() => {
+            onMouseClick(event);
+            clickTimeout = null;  // タイムアウト後にリセット
+        }, 300);  // 300ミリ秒以内に2回目のクリックが来るかを待つ
+    }
+}
+
+
 //経路選択のところにも同じ処理あるから変更する時は全部変更するように
-window.addEventListener('dblclick', onMouseClick); //clickがあったらonMouseClickを作動させる
+window.addEventListener('click', handleClick); //clickがあったらonMouseClickを作動させる
 
 //ウィンドウサイズの調整
 window.addEventListener('resize', () => {

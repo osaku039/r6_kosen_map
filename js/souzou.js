@@ -212,6 +212,8 @@ loader.load(
         
         const clickable = Object.keys(locateInfo); // クリック可能なオブジェクト名のリスト
 
+        document.getElementById('guide').innerText = '階を選んで、タップしてみてください！';
+
         clickable.forEach(name => {
             const clickableObject = scene.getObjectByName(name);
             if (clickableObject) {
@@ -246,7 +248,8 @@ function animate() {
     requestAnimationFrame(animate); //毎フレーム更新
 
     // originalModel.rotation.x += 0.2;
-    document.getElementById('guide').innerText = 'モデルをタップしてみてください！';
+    
+    //guideここに入れると強すぎるから移動
     
     controls.update(); //カメラのコントロールを更新
     renderer.render(scene, camera); //シーンを描画
@@ -275,6 +278,7 @@ function onMouseClick(event) {
         const intersectedObject = intersects[0].object;
         console.log('Intersected object:', intersectedObject);
 
+        /*
         if (guideText) {
             guideText.style.display = 'none';
             guideText.style.display = 'none';
@@ -283,6 +287,7 @@ function onMouseClick(event) {
         else {
             console.log("guideText not found.");
         }
+        */
 
         //階の選択
         if (intersectedObject.parent.name.startsWith('F')){
@@ -291,6 +296,14 @@ function onMouseClick(event) {
             moveCamera(intersectedObject.parent.name, 1.5, "power1.out");
             showFloor(intersectedObject.parent.name);
             changeLocationText(intersectedObject.parent.name);
+
+            if (guideText) {
+                document.getElementById('guide').innerText = '教室を選んでください！';
+                guideText.style.display = 'block';
+            } 
+            else {
+                console.log("guideText not found.");
+            }
         }
         else{
 
@@ -300,11 +313,22 @@ function onMouseClick(event) {
             console.log(intersectedObject.parent.name); // ワールド座標を出力
             showInfoBox(intersectedObject.parent.name);
 
+            if (guideText) {
+                guideText.style.display = 'none';
+                guideText.style.display = 'none';
+                console.log("guideText is now hidden.");
+            } 
+            else {
+                console.log("guideText not found.");
+            }
+
         }
     }
     else {
         console.log("ぱあ");
         moveHomePosition(2, "power1.out", true, 0);
+        guideText.style.display = 'block';
+        document.getElementById('guide').innerText = '階を選んで、タップしてみてください！';
         hideInfoBox();
     }
 
@@ -346,7 +370,8 @@ window.onload = function() {
         });
     }
     else{
-        moveCamera('home', 3, "power3.in");        
+        moveCamera('home', 3, "power3.in");     
+        console.log('わあ');   
     }
 }
     
@@ -366,7 +391,7 @@ function showInfoBox(name) {
     <strong>カテゴリー:</strong>${category}<br>
     <strong>1言コメント:</strong><br>${comment}<br>
     <p><img src=${iconFile} alt="icon"></p>
-    <button id="animation">経路選択</button>
+    <button id="animation">ここにいく!</button>
     `;
     // ボタンのクリックイベントを設定
     document.getElementById('animation').addEventListener('click', () => playAnimation(name));
@@ -444,18 +469,21 @@ function showFloor(name) {
             moveObject(floor2ClassGroup, 1, 0, 1, 0);
             moveObject(floor3ClassGroup, 1, 0, 1, 0);
             selectedFloor = floor1Group;
+            console.log('F1 selected');
             break;
         case 'F2':
             moveObject(floor2ClassGroup, 1, 1, 1, 1);
             moveObject(floor1ClassGroup, 1, 0, 1, 0);
             moveObject(floor3ClassGroup, 1, 0, 1, 0);
             selectedFloor = floor2Group;
+            console.log('F1 selected');
             break;
         case 'F3':
             moveObject(floor3ClassGroup, 1, 1, 1, 1);
             moveObject(floor1ClassGroup, 1, 0, 1, 0);
             moveObject(floor2ClassGroup, 1, 0, 1, 0);
             selectedFloor = floor3Group;
+            console.log('F1 selected');
             break;
     }
     changeFloor(selectedFloor);

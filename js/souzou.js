@@ -169,21 +169,21 @@ loader.load(
     
         // 1階のオブジェクトを1階のグループに追加
 
-        const objectsFloor1 = ['1_1', '1_2', '1_3', '1_4', '1_men', '1_women', '1_other'];
+        const objectsFloor1 = ['1_1', '1_2', '1_3', '1_4', '1_men', '1_women', '1_10', '1_11', '1_12', '1_13'];
         addGroup(floor1ClassGroup, objectsFloor1, gltf);
         const objectsAllFloor1 = ['F1', 'Stair1', 'hito', 'kanban', 'monitor'];
         floor1Group.add(floor1ClassGroup);
         addGroup(floor1Group, objectsAllFloor1, gltf);
     
         // 2階のオブジェクトを2階のグループに追加
-        const objectsFloor2 = ['2_1', '2_2', '2_3', '2_4', '2_5', '2_6', '2_men', '2_women', '2_other', 'zinja'];
+        const objectsFloor2 = ['2_1', '2_2', '2_3', '2_4', '2_5', '2_6', 'zinja', '2_men', '2_women', '2_10', '2_11', '2_12'];
         addGroup(floor2ClassGroup, objectsFloor2, gltf);
         const objectsAllFloor2 = ['F2', 'Stair2', '2_fence', '2_tables', '2_kanban'];
         floor2Group.add(floor2ClassGroup);
         addGroup(floor2Group, objectsAllFloor2, gltf);
     
         // 3階のオブジェクトを3階のグループに追加
-        const objectsFloor3 = ['3_1', '3_2', '3_3', '3_4', '3_5', '3_6', '3_men', '3_women', '3_other'];
+        const objectsFloor3 = ['3_1', '3_2', '3_3', '3_4', '3_5', '3_6', '3_men', '3_women', '3_10', '3_11', '3_12', '3_13'];
         addGroup(floor3ClassGroup, objectsFloor3, gltf);
         const objectsAllFloor3 = ['F3', 'Stair3', '3_fence', '3_tables', '3_kanban'];
         floor3Group.add(floor3ClassGroup);
@@ -277,6 +277,8 @@ function onMouseClick(event) {
 
     if (intersects.length > 0) {
         const intersectedObject = intersects[0].object;
+        const parentName = intersectedObject.parent.name;
+        console.log(parentName);
 
         /*
         if (guideText) {
@@ -305,13 +307,16 @@ function onMouseClick(event) {
                 changeLocationText(intersectedObject.parent.name);
             }
         }
-        else{
+        else if ((locateInfo[intersectedObject.name]) || ("name" in locateInfo[parentName])){
+            console.log(intersectedObject.name);
+        }
+        else {
 
             //クラスを選択
             const worldPosition = new THREE.Vector3();
             intersectedObject.getWorldPosition(worldPosition);
-            console.log(intersectedObject.parent.name); // ワールド座標を出力
-            showInfoBox(intersectedObject.parent.name);
+            console.log(parentName); // ワールド座標を出力
+            showInfoBox(parentName);
 
             if (guideText) {
                 guideText.style.display = 'none';
@@ -374,10 +379,10 @@ window.onload = function() {
     } 
   else {
         moveCamera('home', 3, "power3.in");
-　}
+}
 
     // playAnimation関数
-　function playAnimation(name, onComplete = null) {
+function playAnimation(name, onComplete = null) {
     const glbFileName = locateInfo[name]['animationFile'] || '';
 
     const loader = new THREE.GLTFLoader();

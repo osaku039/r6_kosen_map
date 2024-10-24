@@ -88,7 +88,87 @@ animate();
 function showInfoBox() {
     const infoBox = document.getElementById('infoBox');
     // const info = Info[name]['description'] || '情報が見つかりません'; // オブジェクトの情報を取得
-    infoBox.innerHTML = `<strong>アリーナプログラム</strong>`;
+    infoBox.innerHTML = `
+            <ul class="time-schedule">
+            <strong>アリーナプログラム</strong>
+            <li>
+            <span class="time">10:00</span>
+            <div class="sch_box"><p class="sch_title">Haruto Fujiki</p>
+            </div>
+            </li>
+            <li>
+                <span class="time">10:15</span>
+                <div class="sch_box"><p class="sch_title">ic</p>
+            </div>
+            </li>
+            <li>
+            <span class="time">10:30</span>
+            <div class="sch_box"><p class="sch_title">海パンスクワット</p>
+            </div>
+            </li>
+            <li>
+                <span class="time">10:45</span>
+                <div class="sch_box"><p class="sch_title">動点P-MODEL</p>
+            </div>
+            </li>
+            <li>
+                <span class="time">11:00</span>
+                <div class="sch_box"><p class="sch_title">KO専生は全員オタクなのか？</p>
+            </div>
+            </li>
+            <li>
+                <span class="time">11:15</span>
+                <div class="sch_box"><p class="sch_title">良いコール、mc事情</p>
+            </div>
+            </li>
+            <li>
+                <span class="time">11:30</span>
+                <div class="sch_box"><p class="sch_title">Eggsplosion</p>
+            </div>
+            </li>
+            <li>
+                <span class="time">11:45</span>
+                <div class="sch_box"><p class="sch_title">タイ高専イベント</p>
+            </div>
+            </li>
+            <li>
+                <span class="time">12:00</span>
+                <div class="sch_box"><p class="sch_title">カラオケ大会予選</p>
+            </div>
+            </li>
+            <li>
+                <span class="time">13:00</span>
+                <div class="sch_box"><p class="sch_title">教員有志[C]</p>
+            </div>
+            </li>
+            <li>
+                <span class="time">13:15</span>
+                <div class="sch_box"><p class="sch_title">教員有志[B]</p>
+            </div>
+            </li>
+            <li>
+                <span class="time">13:30</span>
+                <div class="sch_box"><p class="sch_title">y四段活用y</p>
+            </div>
+            </li>
+            <li>
+                <span class="time">13:45</span>
+                <div class="sch_box"><p class="sch_title">NOW OWN SALE!</p>
+            </div>
+            </li>
+            <li>
+                <span class="time">14:00</span>
+                <div class="sch_box"><p class="sch_title">島唐辛子</p>
+            </div>
+            </li>
+            <li>
+                <span class="time">14:15</span>
+                <div class="sch_box"><p class="sch_title">EQ20</p>
+            </div>
+            </li>
+        </ul>
+
+    `;
     //  // ボタンのクリックイベントを設定
     // document.getElementById('animation').addEventListener('click', () => playAnimation(name));
      

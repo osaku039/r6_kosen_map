@@ -163,10 +163,12 @@ function movePage(name, object) {
     //ようこそのテキストを非表示にする
     const welcomeText = document.getElementById('overlay-text');
     const guideText = document.getElementById('guide');
+    const locationText = document.getElementById('location-text');
 
     if (welcomeText) {
         welcomeText.style.display = 'none';
         guideText.style.display = 'none';
+        locationText.style.display = 'none';
         console.log("welcomeText is now hidden.");
     } 
     else {

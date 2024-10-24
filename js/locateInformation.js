@@ -207,5 +207,14 @@ export const locateInfo = {
         "locationText": "講義室x-x",
         "animationFile":"",
     },
+    'hairu':{
+        "animationFile":'models/aruku4.glb',
+    },
+    'hito':{
+        "animationFile":'models/hito.glb',
+    },
+    'genzaiti':{
+        "animationFile":'models/current_location.glb',
+    }
 
 };

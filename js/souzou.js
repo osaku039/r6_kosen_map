@@ -353,9 +353,8 @@ window.onload = function() {
     if (classId !== null) {
         moveCamera('home', 0, "power1.out");
         gsap.to({}, {
-            delay:0.2,
+            delay: 0.2,
             onComplete: function() {
-                console.log("クエリ"+classId);
                 const floor = classId.charAt(0);
                 switch (floor){
                     case '1':
@@ -368,17 +367,86 @@ window.onload = function() {
                         showFloor('F3');
                         break;
                 }
-                // 取得したidを showInfoBox に渡して実行
                 showInfoBox(classId);
                 classId = "";
             }
         });
-    }
-    else{
-        moveCamera('home', 3, "power3.in");     
-        console.log('わあ');   
-    }
+    } 
+  else {
+        moveCamera('home', 3, "power3.in");
+　}
+
+    // playAnimation関数
+　function playAnimation(name, onComplete = null) {
+    const glbFileName = locateInfo[name]['animationFile'] || '';
+
+    const loader = new THREE.GLTFLoader();
+    loader.load(
+        glbFileName,
+        function (gltf) {
+            const model = gltf.scene;
+            scene.add(model);
+
+            const mixer = new THREE.AnimationMixer(model);
+            const clips = gltf.animations;
+
+            if (clips.length > 0) {
+                const action = mixer.clipAction(clips[0]);
+                
+                // アニメーションの設定
+                if (name === 'genzaiti') {
+                    action.loop = THREE.LoopRepeat; // genzaitiはループ
+                } else {
+                    action.loop = THREE.LoopOnce; 
+                    action.clampWhenFinished = true; //最後の状態で止める
+                }
+
+                action.play();
+
+                action.onFinished = () => {
+                    if (onComplete) onComplete(); 
+                    if (name !== 'genzaiti') {
+                        model.visible = false; // genzaiti以外は非表示
+                    }
+                };
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+                mixer.update(0.01);
+                renderer.render(scene, camera);
+            }
+
+            animate();
+        },
+        undefined,
+        function (error) {
+            console.error('アニメーションの読み込み中にエラーが発生しました', error);
+        }
+    );
+
 }
+
+
+playAnimation('hairu', () => {
+    // アニメーション終了後、aruku4を非表示にする
+    const aruku4Object = scene.getObjectByName('hairu');
+    if (aruku4Object) {
+        aruku4Object.visible = false; // 非表示
+    }
+});
+   
+ // genzaitiアニメーションをループ再生
+ playAnimation('genzaiti', () => {
+});
+// hito.glb（ループしない）
+playAnimation('hito', () => {
+});
+
+};
+
+
+
     
 //クリックされたオブジェクトの情報を表示
 function showInfoBox(name) {

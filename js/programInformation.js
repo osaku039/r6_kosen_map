@@ -75,7 +75,7 @@ export const classInfo = {
     '3-ms':{
         "className":"3年機械",
         "program":"REMOVE BEFORE FLIGHT",
-        "category":"フライトシミュレータ",
+        "category":"other",
         "comment":"REMOVE BEFORE FLIGHT",
         "location":"3_7",
         "photo": "./photo/3-ms.jpg",

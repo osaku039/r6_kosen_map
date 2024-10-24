@@ -29,8 +29,7 @@ controls.enableZoom = false;    // ズームを無効
 // 光源の追加
 const ambientLight = new THREE.AmbientLight(0xf0f0f0);
 scene.add(ambientLight);
-
-const directionalLight = new THREE.DirectionalLight(0xffffff,0.5 ); // 1.5に増加
+const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
 directionalLight.position.set(2, 30, 0).normalize();
 scene.add(directionalLight);
 
@@ -38,31 +37,41 @@ let originalModel;
 let newModel;
 
 let clickableObjects = []; // クリック可能なオブジェクトのリスト
-
-
-
-let floorGroup = new THREE.Group();
-// GLTFモデルのロード
-const loader = new THREE.GLTFLoader();
 const clock = new THREE.Clock(); // Clockを定義
+const models = [];  // モデルを格納する配列
+const mixers = [];  // AnimationMixerを格納する配列
+const loaders = new THREE.GLTFLoader();
+let floorGroup = new THREE.Group();
+// モデルを読み込む関数
+function loadModel(url) {
+    return new Promise((resolve, reject) => {
+        loaders.load(url, function (gltf) {
+            const model = gltf.scene;
+            scene.add(model);
+            console.log(`${url} loaded`);
 
-loader.load(
-    'models/zentai4.glb',
-    function (gltf) {
-        originalModel = gltf.scene;
-        scene.add(originalModel);
-        console.log('Original model loaded'); // ロード成功ログ
-        const mixer = new THREE.AnimationMixer(originalModel);
-        console.log(gltf.scene);  // シーン内のオブジェクト全体を出力
+            const mixer = new THREE.AnimationMixer(model);
+            gltf.animations.forEach((clip) => {
+                mixer.clipAction(clip).play();
+                console.log('Playing animation:', clip.name);
+            });
 
-        console.log(originalModel); // モデル内のオブジェクトの確認
-
-        // アニメーションの取得と追加
-        gltf.animations.forEach((clip) => {
-            mixer.clipAction(clip).play();
-            console.log('Playing animation:', clip.name); // アニメーション確認用ログ
+            models.push(model);
+            mixers.push(mixer);
+            resolve();
+        }, undefined, function (error) {
+            console.error('An error happened', error);
+            reject(error);
         });
-        const objectList = ['building', 'piano', 'yatai'];
+    });
+}
+
+// モデルを非同期で読み込む
+Promise.all([
+    loadModel('models/zentai4.glb'),
+    loadModel('models/People.glb'),
+]).then(() => {
+    console.log('All models loaded');
         // const floor = ['F1', 'F2', 'F3', 'F4'];
 
         // floor.forEach(name => {
@@ -81,51 +90,32 @@ loader.load(
         //     }
         // });
 
-        const object = gltf.scene.getObjectByName('media');
-        console.log(object);
-        object.children.forEach(child => {
-            console.log(child.parent.name);
-            if (child.isMesh && child.name === '立方体010') {
-                console.log(child.name);
-                // メッシュに対する処理
-                child.material.transparent = true;
-                child.material.alphaToCoverage = true;
-                child.material.opacity = 0.2;
-            }
-        });
 
-        // クリック可能なオブジェクトをリストに追加
-        objectList.forEach(name => {
-            const clickableObject = scene.getObjectByName(name);
-            console.log('Checking name:', name);
-
-            if (clickableObject) {
-                clickableObjects.push(clickableObject);
-                console.log('Clickable object:', clickableObject);
-            }else {
-                console.log("無理でした...");
-            }
-        });
-
-        // floorGroup.visible = false;
-        
-        console.log('All clickable objects:', clickableObjects); // すべてのクリック可能なオブジェクトを確認
-        // アニメーションの更新用
-        function animate() {
-            requestAnimationFrame(animate);
-
-            const delta = clock.getDelta();
-            if (mixer) mixer.update(delta);
-
-            renderer.render(scene, camera);
+    // クリック可能なオブジェクトのリスト作成
+    const objectNames = ['building', 'piano', 'yatai', 'object1', 'object2'];
+    objectNames.forEach(name => {
+        const object = models.find(model => model.getObjectByName(name));
+        if (object) {
+            clickableObjects.push(object.getObjectByName(name));
+            console.log('Clickable object:', name);
+        } else {
+          console.log("無理でした...");
         }
-        animate(); // アニメーションループ開始
-    },
-    undefined,
-    function (error) {
-        console.error('An error happened', error);  //エラーログ
+    });
+
+    // アニメーションの更新用
+    function animate() {
+        requestAnimationFrame(animate);
+        const delta = clock.getDelta();
+
+        // すべてのmixerを更新
+        mixers.forEach(mixer => mixer.update(delta));
+
+        renderer.render(scene, camera);
     }
-);
+    animate();
+});
+
 
 
 // アニメーション対象のオブジェクト
@@ -151,7 +141,16 @@ function animate() {
     // console.log(camera.position);
 }
 animate();
-
+//アニメーション再生
+function playAnimationIfConditionMet(condition, url) {
+    if (condition) {
+        loadModel(url).then(() => {
+            console.log('入ります');
+        }).catch((error) => {
+            console.error('入りません！',error);
+        });
+    }
+}
 // クリックイベント
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
@@ -163,8 +162,20 @@ function onMouseClick(event) {
     raycaster.setFromCamera(mouse, camera);
 
     const intersects = raycaster.intersectObjects(clickableObjects, true);
-
+    // 特定のオブジェクトがクリックされたかをチェック
     if (intersects.length > 0) {
+        const intersectedObject = intersects[0].object;
+        console.log('Intersected object:', intersectedObject);
+        
+        // buildingがクリックされたときにアニメーションを再生
+        console.log('アニメーション始まり');
+        playAnimationIfConditionMet(intersectedObject.parent.name === 'building', 'models/hairu1.glb');
+        console.log('アニメーションオワタ');
+    } else {
+        console.log('No clickable object was clicked.'); // クリックされた場所にオブジェクトがなかった場合
+    }
+    if (intersects.length > 0) {
+        console.log('aaaaa');
         const intersectedObject = intersects[0].object;
         console.log('Intersected object:', intersectedObject);
         console.log(intersectedObject.parent.name);
@@ -195,8 +206,8 @@ function movePage(name, object) {
     switch (name){
         case 'building':
             link = "./souzou.html";
-            firstPosition = [-1.74,-1.5,138.5];
-            secondPosition = [-1.74,-1.5,55];
+            firstPosition = [-1.74,-1.5,65.5];
+            secondPosition = [-1.74,-1.5,50];
             // secondPosition = [-1.74,-1.5,4.10];
             break;
         case 'piano':

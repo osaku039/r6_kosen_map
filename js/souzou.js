@@ -569,7 +569,6 @@ function changeLocationText(name) {
 //Objectを動かす
 function moveObject(target, x, y, z, duration) {
     var floor;
-    console.log(target);
     floor = 'F' + target.children[0].name.charAt(0);
     var originalPosition = locateInfo[floor]['Position'] || 0;
     var originalYPosition = originalPosition[1];
@@ -611,23 +610,28 @@ function showClassByCategory(category) {
         }
     }
     const t = scene.getObjectByName('2_5');
-    moveHomePosition(1.5, "power1.out", true, 0);
+    moveHomePosition(1.5, "power1.out", true, 0.01);
     console.log(list);
 
     list.forEach(name => {
         const target = scene.getObjectByName(name);
-        const parent = target.parent;
+        const position = target.position.y;
         const scale =  target.scale.clone();
-        console.log(scale.x);
-        scene.add(target);
-        target.scale.set(scale.x, 0, scale.z);
+        console.log(scale);
+        const floor = 'F' + target.name.charAt(0);
+        var originalPosition = locateInfo[floor]['Position'] || 0;
+        var originalYPosition = originalPosition[1];
+        console.log(originalYPosition);
         gsap.to(target.scale, {
             x: scale.x,  // x方向の拡大
-            y: scale.y,  // y方向の拡大
+            y: scale.y*100,  // y方向の拡大
             z: scale.z,  // z方向の拡大
             duration: 0.5,  // アニメーションの持続時間
+            onUpdate: function() {
+                target.position.y = position;
+            },
         });
-        console.log(target.scale);
+        console.log(target.position.y);
         // floor2ClassGroup.add(target);
     });
 }

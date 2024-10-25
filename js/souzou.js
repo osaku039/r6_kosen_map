@@ -362,7 +362,9 @@ function getQueryParam(param) {
 }
 
 // ページがロードされたときにクエリパラメータを取得して showInfoBox 関数を呼び出す
-window.addEventListener('load', function() {
+window.onload = function() {
+    
+
     let classId = getQueryParam('id');
     //gsapで0.2秒待つことによってgltfのロードを待つという力技を使いました。awaitとか使えるのかな?
     moveCamera('home2', 0, "power1.out");
@@ -486,7 +488,7 @@ window.addEventListener('load', function() {
         });
     });
 
-});
+}
 
 
 
@@ -504,6 +506,11 @@ function showInfoBox(name) {
     const photo = classInfo[classId]['photo'];
     const targetObject = scene.getObjectByName(name);
     infoBox.innerHTML = `
+        <style>
+            .card__footer_01 {
+                
+            }
+        </style>
       <div class="l-wrapper_01">
         <article class="card_01">
           <div class="card__header_01">
@@ -519,7 +526,7 @@ function showInfoBox(name) {
             <p class="card__text2_01">${comment}</p>
           </div>
           <div class="card__footer_01">
-            <button id="animation">経路選択</button>
+            <button id="animation">ここに行く！</button>
           </div>
           
         </article>

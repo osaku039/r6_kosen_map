@@ -189,7 +189,7 @@ loader.load(
         addGroup(floor2Group, objectsAllFloor2, gltf);
     
         // 3階のオブジェクトを3階のグループに追加
-        const objectsFloor3 = ['3_1', '3_2', '3_3', '3_4', '3_5', '3_6', '3_men', '3_women', '3_10', '3_11', '3_12', '3_13'];
+        const objectsFloor3 = ['3_1', '3_2', '3_3', '3_4', '3_5', '3_6', '3_7', '3_men', '3_women', '3_10', '3_11', '3_12', '3_13'];
         addGroup(floor3ClassGroup, objectsFloor3, gltf);
         const objectsAllFloor3 = ['F3', 'Stair3', '3_fence', '3_tables', '3_kanban'];
         floor3Group.add(floor3ClassGroup);
@@ -260,7 +260,7 @@ function animate() {
     
     controls.update(); //カメラのコントロールを更新
     renderer.render(scene, camera); //シーンを描画
-    // console.log(camera.position);
+    console.log(camera.position);
     // console.log(currentFloor);
 }
 animate(); //アニメーション開始

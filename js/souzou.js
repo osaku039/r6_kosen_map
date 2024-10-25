@@ -19,6 +19,7 @@ document.getElementById('container').appendChild(renderer.domElement); //レン�
 renderer.setClearColor(0xffe271);  //背景色の追加
 
 let isShowInfo = false; //Infoを消すときに使っていると思う
+let isPlayAnimation = false;
 let currentFloor = 'home'; //1個前の視点に戻るときに使うと思う
 let clickTimeout = null;
 
@@ -78,8 +79,7 @@ function playAnimation(name) {
             // 読み込んだアニメーションをシーンに追加
             const model = gltf.scene;
             scene.add(model);
-
-         
+                    
             const mixer = new THREE.AnimationMixer(model);
             const clips = gltf.animations; // アニメーションクリップを取得
             
@@ -118,6 +118,7 @@ function playAnimation(name) {
                     objectToHide.visible = false; // オブジェクトを非表示
                     currentAction = null; 
                     objectToHide = null;
+                    isPlayAnimation = false; //フラグを更新
 
                     // イベントリスナーを解除
                     window.removeEventListener('click', stopAnimation);
@@ -526,7 +527,10 @@ function showInfoBox(name) {
     // ボタンのクリックイベントを設定
     document.getElementById('animation').addEventListener('click', function(event) {
         event.stopPropagation();
-        playAnimation(name);
+        if (!isPlayAnimation) {
+            isPlayAnimation = true;
+            playAnimation(name);
+        }
     });
      
     infoBox.style.display = 'block';
@@ -739,7 +743,6 @@ function moveCamera(name, duration, ease) {
 
 // クリックイベントハンドラー
 function handleClick(event) {
-    console.log("はんどるクリックです!!");
     if (clickTimeout !== null) {
         // 2回目のクリック: ダブルクリックと判定
         clearTimeout(clickTimeout);

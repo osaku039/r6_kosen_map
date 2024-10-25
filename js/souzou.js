@@ -82,10 +82,12 @@ function playAnimation(name) {
          
             const mixer = new THREE.AnimationMixer(model);
             const clips = gltf.animations; // アニメーションクリップを取得
+            
+            window.removeEventListener('click', handleClick);
 
             moveHomePosition(2, "power1.in", true, 1);
 
-            moveCamera('home', 2, "power1.in");
+            // moveCamera('home', 2, "power1.in");
 
             //クラスをほんのり透明に
             changeTransparent(floor1ClassGroup, 0.1);
@@ -108,7 +110,6 @@ function playAnimation(name) {
                     }
                 }
             });
-            window.removeEventListener('click', handleClick());
 
             // クリックでアニメーション停止
             window.addEventListener('click', function stopAnimation() {
@@ -271,6 +272,10 @@ let selectedFloor; //選ばれたフロア
 
 //クリックイベント
 function onMouseClick(event) {
+    if (!event) {
+        console.log("Eventがありません");
+        return;
+    }
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
     raycaster.setFromCamera(mouse, camera); //マウス位置とカメラ位置の調整
@@ -734,6 +739,7 @@ function moveCamera(name, duration, ease) {
 
 // クリックイベントハンドラー
 function handleClick(event) {
+    console.log("はんどるクリックです!!");
     if (clickTimeout !== null) {
         // 2回目のクリック: ダブルクリックと判定
         clearTimeout(clickTimeout);

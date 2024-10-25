@@ -428,6 +428,7 @@ window.addEventListener('load', function() {
                     if (ensui) {
                         floor1Group.add(ensui); // 'hito'をグループに追加
                     }
+
     
 
                     action.onFinished = () => {
@@ -438,6 +439,7 @@ window.addEventListener('load', function() {
                             console.log("げんざいち");
                         }
                     };
+
                 }
 
                 function animate() {

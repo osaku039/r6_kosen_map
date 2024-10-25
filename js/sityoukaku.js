@@ -83,8 +83,9 @@ const animatedObjects = [];
 // レンダリングループ
 function animate() {
     requestAnimationFrame(animate);
-
-    originalModel.rotation.y += 0.003;
+    if(originalModel){
+        originalModel.rotation.y += 0.003;
+    }
 
     // アニメーション対象のオブジェクトを更新
     animatedObjects.forEach(obj => {
@@ -127,7 +128,38 @@ function onMouseClick(event) {
 function showInfoBox() {
     const infoBox = document.getElementById('infoBox');
     // const info = Info[name]['description'] || '情報が見つかりません'; // オブジェクトの情報を取得
-    infoBox.innerHTML = `<strong>視聴覚室プログラム</strong>`;
+    infoBox.innerHTML = `        <ul class="time-schedule">
+        <strong class="title">視聴覚プログラム</strong>
+        <div class="am">
+            <li>
+            <span class="time">10:30</span>
+            <div class="sch_box"><p class="sch_title">ピアノ同好会</p>
+            </div>
+            </li>
+            <li>
+                <span class="time">12:00</span>
+                <div class="sch_box"><p class="sch_title">休憩</p>
+            </div>
+            </li>
+            <li>
+            <span class="time">12:10</span>
+            <div class="sch_box"><p class="sch_title">スタジオエッグ</p>
+            </div>
+            </li>
+        </div>
+        <div class="pm">
+            <li>
+                <span class="time">12:30</span>
+                <div class="sch_box"><p class="sch_title">休憩</p>
+            </div>
+            </li>
+            <li>
+                <span class="time">13:00</span>
+                <div class="sch_box"><p class="sch_title">吹奏楽同好会</p>
+            </div>
+            </li>
+        </div>
+    </ul>`;
     //  // ボタンのクリックイベントを設定
     // document.getElementById('animation').addEventListener('click', () => playAnimation(name));
      

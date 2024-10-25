@@ -177,7 +177,7 @@ export const classInfo = {
         "category":"eat",
         "comment":"『友だちん家に行っていた時を思い出せる喫茶店です』",
         "location":"3_5",
-        "photo": "",
+        "photo": "./photo/5-ic.jpeg",
         "iconFile":"./icon/5-ic.png",
     },
     'zinja':{

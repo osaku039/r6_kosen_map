@@ -239,6 +239,9 @@ export const locateInfo = {
     'hito':{
         "animationFile":'models/hito.glb',
     },
+    'Cube':{
+        "animationFile":'models/Cube.glb',
+    },
     'genzaiti':{
         "animationFile":'models/current_location.glb',
     }

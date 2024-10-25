@@ -18,7 +18,9 @@ document.getElementById('container').appendChild(renderer.domElement); //レン�
 // renderer.setClearColor(0xfff2b9);  //背景色の追加
 renderer.setClearColor(0xffe271);  //背景色の追加
 
-let isShowInfo = false;
+let isShowInfo = false; //Infoを消すときに使っていると思う
+let currentFloor = 'home'; //1個前の視点に戻るときに使うと思う
+let clickTimeout = null;
 
 // OrbitControlsのセットアップ
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -58,6 +60,7 @@ let currentAction = null;
 let objectToHide = null;
 gsap.registerPlugin(CSSPlugin); //gsapのやつ
 
+
 const locationText = document.getElementById('location-text');
 
 //経路選択のアニメーション
@@ -76,7 +79,6 @@ function playAnimation(name) {
          
             const mixer = new THREE.AnimationMixer(model);
             const clips = gltf.animations; // アニメーションクリップを取得
-            window.removeEventListener('dblclick', onMouseClick);
 
             moveHomePosition(2, "power1.in", true, 1);
 
@@ -114,7 +116,7 @@ function playAnimation(name) {
 
                     // イベントリスナーを解除
                     window.removeEventListener('click', stopAnimation);
-                    window.addEventListener('dblclick', onMouseClick);
+                    window.addEventListener('click', handleClick);
 
                     moveObject(floor1ClassGroup, 1, 0, 1, 0.3);
                     moveObject(floor2ClassGroup, 1, 0, 1, 0.3);
@@ -153,7 +155,7 @@ function playAnimation(name) {
 // GLTFモデルのロード
 const loader = new THREE.GLTFLoader();
 loader.load(
-    'models/souzou6.glb',
+    'models/souzou7.glb',
     function (gltf) {
         // const groupedModel = createGroupedModel(gltf); // グループ化されたモデルを取得
         originalModel = gltf.scene; //読み込んだモデルの取得
@@ -167,21 +169,21 @@ loader.load(
     
         // 1階のオブジェクトを1階のグループに追加
 
-        const objectsFloor1 = ['1_1', '1_2', '1_3', '1_4', '1_men', '1_women', '1_other'];
+        const objectsFloor1 = ['1_1', '1_2', '1_3', '1_4', '1_men', '1_women', '1_10', '1_11', '1_12', '1_13'];
         addGroup(floor1ClassGroup, objectsFloor1, gltf);
         const objectsAllFloor1 = ['F1', 'Stair1', 'hito', 'kanban', 'monitor'];
         floor1Group.add(floor1ClassGroup);
         addGroup(floor1Group, objectsAllFloor1, gltf);
     
         // 2階のオブジェクトを2階のグループに追加
-        const objectsFloor2 = ['2_1', '2_2', '2_3', '2_4', '2_5', '2_6', '2_men', '2_women', '2_other', 'zinja'];
+        const objectsFloor2 = ['2_1', '2_2', '2_3', '2_4', '2_5', '2_6', 'zinja', '2_men', '2_women', '2_10', '2_11', '2_12'];
         addGroup(floor2ClassGroup, objectsFloor2, gltf);
         const objectsAllFloor2 = ['F2', 'Stair2', '2_fence', '2_tables', '2_kanban'];
         floor2Group.add(floor2ClassGroup);
         addGroup(floor2Group, objectsAllFloor2, gltf);
     
         // 3階のオブジェクトを3階のグループに追加
-        const objectsFloor3 = ['3_1', '3_2', '3_3', '3_4', '3_5', '3_6', '3_men', '3_women', '3_other'];
+        const objectsFloor3 = ['3_1', '3_2', '3_3', '3_4', '3_5', '3_6', '3_men', '3_women', '3_10', '3_11', '3_12', '3_13'];
         addGroup(floor3ClassGroup, objectsFloor3, gltf);
         const objectsAllFloor3 = ['F3', 'Stair3', '3_fence', '3_tables', '3_kanban'];
         floor3Group.add(floor3ClassGroup);
@@ -212,11 +214,12 @@ loader.load(
         
         const clickable = Object.keys(locateInfo); // クリック可能なオブジェクト名のリスト
 
+        document.getElementById('guide').innerText = '階を選んで、タップしてみてください！';
+
         clickable.forEach(name => {
             const clickableObject = scene.getObjectByName(name);
             if (clickableObject) {
                 clickableObjects.push(clickableObject);
-                console.log('Clickable object siroiyatsu', clickableObject);
             }
         });
         // bitton();
@@ -246,11 +249,13 @@ function animate() {
     requestAnimationFrame(animate); //毎フレーム更新
 
     // originalModel.rotation.x += 0.2;
-    document.getElementById('guide').innerText = 'モデルをタップしてみてください！';
+    
+    //guideここに入れると強すぎるから移動
     
     controls.update(); //カメラのコントロールを更新
     renderer.render(scene, camera); //シーンを描画
     // console.log(camera.position);
+    // console.log(currentFloor);
 }
 animate(); //アニメーション開始
 
@@ -271,10 +276,11 @@ function onMouseClick(event) {
     const guideText = document.getElementById('guide');//テキストを非表示するため要素取得
 
     if (intersects.length > 0) {
-        console.log('モデルがクリックされました！');
         const intersectedObject = intersects[0].object;
-        console.log('Intersected object:', intersectedObject);
+        const parentName = intersectedObject.parent.name;
+        console.log(parentName);
 
+        /*
         if (guideText) {
             guideText.style.display = 'none';
             guideText.style.display = 'none';
@@ -283,29 +289,57 @@ function onMouseClick(event) {
         else {
             console.log("guideText not found.");
         }
+        */
 
         //階の選択
         if (intersectedObject.parent.name.startsWith('F')){
             console.log(intersectedObject.parent.name);
-
-            moveCamera(intersectedObject.parent.name, 1.5, "power1.out");
-            showFloor(intersectedObject.parent.name);
-            changeLocationText(intersectedObject.parent.name);
+            if (guideText) {
+                document.getElementById('guide').innerText = '教室を選んでください！';
+                guideText.style.display = 'block';
+            } 
+            else {
+                console.log("guideText not found.");
+            }
+            if (currentFloor != intersectedObject.parent.name){
+                moveCamera(intersectedObject.parent.name, 1.5, "power1.out");
+                showFloor(intersectedObject.parent.name);
+                changeLocationText(intersectedObject.parent.name);
+            }
         }
-        else{
+        else if ((locateInfo[intersectedObject.name]) || ("name" in locateInfo[parentName])){
+            console.log(intersectedObject.name);
+        }
+        else {
 
             //クラスを選択
             const worldPosition = new THREE.Vector3();
             intersectedObject.getWorldPosition(worldPosition);
-            console.log(intersectedObject.parent.name); // ワールド座標を出力
-            showInfoBox(intersectedObject.parent.name);
+            console.log(parentName); // ワールド座標を出力
+            showInfoBox(parentName);
+
+            if (guideText) {
+                guideText.style.display = 'none';
+                guideText.style.display = 'none';
+                console.log("guideText is now hidden.");
+            } 
+            else {
+                console.log("guideText not found.");
+            }
 
         }
     }
     else {
+        if (isShowInfo == true) {
+            hideInfoBox();
+            isShowInfo = false;
+        };
         console.log("ぱあ");
-        moveHomePosition(2, "power1.out", true, 0);
-        hideInfoBox();
+        guideText.style.display = 'block';
+        document.getElementById('guide').innerText = '階を選んで、タップしてみてください！';
+        if (currentFloor != 'home'){
+            moveHomePosition(2, "power1.out", true, 0);
+        }
     }
 
 
@@ -318,15 +352,14 @@ function getQueryParam(param) {
 }
 
 // ページがロードされたときにクエリパラメータを取得して showInfoBox 関数を呼び出す
-window.onload = function() {
+window.addEventListener('load', function() {
     let classId = getQueryParam('id');
-    //とても汚い方法です。gsapで0.2秒待つことによってgltfのロードを待っています。awaitとか使えるのかな?
+    //gsapで0.2秒待つことによってgltfのロードを待つという力技を使いました。awaitとか使えるのかな?
     if (classId !== null) {
         moveCamera('home', 0, "power1.out");
         gsap.to({}, {
-            delay:0.2,
+            delay: 0.2,
             onComplete: function() {
-                console.log("クエリ"+classId);
                 const floor = classId.charAt(0);
                 switch (floor){
                     case '1':
@@ -339,16 +372,98 @@ window.onload = function() {
                         showFloor('F3');
                         break;
                 }
-                // 取得したidを showInfoBox に渡して実行
                 showInfoBox(classId);
                 classId = "";
             }
         });
+    } 
+  else {
+        moveCamera('home', 3, "power3.in");
     }
-    else{
-        moveCamera('home', 3, "power3.in");        
+
+    // playAnimation関数
+    function playAnimation(name, onComplete = null) {
+        const glbFileName = locateInfo[name]['animationFile'] || '';
+
+        const loader = new THREE.GLTFLoader();
+        loader.load(
+            glbFileName,
+            function (gltf) {
+                const model = gltf.scene;
+                scene.add(model);
+
+                const mixer = new THREE.AnimationMixer(model);
+                const clips = gltf.animations;
+
+                if (clips.length > 0) {
+                    const action = mixer.clipAction(clips[0]);
+
+                    // アニメーションの設定
+                    if (name === 'genzaiti') {
+                        action.loop = THREE.LoopRepeat; // genzaitiはループ
+                    } else {
+                        action.loop = THREE.LoopOnce; 
+                        action.clampWhenFinished = true; //最後の状態で止める
+                    }
+
+                    action.play();
+
+                    action.onFinished = () => {
+                        if (onComplete) onComplete(); 
+                        if (name !== 'genzaiti') {
+                            model.visible = false; // genzaiti以外は非表示
+                        }
+                    };
+                }
+
+                function animate() {
+                    requestAnimationFrame(animate);
+                    mixer.update(0.01);
+                    renderer.render(scene, camera);
+                }
+
+                animate();
+            },
+            undefined,
+            function (error) {
+                console.error('アニメーションの読み込み中にエラーが発生しました', error);
+            }
+        );
     }
-}
+
+
+    playAnimation('hairu', () => {
+        // アニメーション終了後、aruku4を非表示にする
+        const aruku4Object = scene.getObjectByName('hairu');
+        if (aruku4Object) {
+            aruku4Object.visible = false; // 非表示
+        }
+    });
+    
+     // genzaitiアニメーションをループ再生
+    playAnimation('genzaiti', () => {
+    });
+    // hito.glb（ループしない）
+    playAnimation('hito', () => {
+    });
+
+
+    // data-role="action" の属性を持つ全ての要素を取得
+    const buttons = document.querySelectorAll('[data-role="category"]');
+    console.log(buttons);
+
+    buttons.forEach(button => {
+        button.addEventListener('click', function(event) {
+            const buttonId = button.getAttribute('data-id');
+            event.stopPropagation();  // クリックイベントがシーンに伝播するのを防ぐ
+            console.log(`Button ${buttonId} clicked!`);
+        });
+    });
+
+});
+
+
+
     
 //クリックされたオブジェクトの情報を表示
 function showInfoBox(name) {
@@ -388,7 +503,26 @@ function showInfoBox(name) {
      
     infoBox.style.display = 'block';
     moveCamera(name, 1.5, "power1.out");
-    changeLocationText(name); 
+    changeLocationText(name);
+    if (currentFloor.startsWith('F')){
+        currentFloor = "_" + currentFloor;
+    }
+}
+
+function returnCameraPosition(event) {
+    console.log("リターン!");
+    switch (currentFloor.slice(0,1)) {
+        case '_':
+            currentFloor = currentFloor.slice(1);
+            moveCamera(currentFloor, 1.5, "power1.out");
+            showFloor(currentFloor);
+            break;
+        case 'F':
+            moveHomePosition(2, "power1.out", true, 0);
+            break;
+        default:
+            break;
+    }
 }
 
 // InfoBox を非表示にする関数
@@ -404,8 +538,6 @@ function changeLocationText(name) {
 
 //Objectを動かす
 function moveObject(group, x, y, z, duration) {
-    console.log(group.name);
-    console.log(group.children); // childrenのコピーを表示
     var floor = 'F' + group.children[0].name.charAt(0);
     var originalPosition = locateInfo[floor]['Position'] || 0;
     var originalYPosition = originalPosition[1];
@@ -437,16 +569,6 @@ function changeTransparent(target, opacity) {
     });
 }
 
-function changeFloor(selectedFloor) {
-    floor1Group.visible = false;
-    floor2Group.visible = false;
-    floor3Group.visible = false;
-    F4.visible = false;
-    selectedFloor.visible = true;
-    // moveObject(selectedFloor, 2, 2, 2, 1);
-    console.log("selectedFloor = "+ selectedFloor.name);
-}
-
 //Floorを出す
 function showFloor(name) {
     if (isShowInfo == true) {
@@ -459,21 +581,40 @@ function showFloor(name) {
             moveObject(floor2ClassGroup, 1, 0, 1, 0);
             moveObject(floor3ClassGroup, 1, 0, 1, 0);
             selectedFloor = floor1Group;
+            console.log('F1 selected');
             break;
         case 'F2':
             moveObject(floor2ClassGroup, 1, 1, 1, 1);
             moveObject(floor1ClassGroup, 1, 0, 1, 0);
             moveObject(floor3ClassGroup, 1, 0, 1, 0);
             selectedFloor = floor2Group;
+            console.log('F1 selected');
             break;
         case 'F3':
             moveObject(floor3ClassGroup, 1, 1, 1, 1);
             moveObject(floor1ClassGroup, 1, 0, 1, 0);
             moveObject(floor2ClassGroup, 1, 0, 1, 0);
             selectedFloor = floor3Group;
+            console.log('F1 selected');
+            break;
+        default:
+            moveHomePosition(2, "power1.out", true, 0);
             break;
     }
-    changeFloor(selectedFloor);
+    
+    floor1Group.visible = false;
+    floor2Group.visible = false;
+    floor3Group.visible = false;
+    F4.visible = false;
+    ground.visible = false;
+    selectedFloor.visible = true;
+
+    currentFloor = name;
+
+    changeLocationText(name);
+
+    console.log("selectedFloor = "+ selectedFloor.name);
+
 }
 
 //ホームポジションに戻る
@@ -482,21 +623,21 @@ function moveHomePosition(duration, ease, isVisible, scale) {
     floor2Group.visible = isVisible;
     floor3Group.visible = isVisible;
     F4.visible = isVisible;
+    ground.visible = isVisible;
     moveCamera('home', duration, ease);
     moveObject(floor1ClassGroup, 1, scale, 1, 0.3);
     moveObject(floor2ClassGroup, 1, scale, 1, 0.3);
     moveObject(floor3ClassGroup, 1, scale, 1, 0.3);
     changeLocationText('home');
+    currentFloor = 'home';
 }
 
 //カメラを動かす
 function moveCamera(name, duration, ease) {
-    console.log(name);
     let cameraPosition;
     let targetPosition;
     const cameraPositionValue = locateInfo[name]['cameraPosition'] || [0,0,0]; // オブジェクトの情報を取得
     const targetPositionValue = locateInfo[name]['Position'] || [0,0,0];
-    console.log("x:"+cameraPositionValue[0]);
     //配列を座標に変換
     cameraPosition = new THREE.Vector3(
         cameraPositionValue[0],
@@ -534,8 +675,25 @@ function moveCamera(name, duration, ease) {
     }, 0); // タイムラインの0秒目から開始
 }
 
+// クリックイベントハンドラー
+function handleClick(event) {
+    if (clickTimeout !== null) {
+        // 2回目のクリック: ダブルクリックと判定
+        clearTimeout(clickTimeout);
+        clickTimeout = null;
+        returnCameraPosition(event);
+    } else {
+        // 1回目のクリック: ダブルクリックが来るか待機
+        clickTimeout = setTimeout(() => {
+            onMouseClick(event);
+            clickTimeout = null;  // タイムアウト後にリセット
+        }, 300);  // 300ミリ秒以内に2回目のクリックが来るかを待つ
+    }
+}
+
+
 //経路選択のところにも同じ処理あるから変更する時は全部変更するように
-window.addEventListener('dblclick', onMouseClick); //clickがあったらonMouseClickを作動させる
+window.addEventListener('click', handleClick); //clickがあったらonMouseClickを作動させる
 
 //ウィンドウサイズの調整
 window.addEventListener('resize', () => {

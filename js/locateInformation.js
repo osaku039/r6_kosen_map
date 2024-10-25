@@ -43,6 +43,24 @@ export const locateInfo = {
         "locationText": "講義室1-4",
         "animationFile":'animation/animate1_4.glb',
     },
+    '1_men':{
+        "name":"男子トイレ",
+    },
+    '1_women':{
+        "name":"女子トイレ",
+    },
+    '1_10':{
+        "name":"ネットワーク演習室",
+    },
+    '1_11':{
+        "name":"テクノセンター1-2",
+    },
+    '1_12':{
+        "name":"スタートアップ工房",
+    },
+    '1_13':{
+        "name":"中央機器分析室",
+    },
     'Stair1':{
         "class":"説明さ",
         "Position":[0,0,0],
@@ -86,14 +104,14 @@ export const locateInfo = {
         "locationText": "講義室2-4",
         "animationFile":'animation/animate2_4.glb',
     },
-    '2_6':{
+    '2_5':{
         "class":"5-br",
         "Position":[-2.3,20.25,-6],
         "cameraPosition":[-2.3,20.25,-31],
         "locationText": "講義室2-5",
         "animationFile":'animation/animate2_5.glb',
     },
-    '2_5':{
+    '2_6':{
         "class":"3-mi",
         "Position":[5,20.25,-6],
         "cameraPosition":[5,20.25,-32.1],
@@ -106,6 +124,21 @@ export const locateInfo = {
         "cameraPosition":[33.8,21.3,-5],
         "locationText": "2階 メディアコーナー2",
         "animationFile":"",
+    },
+    '2_men':{
+        "name":"男子トイレ",
+    },
+    '2_women':{
+        "name":"女子トイレ",
+    },
+    '2_10':{
+        "name":"ネットワーク管理室",
+    },
+    '2_11':{
+        "name":"技術支援室",
+    },
+    '2_12':{
+        "name":"生物化学工学実験室",
     },
     'Stair2':{
         "class":"説明さ",
@@ -171,6 +204,24 @@ export const locateInfo = {
         "locationText": "設計演習室",
         "animationFile":'animation/animate3_6.glb',
     },
+    '3_men':{
+        "name":"男子トイレ",
+    },
+    '3_women':{
+        "name":"女子トイレ",
+    },
+    '3_10':{
+        "name":"メディアコンテンツ演習室",
+    },
+    '3_11':{
+        "name":"制御システム実習室",
+    },
+    '3_12':{
+        "name":"設計演習室",
+    },
+    '3_13':{
+        "name":"CAD・CAM室",
+    },
     'Stair3':{
         "class":"説明さ",
         "Position":[0,0,0],
@@ -178,34 +229,14 @@ export const locateInfo = {
         "locationText": "3階 階段",
         "animationFile":"",
     },
-
-    'invisible':{
-        "class":"説明さ",
-        "Position":[0,0,0],
-        "cameraPosition":[0,0,0],
-        "locationText": "講義室x-x",
-        "animationFile":"",
+    'hairu':{
+        "animationFile":'models/aruku4.glb',
     },
-    'invisible2':{
-        "class":"説明さ",
-        "Position":[0,0,0],
-        "cameraPosition":[0,0,0],
-        "locationText": "講義室x-x",
-        "animationFile":"",
+    'hito':{
+        "animationFile":'models/hito.glb',
     },
-    'invisible3':{
-        "class":"説明さ",
-        "Position":[0,0,0],
-        "cameraPosition":[0,0,0],
-        "locationText": "講義室x-x",
-        "animationFile":"",
-    },
-    'invisible4':{
-        "class":"説明さ",
-        "Position":[0,0,0],
-        "cameraPosition":[0,0,0],
-        "locationText": "講義室x-x",
-        "animationFile":"",
-    },
+    'genzaiti':{
+        "animationFile":'models/current_location.glb',
+    }
 
 };

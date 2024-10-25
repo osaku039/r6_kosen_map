@@ -206,7 +206,7 @@ export const locateInfo = {
         "Position":[23,41.6,-3],
         "cameraPosition":[47,41.6,-3],
         "locationText": "設計演習室",
-        "animationFile":'animation/animate3_6.glb',
+        "animationFile":'animation/animate3_7.glb',
     },
     '3_men':{
         "name":"男子トイレ",

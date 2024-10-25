@@ -409,13 +409,15 @@ window.addEventListener('load', function() {
                     }
 
                     action.play();
-
-                    action.onFinished = () => {
-                        if (onComplete) onComplete(); 
-                        if (name !== 'genzaiti') {
-                            model.visible = false; // genzaiti以外は非表示
-                        }
-                    };
+                    
+                    const hito = model.getObjectByName('hito');
+                    const ensui = model.getObjectByName('円錐');
+                    if (hito) {
+                        floor1Group.add(hito); // 'hito'をグループに追加
+                    }
+                    if (ensui) {
+                        floor1Group.add(ensui); // 'hito'をグループに追加
+                    }
                 }
 
                 function animate() {

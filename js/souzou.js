@@ -404,8 +404,6 @@ window.addEventListener('load', function() {
 
                 const mixer = new THREE.AnimationMixer(model);
                 const clips = gltf.animations;
-                console.log("いいね！");
-                console.log(glbFileName);
 
                 if (clips.length > 0) {
                     const action = mixer.clipAction(clips[0]);
@@ -423,7 +421,6 @@ window.addEventListener('load', function() {
                     const hito = model.getObjectByName('hito');
                     const ensui = model.getObjectByName('円錐');
                     if (hito) {
-                        console.log("hitototoo");
                         floor1Group.add(hito); // 'hito'をグループに追加
                     }
                     if (ensui) {

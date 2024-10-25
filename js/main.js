@@ -192,11 +192,13 @@ function movePage(name, object) {
     const welcomeText = document.getElementById('overlay-text');
     const guideText = document.getElementById('guide');
     const locationText = document.getElementById('location-text');
+    const yataiText = document.getElementById('yatai-text');
 
     if (welcomeText) {
         welcomeText.style.display = 'none';
         guideText.style.display = 'none';
         locationText.style.display = 'none';
+        yataiText.style.display = 'none';
         console.log("welcomeText is now hidden.");
     } 
     else {

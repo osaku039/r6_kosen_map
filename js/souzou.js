@@ -500,8 +500,8 @@ function showInfoBox(name) {
     const infoBox = document.getElementById('infoBox');
     const classId = locateInfo[name]['class'];
     const className = classInfo[classId]['className'];
-    // const program = classInfo[classId]['program'];
-    // const category = classInfo[classId]['category'];
+    const program = classInfo[classId]['program'];
+    const category = classInfo[classId]['category'];
     const comment = classInfo[classId]['comment'];
     const iconFile = classInfo[classId]['iconFile'];
     const photo = classInfo[classId]['photo'];
@@ -523,7 +523,8 @@ function showInfoBox(name) {
             </div>
           </div>
           <div class="card__body_01">
-            <strong>クラス:</strong> ${className}<br>
+            <span class="underline">${className}<br></span>
+            <strong>${program}</strong>
             <p class="card__text2_01">${comment}</p>
           </div>
           <div class="card__footer_01">

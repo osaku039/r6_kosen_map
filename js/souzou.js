@@ -108,6 +108,7 @@ function playAnimation(name) {
                     }
                 }
             });
+            window.removeEventListener('click', handleClick());
 
             // クリックでアニメーション停止
             window.addEventListener('click', function stopAnimation() {

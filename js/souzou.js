@@ -352,7 +352,9 @@ function getQueryParam(param) {
 }
 
 // ページがロードされたときにクエリパラメータを取得して showInfoBox 関数を呼び出す
-window.addEventListener('load', function() {
+window.onload = function() {
+    
+
     let classId = getQueryParam('id');
     //gsapで0.2秒待つことによってgltfのロードを待つという力技を使いました。awaitとか使えるのかな?
     if (classId !== null) {
@@ -377,13 +379,13 @@ window.addEventListener('load', function() {
             }
         });
     } 
-  else {
+    else {
         moveCamera('home', 3, "power3.in");
-}
+    }
 
     // playAnimation関数
-function playAnimation(name, onComplete = null) {
-    const glbFileName = locateInfo[name]['animationFile'] || '';
+    function playAnimation(name, onComplete = null) {
+        const glbFileName = locateInfo[name]['animationFile'] || '';
 
         const loader = new THREE.GLTFLoader();
         loader.load(
@@ -460,7 +462,7 @@ function playAnimation(name, onComplete = null) {
         });
     });
 
-});
+}
 
 
 
@@ -477,6 +479,11 @@ function showInfoBox(name) {
     const iconFile = classInfo[classId]['iconFile'];
     const photo = classInfo[classId]['photo'];
     infoBox.innerHTML = `
+        <style>
+            .card__footer_01 {
+                
+            }
+        </style>
       <div class="l-wrapper_01">
         <article class="card_01">
           <div class="card__header_01">
@@ -490,7 +497,7 @@ function showInfoBox(name) {
             <p class="card__text2_01">${comment}</p>
           </div>
           <div class="card__footer_01">
-            <button id="animation">経路選択</button>
+            <button id="animation">ここに行く！</button>
           </div>
           
         </article>

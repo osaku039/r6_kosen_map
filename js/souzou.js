@@ -58,7 +58,7 @@ floor1ClassGroup.name = 'floor1ClassGroup';
 floor2ClassGroup.name = 'floor2ClassGroup';
 floor3ClassGroup.name = 'floor3ClassGroup';
 let invisibleGroup = new THREE.Group(); //不可視にしたいグループ
-let F4, ground;
+let F4, ground, stand;
 // playAnimation関数
 let currentAction = null;
 let objectToHide = null;
@@ -216,6 +216,7 @@ loader.load(
 
         F4 = gltf.scene.getObjectByName('F4');
         ground = gltf.scene.getObjectByName('ground');
+        stand = gltf.scene.getObjectByName('stand');
         changeTransparent(F4, 0.5);
         
         const clickable = Object.keys(locateInfo); // クリック可能なオブジェクト名のリスト
@@ -260,7 +261,7 @@ function animate() {
     
     controls.update(); //カメラのコントロールを更新
     renderer.render(scene, camera); //シーンを描画
-    console.log(camera.position);
+    // console.log(camera.position);
     // console.log(currentFloor);
 }
 animate(); //アニメーション開始
@@ -685,6 +686,7 @@ function showFloor(name) {
     floor3Group.visible = false;
     F4.visible = false;
     ground.visible = false;
+    stand.visible = false;
     selectedFloor.visible = true;
 
     currentFloor = name;
@@ -702,6 +704,7 @@ function moveHomePosition(duration, ease, isVisible, scale) {
     floor3Group.visible = isVisible;
     F4.visible = isVisible;
     ground.visible = isVisible;
+    stand.visible = isVisible;
     moveCamera('home', duration, ease);
     moveObject(floor1ClassGroup, 1, scale, 1, 0.3);
     moveObject(floor2ClassGroup, 1, scale, 1, 0.3);

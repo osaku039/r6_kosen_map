@@ -45,9 +45,7 @@
         margin:0;
         padding:0;
         line-height: 1.3em;
-        } 
-        /* time-schedule */
-        .time-schedule {
+
         min-width: 85%;
         max-width: 85%;
         list-style: none;
@@ -90,17 +88,20 @@
         .time-schedule .sch_box {
         display: inline-block;
         width: 100%;
-        margin-left: 30px;
+        margin-left: 40px;
         margin-top: 0;
         padding: 0px 10px 0px 10px;
         background: #efefef;
         box-sizing: border-box;
         border-radius: 6px;
+
+        margin-bottom: 20px;
+        height: 60px;
         }
 
         .time-schedule .sch_title {
-        font-size: 9px;
-        font-weight: 700;
+        font-size: 20px;
+        font-weight: 500;
         }
 
         .time-schedule .sch_tx {
@@ -165,6 +166,14 @@
         .tab-panel.active {
           display: block;
         }
+
+        .title {
+            font-size: 24px;
+        }
+        .time {
+            font-size: 20px !important;
+            
+        }
     </style>
 </head>
 <body>
@@ -176,7 +185,7 @@
         <div class="tab-content">
             <div class="tab-panel active" id="tab1">
                 <ul class="time-schedule">
-                    <strong class="title">アリーナプログラム DAY1</strong>
+                    <p class="title">アリーナ プログラム DAY1</p>
                     <div class="am">
                         <li>
                         <span class="time">10:00</span>
@@ -260,7 +269,7 @@
             </div>
             <div class="tab-panel" id="tab2">
                 <ul class="time-schedule">
-                    <strong class="title">アリーナプログラム DAY2</strong>
+                    <p class="title">アリーナプログラム DAY2</p>
                     <div class="am">
                         <li>
                         <span class="time">10:00</span>
@@ -345,6 +354,7 @@
     </div> <!-- 吹き出し用のdivを追加 -->
     <div class="button-container">
         <div class="index_button-top">
+            <!--p class="text">プログラム表をスクロールしてね</p-->
             <button onclick="location.href='index.html'" class="orange">ほーむ</button>
             <button onclick="location.href='souzou.html'" class="yellow">創造実践棟</button>
             <button onclick="location.href='yatai.html'" class="yellow">屋台</button>

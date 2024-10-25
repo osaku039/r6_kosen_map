@@ -25,11 +25,11 @@
             }
             #overlay-text {
                 position: absolute;
-                top: 0px;
+                top: 24px;
                 left: 50%;
                 transform: translateX(-50%);
                 color: rgb(68, 46, 10);
-                font-size: 40px;
+                font-size: 46px;
                 z-index: 1;
                 pointer-events: none; /* テキストがクリックに干渉しないように */
                 margin-top: 30px;
@@ -40,11 +40,11 @@
             #guide {
                 /*モデルをタップしてみてくださいの案内*/
                 position: absolute;
-                top: 20px;
+                top: 46px;
                 left: 50%;
                 transform: translateX(-50%);
                 color: rgb(68, 46, 10);
-                font-size: 18px;
+                font-size: 20px;
                 z-index: 1;
                 pointer-events: none; /* テキストがクリックに干渉しないように */
                 margin-top: 70px;
@@ -71,7 +71,50 @@
                     transform: translate(-50%, 0);  /* 中央 */
                 }
             }
+            #yatai-text {
+                position: absolute;
+                top: 170%;
+                left: 80%;
+                /* transform: translateX(-50%); */
+                color: rgb(68, 46, 10);
+                font-size: 15px;
+                z-index: 1;
+                pointer-events: none; /* テキストがクリックに干渉しないように */
+                margin-top: 30px;
+            }
+            .message {
+                background-color: rgba(255, 255, 255, 0.9);
+                line-height: 1.5;
+                position: relative;
+                display: inline-block;
+                padding: 1rem 1rem;
+                cursor: pointer;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                -webkit-transition: all 0.3s;
+                transition: all 0.3s;
+                text-align: center;
+                vertical-align: middle;
+                text-decoration: none;
+                letter-spacing: 0.1em;
+                color: #212529;
+                border-radius: 0.5rem;
 
+                font-family: "DotGothic16", sans-serif;
+                font-weight: 400;
+                font-style: normal;
+            }
+            .message:before {
+              content: "";
+              position: absolute;
+              top: 100%;
+              left: 50%;
+              margin-left: -15px;
+              border: 15px solid transparent;
+              border-top: 15px solid rgba(255, 255, 255, 0.9);
+            }
             canvas {
                 display: block;
             }
@@ -81,8 +124,9 @@
 
         <div class=canvas-container>
             <div id="location-text" class="loc">沖縄高専 全体図</div>
-            <div id="overlay-text">Three.js!</div>
+            <div id="overlay-text"></div>
             <div id="guide"></div>
+            <div id="yatai-text" class="message">屋台の位置は<br>体育館横に<br>移動になりました</div>
             <canvas id="threejs-canvas"></canvas>
         </div>
 

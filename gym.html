@@ -29,14 +29,17 @@
             position: fixed;
             right: 0;
             top: 0;
-            width: 30%;
-            height: 100%;
+            width: 35%;
+            height: 80%;
+            margin: 40px;
             background-color: rgba(255, 255, 255, 0.9);
             border-left: 1px solid #cccccc;
             padding: 20px;
             box-sizing: border-box;
-            display: none;
-            overflow-y: auto;
+            display: 'block';
+            overflow-y: scroll;
+            border-radius: 10px;
+            scrollbar-width: none;
         }
         .time-schedule {
         margin:0;
@@ -105,6 +108,63 @@
         font-weight: normal;
         margin: 2px;  
         }
+
+        .tab-container {
+            position: relative; /* タブコンテナを基準に配置 */
+        }
+        
+        .tabs {
+            position: fixed; /* `.tab-content`の下に固定 */
+            right: 0;
+            top: 82%; /* タブコンテンツの高さに合わせて調整 */
+            width: 35%;
+            margin: 0 70px;
+            display: flex;
+            justify-content: space-around;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-top: 1px solid #cccccc;
+            border-radius: 0 0 10px 10px;
+        }
+        
+        .tab-button {
+          flex: 1;
+          padding: 10px;
+          cursor: pointer;
+          background-color: #ddd;
+          border: none;
+          outline: none;
+          transition: background-color 0.3s;
+        }
+        
+        .tab-button.active {
+          background-color: #333;
+          color: white;
+        }
+        
+        .tab-content {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 35%;
+            height: 75%;
+            margin: 50px 70px;
+            padding: 30px 0px 0px 38px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-left: 1px solid #cccccc;
+            box-sizing: border-box;
+            display: 'block';
+            overflow-y: scroll;
+            border-radius: 10px 10px 0 0;
+            scrollbar-width: none;
+        }
+        
+        .tab-panel {
+          display: none;
+        }
+        
+        .tab-panel.active {
+          display: block;
+        }
     </style>
 </head>
 <body>
@@ -112,7 +172,177 @@
         <div id="location-text" class="loc">体育館 ステージ</div>
         <canvas id="threejs-canvas"></canvas>
     </div>
-    <div id="infoBox"></div> <!-- 吹き出し用のdivを追加 -->
+    <div class="tab-container">
+        <div class="tab-content">
+            <div class="tab-panel active" id="tab1">
+                <ul class="time-schedule">
+                    <strong class="title">アリーナプログラム DAY1</strong>
+                    <div class="am">
+                        <li>
+                        <span class="time">10:00</span>
+                        <div class="sch_box"><p class="sch_title">Haruto Fujiki</p>
+                        </div>
+                        </li>
+                        <li>
+                            <span class="time">10:15</span>
+                            <div class="sch_box"><p class="sch_title">ic</p>
+                        </div>
+                        </li>
+                        <li>
+                        <span class="time">10:30</span>
+                        <div class="sch_box"><p class="sch_title">海パンスクワット</p>
+                        </div>
+                        </li>
+                        <li>
+                            <span class="time">10:45</span>
+                            <div class="sch_box"><p class="sch_title">動点P-MODEL</p>
+                        </div>
+                        </li>
+                        <li>
+                            <span class="time">11:00</span>
+                            <div class="sch_box"><p class="sch_title">KO専生は全員オタクなのか？</p>
+                        </div>
+                        </li>
+                        <li>
+                            <span class="time">11:15</span>
+                            <div class="sch_box"><p class="sch_title">良いコール、mc事情</p>
+                        </div>
+                        </li>
+                        <li>
+                            <span class="time">11:30</span>
+                            <div class="sch_box"><p class="sch_title">Eggsplosion</p>
+                        </div>
+                        </li>
+                        <li>
+                            <span class="time">11:45</span>
+                            <div class="sch_box"><p class="sch_title">タイ高専イベント</p>
+                        </div>
+                        </li>
+                        <li>
+                            <span class="time">12:00</span>
+                            <div class="sch_box"><p class="sch_title">カラオケ大会予選</p>
+                        </div>
+                        </li>
+                    </div>
+                    <div class="pm">
+                        <li>
+                            <span class="time">13:00</span>
+                            <div class="sch_box"><p class="sch_title">教員有志[C]</p>
+                        </div>
+                        </li>
+                        <li>
+                            <span class="time">13:15</span>
+                            <div class="sch_box"><p class="sch_title">教員有志[B]</p>
+                        </div>
+                        </li>
+                        <li>
+                            <span class="time">13:30</span>
+                            <div class="sch_box"><p class="sch_title">y四段活用y</p>
+                        </div>
+                        </li>
+                        <li>
+                            <span class="time">13:45</span>
+                            <div class="sch_box"><p class="sch_title">NOW OWN SALE!</p>
+                        </div>
+                        </li>
+                        <li>
+                            <span class="time">14:00</span>
+                            <div class="sch_box"><p class="sch_title">島唐辛子</p>
+                        </div>
+                        </li>
+                        <li>
+                            <span class="time">14:15</span>
+                            <div class="sch_box"><p class="sch_title">EQ20</p>
+                        </div>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+            <div class="tab-panel" id="tab2">
+                <ul class="time-schedule">
+                    <strong class="title">アリーナプログラム DAY2</strong>
+                    <div class="am">
+                        <li>
+                        <span class="time">10:00</span>
+                        <div class="sch_box"><p class="sch_title">通り雨と、うたた寝</p>
+                        </div>
+                        </li>
+                        <li>
+                            <span class="time">10:15</span>
+                            <div class="sch_box"><p class="sch_title">カシマシカタルシス</p>
+                        </div>
+                        </li>
+                        <li>
+                        <span class="time">10:30</span>
+                        <div class="sch_box"><p class="sch_title">RADWINPSのコピバン</p>
+                        </div>
+                        </li>
+                        <li>
+                            <span class="time">10:45</span>
+                            <div class="sch_box"><p class="sch_title">相対性理論のこぴばん</p>
+                        </div>
+                        </li>
+                        <li>
+                            <span class="time">11:05</span>
+                            <div class="sch_box"><p class="sch_title">HITS</p>
+                        </div>
+                        </li>
+                        <li>
+                            <span class="time">11:25</span>
+                            <div class="sch_box"><p class="sch_title">わにばんど</p>
+                        </div>
+                        </li>
+                        <li>
+                            <span class="time">11:45</span>
+                            <div class="sch_box"><p class="sch_title">好きな寮食発表ドラゴン</p>
+                        </div>
+                        </li>
+                        <li>
+                            <span class="time">12:00</span>
+                            <div class="sch_box"><p class="sch_title">お昼休憩</p>
+                        </div>
+                        </li>
+                    </div>
+                    <div class="pm">
+                        <li>
+                            <span class="time">13:00</span>
+                            <div class="sch_box"><p class="sch_title">教員有志[D]</p>
+                        </div>
+                        </li>
+                        <li>
+                            <span class="time">13:15</span>
+                            <div class="sch_box"><p class="sch_title">教員有志[E]</p>
+                        </div>
+                        </li>
+                        <li>
+                            <span class="time">13:30</span>
+                            <div class="sch_box"><p class="sch_title">コピッツ</p>
+                        </div>
+                        </li>
+                        <li>
+                            <span class="time">13:45</span>
+                            <div class="sch_box"><p class="sch_title">Mr.appleπ</p>
+                        </div>
+                        </li>
+                        <li>
+                            <span class="time">14:00</span>
+                            <div class="sch_box"><p class="sch_title">ミックスベジタブル</p>
+                        </div>
+                        </li>
+                        <li>
+                            <span class="time">14:15</span>
+                            <div class="sch_box"><p class="sch_title">寄せ集め</p>
+                        </div>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+        </div>
+        <div class="tabs">
+            <button class="tab-button active" data-target="tab1">DAY1</button>
+            <button class="tab-button" data-target="tab2">DAY2</button>
+        </div>
+    </div> <!-- 吹き出し用のdivを追加 -->
     <div class="button-container">
         <button onclick="location.href='index.html'" class="yellow">沖縄高専 全体図</button>
         <button onclick="location.href='souzou.html'" class="orange">創造実践棟</button>

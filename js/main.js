@@ -70,14 +70,14 @@ Promise.all([
     loadModel('models/People.glb'),
 ]).then(() => {
     console.log('All models loaded');
-        // const floor = ['F1', 'F2', 'F3', 'F4'];
+        const floor = ['F1', 'F2', 'F3', 'F4'];
 
-        // floor.forEach(name => {
-        //     const object = gltf.scene.getObjectByName(name);
-        //     if (object) {
-        //         floorGroup.add(object);
-        //     }
-        // });
+        floor.forEach(name => {
+            const object = scene.getObjectByName(name);
+            if (object) {
+                floorGroup.add(object);
+            }
+        });
         // floorGroup.traverse((child) => {
         //     if (child.isMesh) {
         //         child.material.transparent = true;  // 透明化を許可

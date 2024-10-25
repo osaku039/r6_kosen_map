@@ -19,6 +19,7 @@ document.getElementById('container').appendChild(renderer.domElement); //レン�
 renderer.setClearColor(0xffe271);  //背景色の追加
 
 let isShowInfo = false; //Infoを消すときに使っていると思う
+let isPlayAnimation = false;
 let currentFloor = 'home'; //1個前の視点に戻るときに使うと思う
 let clickTimeout = null;
 
@@ -78,14 +79,15 @@ function playAnimation(name) {
             // 読み込んだアニメーションをシーンに追加
             const model = gltf.scene;
             scene.add(model);
-
-         
+                    
             const mixer = new THREE.AnimationMixer(model);
             const clips = gltf.animations; // アニメーションクリップを取得
+            
+            window.removeEventListener('click', handleClick);
 
             moveHomePosition(2, "power1.in", true, 1);
 
-            moveCamera('home', 2, "power1.in");
+            // moveCamera('home', 2, "power1.in");
 
             //クラスをほんのり透明に
             changeTransparent(floor1ClassGroup, 0.1);
@@ -116,6 +118,7 @@ function playAnimation(name) {
                     objectToHide.visible = false; // オブジェクトを非表示
                     currentAction = null; 
                     objectToHide = null;
+                    isPlayAnimation = false; //フラグを更新
 
                     // イベントリスナーを解除
                     window.removeEventListener('click', stopAnimation);
@@ -270,6 +273,10 @@ let selectedFloor; //選ばれたフロア
 
 //クリックイベント
 function onMouseClick(event) {
+    if (!event) {
+        console.log("Eventがありません");
+        return;
+    }
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
     raycaster.setFromCamera(mouse, camera); //マウス位置とカメラ位置の調整
@@ -397,8 +404,6 @@ window.addEventListener('load', function() {
 
                 const mixer = new THREE.AnimationMixer(model);
                 const clips = gltf.animations;
-                console.log("いいね！");
-                console.log(glbFileName);
 
                 if (clips.length > 0) {
                     const action = mixer.clipAction(clips[0]);
@@ -416,7 +421,6 @@ window.addEventListener('load', function() {
                     const hito = model.getObjectByName('hito');
                     const ensui = model.getObjectByName('円錐');
                     if (hito) {
-                        console.log("hitototoo");
                         floor1Group.add(hito); // 'hito'をグループに追加
                     }
                     if (ensui) {
@@ -520,7 +524,10 @@ function showInfoBox(name) {
     // ボタンのクリックイベントを設定
     document.getElementById('animation').addEventListener('click', function(event) {
         event.stopPropagation();
-        playAnimation(name);
+        if (!isPlayAnimation) {
+            isPlayAnimation = true;
+            playAnimation(name);
+        }
     });
      
     infoBox.style.display = 'block';
@@ -562,7 +569,6 @@ function changeLocationText(name) {
 //Objectを動かす
 function moveObject(target, x, y, z, duration) {
     var floor;
-    console.log(target);
     floor = 'F' + target.children[0].name.charAt(0);
     var originalPosition = locateInfo[floor]['Position'] || 0;
     var originalYPosition = originalPosition[1];
@@ -604,23 +610,28 @@ function showClassByCategory(category) {
         }
     }
     const t = scene.getObjectByName('2_5');
-    moveHomePosition(1.5, "power1.out", true, 0);
+    moveHomePosition(1.5, "power1.out", true, 0.01);
     console.log(list);
 
     list.forEach(name => {
         const target = scene.getObjectByName(name);
-        const parent = target.parent;
+        const position = target.position.y;
         const scale =  target.scale.clone();
-        console.log(scale.x);
-        scene.add(target);
-        target.scale.set(scale.x, 0, scale.z);
+        console.log(scale);
+        const floor = 'F' + target.name.charAt(0);
+        var originalPosition = locateInfo[floor]['Position'] || 0;
+        var originalYPosition = originalPosition[1];
+        console.log(originalYPosition);
         gsap.to(target.scale, {
             x: scale.x,  // x方向の拡大
-            y: scale.y,  // y方向の拡大
+            y: scale.y*100,  // y方向の拡大
             z: scale.z,  // z方向の拡大
             duration: 0.5,  // アニメーションの持続時間
+            onUpdate: function() {
+                target.position.y = position;
+            },
         });
-        console.log(target.scale);
+        console.log(target.position.y);
         // floor2ClassGroup.add(target);
     });
 }

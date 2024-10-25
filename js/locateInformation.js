@@ -1,5 +1,9 @@
 // オブジェクトの情報
 export const locateInfo = {
+    'home2':{
+        "Position":[0,8,20],
+        "cameraPosition":[0,0,80],
+    },
     'home':{
         "class":"homePosition",
         "Position":[0,12,0],
@@ -150,7 +154,7 @@ export const locateInfo = {
     //３階
     'F3':{
         "class":"説明さ",
-        "Position":[0,39.17,0],
+        "Position":[0,39,0],
         "cameraPosition":[-34.29,69.79,53.17],
         "locationText": "創造実践棟 3階",
         "animationFile":"",

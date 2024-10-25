@@ -19,6 +19,7 @@ document.getElementById('container').appendChild(renderer.domElement); //レン�
 renderer.setClearColor(0xffe271);  //背景色の追加
 
 let isShowInfo = false; //Infoを消すときに使っていると思う
+let isPlayAnimation = false;
 let currentFloor = 'home'; //1個前の視点に戻るときに使うと思う
 let clickTimeout = null;
 
@@ -53,6 +54,9 @@ let floor3ClassGroup = new THREE.Group(); // 3階のクラスグループ
 let floor1Group = new THREE.Group();
 let floor2Group = new THREE.Group();
 let floor3Group = new THREE.Group();
+floor1ClassGroup.name = 'floor1ClassGroup';
+floor2ClassGroup.name = 'floor2ClassGroup';
+floor3ClassGroup.name = 'floor3ClassGroup';
 let invisibleGroup = new THREE.Group(); //不可視にしたいグループ
 let F4, ground;
 // playAnimation関数
@@ -75,14 +79,15 @@ function playAnimation(name) {
             // 読み込んだアニメーションをシーンに追加
             const model = gltf.scene;
             scene.add(model);
-
-         
+                    
             const mixer = new THREE.AnimationMixer(model);
             const clips = gltf.animations; // アニメーションクリップを取得
+            
+            window.removeEventListener('click', handleClick);
 
             moveHomePosition(2, "power1.in", true, 1);
 
-            moveCamera('home', 2, "power1.in");
+            // moveCamera('home', 2, "power1.in");
 
             //クラスをほんのり透明に
             changeTransparent(floor1ClassGroup, 0.1);
@@ -113,6 +118,7 @@ function playAnimation(name) {
                     objectToHide.visible = false; // オブジェクトを非表示
                     currentAction = null; 
                     objectToHide = null;
+                    isPlayAnimation = false; //フラグを更新
 
                     // イベントリスナーを解除
                     window.removeEventListener('click', stopAnimation);
@@ -267,6 +273,10 @@ let selectedFloor; //選ばれたフロア
 
 //クリックイベント
 function onMouseClick(event) {
+    if (!event) {
+        console.log("Eventがありません");
+        return;
+    }
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
     raycaster.setFromCamera(mouse, camera); //マウス位置とカメラ位置の調整
@@ -386,8 +396,8 @@ window.addEventListener('load', function() {
     // playAnimation関数
     function playAnimation(name, onComplete = null) {
         const glbFileName = locateInfo[name]['animationFile'] || '';
-
         const loader = new THREE.GLTFLoader();
+        console.log("loadOK!!");
         loader.load(
             glbFileName,
             function (gltf) {
@@ -418,6 +428,16 @@ window.addEventListener('load', function() {
                     if (ensui) {
                         floor1Group.add(ensui); // 'hito'をグループに追加
                     }
+    
+
+                    action.onFinished = () => {
+                        console.log("いぇあ");
+                        console.log(name);
+                        if (name !== 'genzaiti') {
+                            model.visible = false; // genzaiti以外は非表示
+                            console.log("げんざいち");
+                        }
+                    };
                 }
 
                 function animate() {
@@ -452,7 +472,7 @@ window.addEventListener('load', function() {
     });
 
 
-    // data-role="action" の属性を持つ全ての要素を取得
+    // data-role="category" の属性を持つ全ての要素を取得
     const buttons = document.querySelectorAll('[data-role="category"]');
     console.log(buttons);
 
@@ -460,7 +480,7 @@ window.addEventListener('load', function() {
         button.addEventListener('click', function(event) {
             const buttonId = button.getAttribute('data-id');
             event.stopPropagation();  // クリックイベントがシーンに伝播するのを防ぐ
-            console.log(`Button ${buttonId} clicked!`);
+            showClassByCategory(buttonId);
         });
     });
 
@@ -480,14 +500,17 @@ function showInfoBox(name) {
     const comment = classInfo[classId]['comment'];
     const iconFile = classInfo[classId]['iconFile'];
     const photo = classInfo[classId]['photo'];
+    const targetObject = scene.getObjectByName(name);
     infoBox.innerHTML = `
       <div class="l-wrapper_01">
         <article class="card_01">
           <div class="card__header_01">
-            <figure class="card__thumbnail_01">
-                <p><img src=${iconFile} alt="icon"></p>
+            <div class="class_photo">
                 <a href=${photo} data-lightbox="group"><img src=${photo}></a>
-            </figure>
+            </div>
+            <div>
+                <img src=${iconFile} alt="icon" class="class_icon">
+            </div>
           </div>
           <div class="card__body_01">
             <strong>クラス:</strong> ${className}<br>
@@ -501,11 +524,18 @@ function showInfoBox(name) {
       </div>
       `;
     // ボタンのクリックイベントを設定
-    document.getElementById('animation').addEventListener('click', () => playAnimation(name));
+    document.getElementById('animation').addEventListener('click', function(event) {
+        event.stopPropagation();
+        if (!isPlayAnimation) {
+            isPlayAnimation = true;
+            playAnimation(name);
+        }
+    });
      
     infoBox.style.display = 'block';
     moveCamera(name, 1.5, "power1.out");
     changeLocationText(name);
+    console.log(targetObject.parent.name);
     if (currentFloor.startsWith('F')){
         currentFloor = "_" + currentFloor;
     }
@@ -539,23 +569,25 @@ function changeLocationText(name) {
 
 
 //Objectを動かす
-function moveObject(group, x, y, z, duration) {
-    var floor = 'F' + group.children[0].name.charAt(0);
+function moveObject(target, x, y, z, duration) {
+    var floor;
+    floor = 'F' + target.children[0].name.charAt(0);
     var originalPosition = locateInfo[floor]['Position'] || 0;
     var originalYPosition = originalPosition[1];
-    console.log("floor"+ floor + "\noriginal" + originalYPosition);
+    console.log(originalYPosition);
 
     var tl = gsap.timeline();
-    tl.to(group.scale, {
+    tl.to(target.scale, {
         x: x,  // x方向の拡大
         y: y,  // y方向の拡大
         z: z,  // z方向の拡大
         duration: duration,  // アニメーションの持続時間
         onUpdate: function() {
-            const scaleFactor = group.scale.y;  // 現在のスケール倍率
+            const scaleFactor = target.scale.y;  // 現在のスケール倍率
             // スケールが1のときはY座標を0に、0に近づくほどoriginalYPositionに移動
             const newYPosition = originalYPosition * (1 - scaleFactor);
-            group.position.y = newYPosition; //y座標の更新
+            target.position.y = newYPosition; //y座標の更新
+            // console.log(scaleFactor);
         },
     });
 }
@@ -568,6 +600,41 @@ function changeTransparent(target, opacity) {
             child.material.alphaToCoverage = true;
             child.material.opacity = opacity;  // 透明度を設定
         }
+    });
+}
+
+//カテゴリーボタン押された時の挙動
+function showClassByCategory(category) {
+    let list = [];
+    for (const key in classInfo) {
+        if (classInfo[key].category === category) {
+            list.push(classInfo[key].location);
+        }
+    }
+    const t = scene.getObjectByName('2_5');
+    moveHomePosition(1.5, "power1.out", true, 0.01);
+    console.log(list);
+
+    list.forEach(name => {
+        const target = scene.getObjectByName(name);
+        const position = target.position.y;
+        const scale =  target.scale.clone();
+        console.log(scale);
+        const floor = 'F' + target.name.charAt(0);
+        var originalPosition = locateInfo[floor]['Position'] || 0;
+        var originalYPosition = originalPosition[1];
+        console.log(originalYPosition);
+        gsap.to(target.scale, {
+            x: scale.x,  // x方向の拡大
+            y: scale.y*100,  // y方向の拡大
+            z: scale.z,  // z方向の拡大
+            duration: 0.5,  // アニメーションの持続時間
+            onUpdate: function() {
+                target.position.y = position;
+            },
+        });
+        console.log(target.position.y);
+        // floor2ClassGroup.add(target);
     });
 }
 

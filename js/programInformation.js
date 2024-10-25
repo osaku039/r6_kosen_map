@@ -3,7 +3,7 @@ export const classInfo = {
     '1-1':{
         "className":"1年1組",
         "program":"1-1が縁日、やるってよ。",
-        "category":"縁日",
+        "category":"game",
         "comment":"『縁日、やるってよ。』",
         "location":"3_1",
         "photo": "./photo/1-1.jpg",
@@ -12,7 +12,7 @@ export const classInfo = {
     '1-2':{
         "className":"1年2組",
         "program":"レトロゲーム",
-        "category":"ゲーム",
+        "category":"game",
         "comment":"『どんなひとでもたのしめます！！』",
         "location":"2_3",
         "photo": "./photo/1-2.jpg",
@@ -21,7 +21,7 @@ export const classInfo = {
     '1-3':{
         "className":"1年3組",
         "program":"Journey to Time～歪んだ先の終着点～",
-        "category":"脱出ゲーム",
+        "category":"walk",
         "comment":"『Journey to Time～歪んだ先の終着点～』",
         "location":"3_2",
         "photo": "./photo/1-3.jpg",
@@ -30,7 +30,7 @@ export const classInfo = {
     '1-4':{
         "className":"1年4組",
         "program":"平成GALクラブ",
-        "category":"クラブ",
+        "category":"amusement",
         "comment":"『やっほ～！ゥチらちょーかわいいGALでぇ～す♡我等友情永久不滅♡』",
         "location":"2_2",
         "photo": "./photo/1-4.jpg",
@@ -39,7 +39,7 @@ export const classInfo = {
     '2-1':{
         "className":"2年1組",
         "program":"パーラーやっしー",
-        "category":"屋台",
+        "category":"stall",
         "comment":"『お腹も心も満たす　焼きそば』",
         "location":"1_1",
         "photo": "./photo/2-1.jpg",
@@ -48,7 +48,7 @@ export const classInfo = {
     '2-2':{
         "className":"2年2組",
         "program":"甘味処　茶屋",
-        "category":"茶屋",
+        "category":"eat",
         "comment":"『伝統文化は金になる　さぁどうぞ』",
         "location":"3_6",
         "photo": "./photo/2-2.jpg",
@@ -57,7 +57,7 @@ export const classInfo = {
     '2-3':{
         "className":"2年3組",
         "program":"★お化け屋敷★",
-        "category":"お化け屋敷",
+        "category":"walk",
         "comment":"『廃校で起きた未解決殺人事件！その真相を暴き、君は現実に戻れるか？』",
         "location":"2_4",
         "photo": "./photo/2-3.jpg",
@@ -66,7 +66,7 @@ export const classInfo = {
     '2-4':{
         "className":"2年4組",
         "program":"縁日",
-        "category":"縁日",
+        "category":"game",
         "comment":"『江戸時代にタイムトラベルしたあなた。斬って撃って投げて、めいっぱい楽しんでください！目指せ、ランキング１位！！』",
         "location":"1_4",
         "photo": "./photo/2-4.jpg",
@@ -75,7 +75,7 @@ export const classInfo = {
     '3-ms':{
         "className":"3年機械",
         "program":"REMOVE BEFORE FLIGHT",
-        "category":"フライトシミュレータ",
+        "category":"other",
         "comment":"REMOVE BEFORE FLIGHT",
         "location":"3_7",
         "photo": "./photo/3-ms.jpg",
@@ -84,7 +84,7 @@ export const classInfo = {
     '3-br':{
         "className":"3年生物",
         "program":"串屋はまちゃん",
-        "category":"屋台",
+        "category":"stall",
         "comment":"『はっ、はっ、はまちゃん！</br>　鶏肉や野菜を、鉄板で一本一本丁寧に焼き上げ、はまい串に。</br>　自然のおいしさ、そのままに』",
         "location":"1_1",
         "photo": "./photo/3-br.jpg",
@@ -93,7 +93,7 @@ export const classInfo = {
     '3-mi':{
         "className":"3年メディア",
         "program":"自作ボードゲーム",
-        "category":"ゲーム",
+        "category":"game",
         "comment":"自分たちでボードゲーム作りました.^-^)/",
         "location":"2_6",
         "photo": "./photo/3-mi.jpg",
@@ -102,7 +102,7 @@ export const classInfo = {
     '3-ic':{
         "className":"3年情報",
         "program":"縁日バー",
-        "category":"縁日バー",
+        "category":"game",
         "comment":"楽しませます",
         "location":"2_1",
         "photo": "./photo/3-ic.jpg",
@@ -111,7 +111,7 @@ export const classInfo = {
     '4-ms':{
         "className":"4年機械",
         "program":"マッスル屋台",
-        "category":"屋台",
+        "category":"stall",
         "comment":"『今日だけは筋肉のために』",
         "location":"1_1",
         "photo": "./photo/4-ms.jpg",
@@ -120,7 +120,7 @@ export const classInfo = {
     '4-br':{
         "className":"4年生物",
         "program":"コンカフェ",
-        "category":"カフェ",
+        "category":"eat",
         "comment":"『楽しんでいってください』",
         "location":"1_1",
         "photo": "./photo/4-br.jpg",
@@ -129,7 +129,7 @@ export const classInfo = {
     '4-mi':{
         "className":"4年メディア",
         "program":"謎解きアクションゲーム",
-        "category":"脱出ゲーム",
+        "category":"walk",
         "comment":"『アクションをクリアして謎を解け』",
         "location":"1_2",
         "photo": "./photo/4-mi.jpeg",
@@ -138,7 +138,7 @@ export const classInfo = {
     '4-ic':{
         "className":"4年情報",
         "program":"カジノ",
-        "category":"カジノ",
+        "category":"game",
         "comment":"去年大人気だったルーレットは引き続き、新しく江戸にタイムスリップしたかのような気分になれる花札で遊べます。場内チップを介して楽しく賭けてみてください。",
         "location":"3_4",
         "photo": "./photo/4-ic.jpeg",
@@ -147,7 +147,7 @@ export const classInfo = {
     '5-ms':{
         "className":"5年機械",
         "program":"お化け屋敷",
-        "category":"お化け屋敷",
+        "category":"walk",
         "comment":"",
         "location":"3_3",
         "photo": "",
@@ -156,7 +156,7 @@ export const classInfo = {
     '5-br':{
         "className":"5年生物",
         "program":"フォトスポット",
-        "category":"フォトスポット",
+        "category":"art",
         "comment":"『最後の高専祭頑張りましたのでぜひご覧ください』",
         "location":"2_5",
         "photo": "",
@@ -165,7 +165,7 @@ export const classInfo = {
     '5-mi':{
         "className":"5年メディア",
         "program":"カジノ",
-        "category":"カジノ",
+        "category":"game",
         "comment":"『今 か ら 皆 さ ん に は ゲ ー ム を し て い た だ き ま す 。(デスゲーム風ボイス)』",
         "location":"1_3",
         "photo": "./photo/5-mi.jpg",
@@ -174,10 +174,10 @@ export const classInfo = {
     '5-ic':{
         "className":"5年情報",
         "program":"平成友だちん家喫茶",
-        "category":"喫茶",
+        "category":"eat",
         "comment":"『友だちん家に行っていた時を思い出せる喫茶店です』",
         "location":"3_5",
-        "photo": "",
+        "photo": "./photo/5-ic.jpeg",
         "iconFile":"./icon/5-ic.png",
     },
     'zinja':{

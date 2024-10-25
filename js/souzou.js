@@ -365,8 +365,9 @@ function getQueryParam(param) {
 window.addEventListener('load', function() {
     let classId = getQueryParam('id');
     //gsapで0.2秒待つことによってgltfのロードを待つという力技を使いました。awaitとか使えるのかな?
+    moveCamera('home2', 0, "power1.out");
     if (classId !== null) {
-        moveCamera('home', 0, "power1.out");
+        moveCamera('home', 3, "power1.out");
         gsap.to({}, {
             delay: 0.2,
             onComplete: function() {
@@ -388,7 +389,8 @@ window.addEventListener('load', function() {
         });
     } 
   else {
-        moveCamera('home', 3, "power3.in");
+        moveCamera('home', 4, "power3.in");
+
     }
 
     // playAnimation関数

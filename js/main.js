@@ -285,28 +285,25 @@ function moveCamera(cameraPositionValue, objectPositionValue, link, object) {
     if (link === "./souzou.html") {
         console.log(object.material);
         object.material.transparent = true;
-        tl.to(object.material, {
-            opacity: 0,
-            duration: 1,
-        });
-        floorGroup.traverse((child) => {
-            if (child.isMesh) {
-                console.log("消えたよ:"+link);
-                console.log(child.name);
-                child.material.transparent = true;  // 透明化を許可
-                gsap.to(child.material, {
-                    delay: 1.5,
-                    opacity: 1,
-                    duration: 0.1,  // アニメーションの持続時間
-                });
-            }
-        });
-        humanPosition = new THREE.Vector3(-1.74,-1.5,0);
+       
+        //floorGroup.traverse((child) => {
+        //    if (child.isMesh) {
+        //        console.log("消えたよ:"+link);
+        //        console.log(child.name);
+        //        child.material.transparent = true;  // 透明化を許可
+        //        gsap.to(child.material, {
+        //            delay: 1.5,
+        //            opacity: 1,
+        //            duration: 0.1,  // アニメーションの持続時間
+        //        });
+        //  }
+        //});
+        humanPosition = new THREE.Vector3(-1.74,-1.5,50);
         tl.to(camera.position, {
             x: humanPosition.x, // オブジェクトの近くに移動するように
             y: humanPosition.y,
             z: humanPosition.z,
-            duration: 2.0, // 2秒かけて移動
+            duration: 0.1, // 2秒かけて移動
             onUpdate: function () {
                     // OrbitControlsのターゲットを設定
                     // controls.target.copy(cameraPosition);

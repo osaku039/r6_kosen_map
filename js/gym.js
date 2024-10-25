@@ -89,8 +89,9 @@ function showInfoBox() {
     const infoBox = document.getElementById('infoBox');
     // const info = Info[name]['description'] || '情報が見つかりません'; // オブジェクトの情報を取得
     infoBox.innerHTML = `
-            <ul class="time-schedule">
-            <strong>アリーナプログラム</strong>
+        <ul class="time-schedule">
+        <strong class="title">アリーナプログラム</strong>
+        <div class="am">
             <li>
             <span class="time">10:00</span>
             <div class="sch_box"><p class="sch_title">Haruto Fujiki</p>
@@ -136,6 +137,8 @@ function showInfoBox() {
                 <div class="sch_box"><p class="sch_title">カラオケ大会予選</p>
             </div>
             </li>
+        </div>
+        <div class="pm">
             <li>
                 <span class="time">13:00</span>
                 <div class="sch_box"><p class="sch_title">教員有志[C]</p>
@@ -166,7 +169,8 @@ function showInfoBox() {
                 <div class="sch_box"><p class="sch_title">EQ20</p>
             </div>
             </li>
-        </ul>
+        </div>
+    </ul>
 
     `;
     //  // ボタンのクリックイベントを設定

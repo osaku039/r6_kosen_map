@@ -301,12 +301,12 @@ function moveCamera(cameraPositionValue, objectPositionValue, link, object) {
                 });
             }
         });
-        humanPosition = new THREE.Vector3(-1.74,-1.5,0);
+        humanPosition = new THREE.Vector3(-1.74,-1.5,50);
         tl.to(camera.position, {
             x: humanPosition.x, // オブジェクトの近くに移動するように
             y: humanPosition.y,
             z: humanPosition.z,
-            duration: 2.0, // 2秒かけて移動
+            duration: 0.1, // 2秒かけて移動
             onUpdate: function () {
                     // OrbitControlsのターゲットを設定
                     // controls.target.copy(cameraPosition);

@@ -1,5 +1,9 @@
 // オブジェクトの情報
 export const locateInfo = {
+    'home2':{
+        "Position":[0,8,20],
+        "cameraPosition":[0,0,80],
+    },
     'home':{
         "class":"homePosition",
         "Position":[0,12,0],

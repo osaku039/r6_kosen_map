@@ -58,7 +58,7 @@ floor1ClassGroup.name = 'floor1ClassGroup';
 floor2ClassGroup.name = 'floor2ClassGroup';
 floor3ClassGroup.name = 'floor3ClassGroup';
 let invisibleGroup = new THREE.Group(); //不可視にしたいグループ
-let F4, ground;
+let F4, ground, stand;
 // playAnimation関数
 let currentAction = null;
 let objectToHide = null;
@@ -189,7 +189,7 @@ loader.load(
         addGroup(floor2Group, objectsAllFloor2, gltf);
     
         // 3階のオブジェクトを3階のグループに追加
-        const objectsFloor3 = ['3_1', '3_2', '3_3', '3_4', '3_5', '3_6', '3_men', '3_women', '3_10', '3_11', '3_12', '3_13'];
+        const objectsFloor3 = ['3_1', '3_2', '3_3', '3_4', '3_5', '3_6', '3_7', '3_men', '3_women', '3_10', '3_11', '3_12', '3_13'];
         addGroup(floor3ClassGroup, objectsFloor3, gltf);
         const objectsAllFloor3 = ['F3', 'Stair3', '3_fence', '3_tables', '3_kanban'];
         floor3Group.add(floor3ClassGroup);
@@ -216,6 +216,7 @@ loader.load(
 
         F4 = gltf.scene.getObjectByName('F4');
         ground = gltf.scene.getObjectByName('ground');
+        stand = gltf.scene.getObjectByName('stand');
         changeTransparent(F4, 0.5);
         
         const clickable = Object.keys(locateInfo); // クリック可能なオブジェクト名のリスト
@@ -362,7 +363,9 @@ function getQueryParam(param) {
 }
 
 // ページがロードされたときにクエリパラメータを取得して showInfoBox 関数を呼び出す
-window.addEventListener('load', function() {
+window.onload = function() {
+    
+
     let classId = getQueryParam('id');
     //gsapで0.2秒待つことによってgltfのロードを待つという力技を使いました。awaitとか使えるのかな?
     moveCamera('home2', 0, "power1.out");
@@ -486,7 +489,7 @@ window.addEventListener('load', function() {
         });
     });
 
-});
+}
 
 
 
@@ -504,6 +507,11 @@ function showInfoBox(name) {
     const photo = classInfo[classId]['photo'];
     const targetObject = scene.getObjectByName(name);
     infoBox.innerHTML = `
+        <style>
+            .card__footer_01 {
+                
+            }
+        </style>
       <div class="l-wrapper_01">
         <article class="card_01">
           <div class="card__header_01">
@@ -519,7 +527,7 @@ function showInfoBox(name) {
             <p class="card__text2_01">${comment}</p>
           </div>
           <div class="card__footer_01">
-            <button id="animation">経路選択</button>
+            <button id="animation">ここに行く！</button>
           </div>
           
         </article>
@@ -678,6 +686,7 @@ function showFloor(name) {
     floor3Group.visible = false;
     F4.visible = false;
     ground.visible = false;
+    stand.visible = false;
     selectedFloor.visible = true;
 
     currentFloor = name;
@@ -695,6 +704,7 @@ function moveHomePosition(duration, ease, isVisible, scale) {
     floor3Group.visible = isVisible;
     F4.visible = isVisible;
     ground.visible = isVisible;
+    stand.visible = isVisible;
     moveCamera('home', duration, ease);
     moveObject(floor1ClassGroup, 1, scale, 1, 0.3);
     moveObject(floor2ClassGroup, 1, scale, 1, 0.3);

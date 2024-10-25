@@ -162,3 +162,10 @@ button:hover {
     font-weight: 400;
     font-style: normal;
 }
+
+.button-bottom .space {
+    margin-left: 40px;
+}
+.button-top .space {
+    margin-left:40px;
+}

@@ -132,7 +132,7 @@ function animate() {
 
     //ようこそ文字
     document.getElementById('overlay-text').innerText = '高専祭へようこそ！！';
-    document.getElementById('guide').innerText = 'モデルをタップしてみてください！';
+    document.getElementById('guide').innerText = '気になるエリアをタップしてみてください！';
 
     //controls.update();      //カメラの動き要らないから削除して
     renderer.render(scene, camera);

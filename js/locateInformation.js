@@ -247,3 +247,29 @@ export const locateInfo = {
     }
 
 };
+export const yataiLocateInfo = {
+    'home':{
+        "class":"homePosition",
+        "Position":[0,0,0],
+        "cameraPosition":[0,27,52],
+        "locationText": "夢工場 屋台スペース",
+    },
+    'yata1':{
+        "class":"4-ms",
+        "Position":[-8.8,1.13,2.2],
+        "cameraPosition":[-8.8,9.2,22],
+        "locationText": "屋台1",
+    },
+    'yata2':{
+        "class":"2-1",
+        "Position":[2,1.13,2.2],
+        "cameraPosition":[2,9.2,22],
+        "locationText": "屋台2",
+    },
+    'yata3':{
+        "class":"3-br",
+        "Position":[15,1.13,2.2],
+        "cameraPosition":[15,9.2,22],
+        "locationText": "屋台3",
+    },
+}

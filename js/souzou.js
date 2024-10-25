@@ -370,7 +370,7 @@ window.onload = function() {
     //gsapで0.2秒待つことによってgltfのロードを待つという力技を使いました。awaitとか使えるのかな?
     moveCamera('home2', 0, "power1.out");
     if (classId !== null) {
-        moveCamera('home', 3, "power1.out");
+        moveCamera('home', 0, "power1.out");
         gsap.to({}, {
             delay: 0.2,
             onComplete: function() {

@@ -66,7 +66,7 @@ function loadModel(url) {
 
 // モデルを非同期で読み込む
 Promise.all([
-    loadModel('models/zentai4.glb'),
+    loadModel('models/zentai5.glb'),
     loadModel('models/People.glb'),
 ]).then(() => {
     console.log('All models loaded');

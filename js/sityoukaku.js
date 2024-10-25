@@ -87,13 +87,6 @@ function animate() {
         originalModel.rotation.y += 0.003;
     }
 
-    // アニメーション対象のオブジェクトを更新
-    animatedObjects.forEach(obj => {
-        if (obj.visible && obj.position.y < obj.targetY) {
-            obj.position.y += 0.01;
-        }
-    });
-
     // controls.update();      //カメラの動き要らないから削除して
     renderer.render(scene, camera);
     // labelRenderer.render(scene, camera); // CSS2DRendererを更新

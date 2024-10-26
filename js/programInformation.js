@@ -150,7 +150,7 @@ export const classInfo = {
         "category":"walk",
         "comment":"",
         "location":"3_3",
-        "photo": "",
+        "photo": "./photo/entama.jpg",
         "iconFile":"./icon/5-ms.png",
     },
     '5-br':{
@@ -159,7 +159,7 @@ export const classInfo = {
         "category":"art",
         "comment":"『最後の高専祭頑張りましたのでぜひご覧ください』",
         "location":"2_5",
-        "photo": "",
+        "photo": "./photo/entama.jpg",
         "iconFile":"./icon/5-br.jpeg",
     },
     '5-mi':{

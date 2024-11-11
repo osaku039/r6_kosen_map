@@ -168,17 +168,18 @@ function onMouseClick(event) {
     const popupClose = document.getElementById('close');
     const welcomeText = document.getElementById('overlay-text');
     const guideText = document.getElementById('guide');
-    const yataiText = document.getElementById('yatai-text');
-    const gymText = document.getElementById('gym-text');
+    //const yataiText = document.getElementById('yatai-text');
+    //const gymText = document.getElementById('gym-text');
     const classButtons = document.getElementById('button-container');
     // ボタンをクリックしたときにポップアップを表示させる
     management.addEventListener('click', () => {
+        popupWrapper.style.display = "block";
+
+        classButtons.style.display = "none";
         guideText.style.display = "none";
         welcomeText.style.display = "none";
-        gymText.style.display = "none";
-        yataiText.style.display = "none";
-        popupWrapper.style.display = "block";
-        classButtons.style.display = "none";
+        //gymText.style.display = "none";
+        //yataiText.style.display = "none";
     });
     //ポップアップ中にクリックイベントが干渉しないように
     popupWrapper.addEventListener('click', (event) => {
@@ -188,11 +189,12 @@ function onMouseClick(event) {
     popupWrapper.addEventListener('click', e => {
       if (e.target.id === popupWrapper.id || e.target.id === close.id) {
         popupWrapper.style.display = 'none';
+
+        classButtons.style.display = "block";
         guideText.style.display = "block";
         welcomeText.style.display = "block";
-        gymText.style.display = "block";
-        yataiText.style.display = "block";
-        classButtons.style.display = "block";
+        //gymText.style.display = "block";
+        //yataiText.style.display = "block";
       }
     });
 
@@ -227,15 +229,15 @@ function movePage(name, object) {
     const welcomeText = document.getElementById('overlay-text');
     const guideText = document.getElementById('guide');
     const locationText = document.getElementById('location-text');
-    const yataiText = document.getElementById('yatai-text');
-    const gymText = document.getElementById('gym-text');
+    //const yataiText = document.getElementById('yatai-text');
+    //const gymText = document.getElementById('gym-text');
 
     if (welcomeText) {
         welcomeText.style.display = 'none';
         guideText.style.display = 'none';
         locationText.style.display = 'none';
-        yataiText.style.display = 'none';
-        gymText.style.display = 'none';
+        //yataiText.style.display = 'none';
+        //gymText.style.display = 'none';
         console.log("welcomeText is now hidden.");
     } 
     else {

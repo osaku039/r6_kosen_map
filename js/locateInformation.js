@@ -122,13 +122,13 @@ export const locateInfo = {
         "locationText": "講義室2-6",
         "animationFile":'animation/animate2_5.glb',
     },
-    'zinja':{
-        "class":"zinja",
-        "Position":[25,19.3,-5],
-        "cameraPosition":[33.8,21.3,-5],
-        "locationText": "2階 メディアコーナー2",
-        "animationFile":"",
-    },
+    // 'zinja':{
+    //     "class":"zinja",
+    //     "Position":[25,19.3,-5],
+    //     "cameraPosition":[33.8,21.3,-5],
+    //     "locationText": "2階 メディアコーナー2",
+    //     "animationFile":"",
+    // },
     '2_men':{
         "name":"男子トイレ",
     },
@@ -239,8 +239,37 @@ export const locateInfo = {
     'hito':{
         "animationFile":'models/hito.glb',
     },
+    'Cube':{
+        "animationFile":'models/Cube.glb',
+    },
     'genzaiti':{
         "animationFile":'models/current_location.glb',
     }
 
 };
+export const yataiLocateInfo = {
+    'home':{
+        "class":"homePosition",
+        "Position":[0,0,0],
+        "cameraPosition":[0,27,52],
+        "locationText": "夢工場 屋台スペース",
+    },
+    'yata1':{
+        "class":"4-ms",
+        "Position":[-8.8,1.13,2.2],
+        "cameraPosition":[-8.8,9.2,22],
+        "locationText": "屋台1",
+    },
+    'yata2':{
+        "class":"2-1",
+        "Position":[2,1.13,2.2],
+        "cameraPosition":[2,9.2,22],
+        "locationText": "屋台2",
+    },
+    'yata3':{
+        "class":"3-br",
+        "Position":[15,1.13,2.2],
+        "cameraPosition":[15,9.2,22],
+        "locationText": "屋台3",
+    },
+}

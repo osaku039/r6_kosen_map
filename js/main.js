@@ -66,7 +66,7 @@ function loadModel(url) {
 
 // モデルを非同期で読み込む
 Promise.all([
-    loadModel('models/zentai4.glb'),
+    loadModel('models/zentai5.glb'),
     loadModel('models/People.glb'),
 ]).then(() => {
     console.log('All models loaded');
@@ -90,7 +90,7 @@ Promise.all([
 
 
     // クリック可能なオブジェクトのリスト作成
-    const objectNames = ['building', 'piano', 'yatai', 'object1', 'object2'];
+    const objectNames = ['building', 'piano', 'yatai', 'object1', 'object2', 'gym'];
     objectNames.forEach(name => {
         const object = models.find(model => model.getObjectByName(name));
         if (object) {
@@ -193,12 +193,14 @@ function movePage(name, object) {
     const guideText = document.getElementById('guide');
     const locationText = document.getElementById('location-text');
     const yataiText = document.getElementById('yatai-text');
+    const gymText = document.getElementById('gym-text');
 
     if (welcomeText) {
         welcomeText.style.display = 'none';
         guideText.style.display = 'none';
         locationText.style.display = 'none';
         yataiText.style.display = 'none';
+        gymText.style.display = 'none';
         console.log("welcomeText is now hidden.");
     } 
     else {
@@ -216,6 +218,11 @@ function movePage(name, object) {
             link = "./sityoukaku.html";
             firstPosition = [27.2, 17.11, 49.22];
             secondPosition = [-16.7, 2, 50.17];
+            break;
+        case 'gym':
+            link = "./gym.html";
+            firstPosition = [4.7, 30.12, 35.37];
+            secondPosition = [2.7, 29, 30];
             break;
         case 'yatai':
             link = "./yatai.html";

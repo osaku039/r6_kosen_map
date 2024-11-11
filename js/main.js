@@ -161,6 +161,34 @@ function onMouseClick(event) {
 
     const intersects = raycaster.intersectObjects(clickableObjects, true);
     // 特定のオブジェクトがクリックされたかをチェック
+
+    //ぽっぷあっぷ
+    const management = document.getElementById('management');
+    const popupWrapper = document.getElementById('popup-wrapper');
+    const popupClose = document.getElementById('close');
+    const welcomeText = document.getElementById('overlay-text');
+    const guideText = document.getElementById('guide');
+    const yataiText = document.getElementById('yatai-text');
+    const gymText = document.getElementById('gym-text');
+    // ボタンをクリックしたときにポップアップを表示させる
+    management.addEventListener('click', () => {
+        guideText.style.display = "none";
+        welcomeText.style.display = "none";
+        gymText.style.display = "none";
+        yataiText.style.display = "none";
+        popupWrapper.style.display = "block";
+    });
+    // ポップアップの外側又は「x」のマークをクリックしたときポップアップを閉じる
+    popupWrapper.addEventListener('click', e => {
+      if (e.target.id === popupWrapper.id || e.target.id === close.id) {
+        popupWrapper.style.display = 'none';
+        guideText.style.display = "block";
+        welcomeText.style.display = "block";
+        gymText.style.display = "block";
+        yataiText.style.display = "block";
+      }
+    });
+
     if (intersects.length > 0) {
         const intersectedObject = intersects[0].object;
         console.log('Intersected object:', intersectedObject);

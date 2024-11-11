@@ -162,7 +162,7 @@ function onMouseClick(event) {
     const intersects = raycaster.intersectObjects(clickableObjects, true);
     // 特定のオブジェクトがクリックされたかをチェック
 
-    //ぽっぷあっぷ
+    //ぽっぷあっぷ表示のとき他要素を非表示するための者々
     const management = document.getElementById('management');
     const popupWrapper = document.getElementById('popup-wrapper');
     const popupClose = document.getElementById('close');
@@ -170,6 +170,7 @@ function onMouseClick(event) {
     const guideText = document.getElementById('guide');
     const yataiText = document.getElementById('yatai-text');
     const gymText = document.getElementById('gym-text');
+    const classButtons = document.getElementById('button-container');
     // ボタンをクリックしたときにポップアップを表示させる
     management.addEventListener('click', () => {
         guideText.style.display = "none";
@@ -177,6 +178,11 @@ function onMouseClick(event) {
         gymText.style.display = "none";
         yataiText.style.display = "none";
         popupWrapper.style.display = "block";
+        classButtons.style.display = "none";
+    });
+    //ポップアップ中にクリックイベントが干渉しないように
+    popupWrapper.addEventListener('click', (event) => {
+        event.stopPropagation();
     });
     // ポップアップの外側又は「x」のマークをクリックしたときポップアップを閉じる
     popupWrapper.addEventListener('click', e => {
@@ -186,6 +192,7 @@ function onMouseClick(event) {
         welcomeText.style.display = "block";
         gymText.style.display = "block";
         yataiText.style.display = "block";
+        classButtons.style.display = "block";
       }
     });
 

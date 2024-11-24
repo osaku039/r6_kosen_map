@@ -90,7 +90,7 @@ Promise.all([
 
 
     // クリック可能なオブジェクトのリスト作成
-    const objectNames = ['building', 'piano', 'yatai', 'object1', 'object2'];
+    const objectNames = ['building', 'piano', 'yatai', 'object1', 'object2', 'gym'];
     objectNames.forEach(name => {
         const object = models.find(model => model.getObjectByName(name));
         if (object) {
@@ -161,6 +161,43 @@ function onMouseClick(event) {
 
     const intersects = raycaster.intersectObjects(clickableObjects, true);
     // 特定のオブジェクトがクリックされたかをチェック
+
+    //ぽっぷあっぷ表示のとき他要素を非表示するための者々
+    const management = document.getElementById('management');
+    const popupWrapper = document.getElementById('popup-wrapper');
+    const popupClose = document.getElementById('close');
+    const welcomeText = document.getElementById('overlay-text');
+    const guideText = document.getElementById('guide');
+    //const yataiText = document.getElementById('yatai-text');
+    //const gymText = document.getElementById('gym-text');
+    const classButtons = document.getElementById('button-container');
+    // ボタンをクリックしたときにポップアップを表示させる
+    management.addEventListener('click', () => {
+        popupWrapper.style.display = "block";
+
+        classButtons.style.display = "none";
+        guideText.style.display = "none";
+        welcomeText.style.display = "none";
+        //gymText.style.display = "none";
+        //yataiText.style.display = "none";
+    });
+    //ポップアップ中にクリックイベントが干渉しないように
+    popupWrapper.addEventListener('click', (event) => {
+        event.stopPropagation();
+    });
+    // ポップアップの外側又は「x」のマークをクリックしたときポップアップを閉じる
+    popupWrapper.addEventListener('click', e => {
+      if (e.target.id === popupWrapper.id || e.target.id === close.id) {
+        popupWrapper.style.display = 'none';
+
+        classButtons.style.display = "block";
+        guideText.style.display = "block";
+        welcomeText.style.display = "block";
+        //gymText.style.display = "block";
+        //yataiText.style.display = "block";
+      }
+    });
+
     if (intersects.length > 0) {
         const intersectedObject = intersects[0].object;
         console.log('Intersected object:', intersectedObject);
@@ -192,13 +229,15 @@ function movePage(name, object) {
     const welcomeText = document.getElementById('overlay-text');
     const guideText = document.getElementById('guide');
     const locationText = document.getElementById('location-text');
-    const yataiText = document.getElementById('yatai-text');
+    //const yataiText = document.getElementById('yatai-text');
+    //const gymText = document.getElementById('gym-text');
 
     if (welcomeText) {
         welcomeText.style.display = 'none';
         guideText.style.display = 'none';
         locationText.style.display = 'none';
-        yataiText.style.display = 'none';
+        //yataiText.style.display = 'none';
+        //gymText.style.display = 'none';
         console.log("welcomeText is now hidden.");
     } 
     else {
@@ -216,6 +255,11 @@ function movePage(name, object) {
             link = "./sityoukaku.html";
             firstPosition = [27.2, 17.11, 49.22];
             secondPosition = [-16.7, 2, 50.17];
+            break;
+        case 'gym':
+            link = "./gym.html";
+            firstPosition = [4.7, 30.12, 35.37];
+            secondPosition = [2.7, 29, 30];
             break;
         case 'yatai':
             link = "./yatai.html";

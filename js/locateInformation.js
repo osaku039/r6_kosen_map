@@ -122,13 +122,13 @@ export const locateInfo = {
         "locationText": "講義室2-6",
         "animationFile":'animation/animate2_5.glb',
     },
-    'zinja':{
-        "class":"zinja",
-        "Position":[25,19.3,-5],
-        "cameraPosition":[33.8,21.3,-5],
-        "locationText": "2階 メディアコーナー2",
-        "animationFile":"",
-    },
+    // 'zinja':{
+    //     "class":"zinja",
+    //     "Position":[25,19.3,-5],
+    //     "cameraPosition":[33.8,21.3,-5],
+    //     "locationText": "2階 メディアコーナー2",
+    //     "animationFile":"",
+    // },
     '2_men':{
         "name":"男子トイレ",
     },

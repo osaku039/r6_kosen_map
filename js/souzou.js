@@ -508,8 +508,12 @@ function showInfoBox(name) {
     const targetObject = scene.getObjectByName(name);
     infoBox.innerHTML = `
         <style>
-            .card__footer_01 {
-                
+            .go {
+               background-color: #ffd284;
+               color: #271108; 
+               height: 28px;
+               border: 2px double #8d461a;
+               text-align: center;
             }
         </style>
       <div class="l-wrapper_01">
@@ -527,7 +531,7 @@ function showInfoBox(name) {
             <p class="card__text2_01">${comment}</p>
           </div>
           <div class="card__footer_01">
-            <button id="animation">ここに行く！</button>
+            <button id="animation" class="go">ここに行く！</button>
           </div>
           
         </article>

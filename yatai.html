@@ -108,19 +108,98 @@
             border-top: 1px solid #ddd;
             text-align: center;
         }
+        #yatai-text {
+                position: absolute;
+                top: 100%;
+                left: 72%;
+                /* transform: translateX(-50%); */
+                color: rgb(68, 46, 10);
+                font-size: 15px;
+                z-index: 1;
+                pointer-events: none; /* テキストがクリックに干渉しないように */
+                margin-top: 30px;
+            }
+            .message {
+                background-color: rgba(255, 255, 255, 0.9);
+                line-height: 1.5;
+                position: relative;
+                display: inline-block;
+                padding: 1rem 1rem;
+                cursor: pointer;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                -webkit-transition: all 0.3s;
+                transition: all 0.3s;
+                text-align: center;
+                vertical-align: middle;
+                text-decoration: none;
+                letter-spacing: 0.1em;
+                color: #212529;
+                border-radius: 0.5rem;
+
+                font-family: "DotGothic16", sans-serif;
+                font-weight: 400;
+                font-style: normal;
+            }
+            .message:before {
+              content: "";
+              position: absolute;
+              top: 100%;
+              left: 50%;
+              margin-left: -15px;
+              border: 15px solid transparent;
+              border-top: 15px solid rgba(255, 255, 255, 0.9);
+            }
+        
+        #guide {
+            /*モデルをタップしてみてくださいの案内*/
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgb(68, 46, 10);
+            font-size: 20px;
+            z-index: 1;
+            pointer-events: none; /* テキストがクリックに干渉しないように */
+            margin-top: 60px;
+            background-color: transparent !important; /* 背景を透明に */
+
+            animation: moveUpDown 2s ease-in-out infinite;  /* アニメーションの追加 */
+        }
+        @keyframes moveUpDown { 
+            0% {
+                transform: translate(-50%, 0);  /* 中央 */
+            }
+            30% {
+                transform: translate(-50%, 4px);  /* 下に移動 */
+            }
+            50% {
+                transform: translate(-50%, -3px);  /* 上に移動 */
+            }
+            80% {
+                transform: translate(-50%, 8px);  /* 帰る */
+            }
+            100% {
+                transform: translate(-50%, 0);  /* 中央 */
+            }
+        }
     </style>
 </head>
 <body>
     
     <div class=canvas-container>
         <div id="location-text" class="loc">夢工場 屋台スペース</div>
+        <div id="guide">屋台をタッチしてみてね</div>
         <canvas id="threejs-canvas"></canvas>
+        <div id="yatai-text" class="message">福チーズ(福 & W)<br>ハンバーガー<br>ポテト<br>コーラ</div>
     </div>
     <div id="infoBox"></div> <!-- 吹き出し用のdivを追加 -->
 
     <!-- ボタンコンテナ -->
     <div class="button-container">
-        <div class="text"><p>モデルをタップしてみてください！</p><br></div>
+        <!--div class="text"><p>モデルをタップしてみてください！</p><br></div-->
         <div class="index_button-top">
             <button onclick="location.href='index.html'" class="orange">ほーむ</button>
             <button onclick="location.href='souzou.html'" class="yellow">創造実践棟</button>

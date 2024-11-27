@@ -366,46 +366,50 @@ button:hover {
 
 
 
-/*souzou, yatai, gymから一旦*/
-.l-wrapper_01 {
+/*一旦*/
+
+
+
+/*souzou*/
+.card_wrapper {
     margin: 1rem auto;
     width: 95%;
+    border: 10px solid rgb(255, 246, 237); 
+    border-radius: 20px;
 }
-
-.l-wrapper_01:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 7px 14px rgba(50, 50, 93, .1), 0 3px 6px rgba(0, 0, 0, .08);
-    transition: all .5s;
+.card_wrapper:hover {
+    transform: translateY(-2px);
+    transition: all 1s;
+    /* box-shadow: 0 7px 14px rgba(50, 50, 93, .1), 0 3px 6px rgba(0, 0, 0, .08); */
 }
-.card_01 {
-    background-color: #fff;
-    box-shadow: 0 0 8px rgba(0, 0, 0, .16);
-    color: #212121;
+.card { /*article*/
+    background-color: rgb(255, 246, 237);
+    /* box-shadow: 0 0 8px rgba(0, 0, 0, .16); */
+    color: #302a2a;
     text-decoration: none;
     display: flex;
     flex-direction: column;
     height: 100%;
 }
-
-.card__header_01 {
+.card_header {
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
 }
-.class_photo {
+.card_photo {
     width: 100%;
     height: 300px;
     overflow: hidden;
+    margin-top: 20px;
+    border-radius: 10px;
 }
-
-.class_photo img {
+.card_photo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-
-.class_icon {
+.card_icon {
     position: absolute;
     bottom: -50px;
     right: 10px;
@@ -415,30 +419,29 @@ button:hover {
     border-radius: 50%;
     border: solid 5px #fff;
 }
-
-.card__body_01 {
+.card_body {
     padding: 1rem;
     flex-grow: 1;
 }
-
-.card__text2_01 {
-    font-size: 0.8rem;
-    margin-top: 0.5rem;
+.card_comment {
+    font-size: 18px;
+    margin-top: 10px;
     margin-bottom: 1rem;
 }
-
-.card__footer_01 {
-    padding: 1rem;
+.go_animation {
+    padding: 16px;
     border-top: 1px solid #ddd;
     text-align: center;
 }
+
+
+
 .button_01 {
     display: inline-block;
     text-decoration: none;
     transition: background-color .3s ease-in-out;
     text-align: center;
 }
-
 .button_01 a {
     text-decoration: none;
 }
@@ -603,9 +606,24 @@ button:hover {
 }
 
 .go {
-    background-color: #ffd284;
-    color: #271108; 
-    height: 28px;
-    border: 2px double #8d461a;
+    background-color: #ffdf8f;
+    margin-bottom: 3px;
+    font-weight: 300;
+    font-size: 16px;
+    height: 50px;
+    /* width: 40px; */
+    /* border: 2px double #8d461a; */
     text-align: center;
- }
+    border-bottom: 5px solid #ccb473;
+    border-top: 1px solid #ccb473;
+    border-left: 1px solid #ccb473;
+    border-right: 1px solid #ccb473;
+    border-radius: 40%;
+    color: #431f10;
+}
+
+.go:hover {
+    margin-top: 3px;
+    margin-bottom: 0px;
+    border-bottom: 2px solid #ccb473;
+}

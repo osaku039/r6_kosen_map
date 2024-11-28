@@ -137,7 +137,7 @@ body {
 
 /*ぽっぷあっぷ*/
 #popup-wrapper {
-    /* background-color: rgba(0, 0, 0, .5); */
+    background-color: rgba(0, 0, 0, .1);
     position: fixed;
     top: 0;
     left: 0;
@@ -158,12 +158,6 @@ body {
     padding: 20px;
     position: relative;
 }
-#popup-inside .text{
-    /* background: purple; */
-    color: white;
-    text-decoration: none;
-    padding: 6px 10px;
-}
 #close {
     position: absolute;
     top: 2px;
@@ -171,6 +165,8 @@ body {
     width: 20px;
     height: 20px;
     cursor: pointer;
+    pointer-events: auto;
+    z-index: 2;
 }
 
 .canvas-container {
@@ -179,10 +175,6 @@ body {
     /*padding: 10px;*/
 }
 
-/* .text {
-    text-align: center;
-    font-size: 12px;
-} */
 
 /*ぼたん*/
 .button-container {
@@ -340,7 +332,6 @@ button:hover {
     position: relative;
     display: inline-block;
     padding: 1rem 4rem;
-    cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;

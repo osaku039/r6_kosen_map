@@ -496,6 +496,10 @@ window.onload = function() {
     
 //クリックされたオブジェクトの情報を表示
 function showInfoBox(name) {
+    /*koko*/
+    const guideText = document.getElementById('guide');
+    guideText.style.display = 'none';
+
     isShowInfo = true;
     const infoBox = document.getElementById('infoBox');
     const classId = locateInfo[name]['class'];
@@ -507,32 +511,24 @@ function showInfoBox(name) {
     const photo = classInfo[classId]['photo'];
     const targetObject = scene.getObjectByName(name);
     infoBox.innerHTML = `
-        <style>
-            .go {
-               background-color: #ffd284;
-               color: #271108; 
-               height: 28px;
-               border: 2px double #8d461a;
-               text-align: center;
-            }
-        </style>
-      <div class="l-wrapper_01">
-        <article class="card_01">
-          <div class="card__header_01">
-            <div class="class_photo">
-                <a href=${photo} data-lightbox="group"><img src=${photo}></a>
+      <div class="card_wrapper">
+        <article class="card">
+            <div class="card_header">
+                <div>
+                    <img src=${iconFile} alt="icon" class="card_icon">
+                </div>
+                <div class="card_photo">
+                    <a href=${photo} data-lightbox="group"><img src=${photo}></a>
+                    <!--タッチして拡大アイコン-->
+                </div>
             </div>
-            <div>
-                <img src=${iconFile} alt="icon" class="class_icon">
+            <div class="card_body">
+                <strong card_class>クラス:</strong> ${className}<br>
+                <p class="card_comment">${comment}</p>
             </div>
-          </div>
-          <div class="card__body_01">
-            <strong>クラス:</strong> ${className}<br>
-            <p class="card__text2_01">${comment}</p>
-          </div>
-          <div class="card__footer_01">
-            <button id="animation" class="go">ここに行く！</button>
-          </div>
+            <div class="go_animation">
+                <button id="animation" class="go">ここに行く！</button>
+            </div>
           
         </article>
       </div>

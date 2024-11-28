@@ -2,12 +2,175 @@
 body {
     margin: 0;
     overflow: hidden;
-    
     font-family: "DotGothic16", sans-serif;
     font-weight: 400;
     font-style: normal;
+}
 
-    /*color: #421d0f;*/
+/*location*/
+#location-text {
+    position: absolute;
+    top: 0px;
+    left: 1%;
+    color: rgb(68, 46, 10);
+    font-size: 20px;
+    z-index: 1;
+    pointer-events: none; /* テキストがクリックに干渉しないように */
+    margin-top: 30px;
+}
+
+
+#overlay-text {
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgb(68, 46, 10);
+    font-size: 46px;
+    z-index: 1;
+    pointer-events: none; /* テキストがクリックに干渉しないように */
+    margin-top: 30px;
+    background-color: transparent; /* 背景を透明に */
+    animation: moveUpDown 2s ease-in-out infinite;  /* アニメーションの追加 */
+}
+#guide {
+    /*案内テキスト*/
+    position: absolute;
+    top: 46px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgb(68, 46, 10);
+    font-size: 20px;
+    z-index: 1;
+    pointer-events: none; /* テキストがクリックに干渉しないように */
+    margin-top: 70px;
+    background-color: transparent; /* 背景を透明に */
+    animation: moveUpDown 2s ease-in-out infinite;  /* アニメーションの追加 */
+}
+
+/*テキストアニメーション*/
+@keyframes moveUpDown { 
+    0% {
+        transform: translate(-50%, 0);  /* 中央 */
+    }
+    30% {
+        transform: translate(-50%, 4px);  /* 下に移動 */
+    }
+    50% {
+        transform: translate(-50%, -3px);  /* 上に移動 */
+    }
+    80% {
+        transform: translate(-50%, 8px);  /* 帰る */
+    }
+    100% {
+        transform: translate(-50%, 0);  /* 中央 */
+    }
+}
+
+/*i操作ガイド*/
+#management{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+.management{
+    background-color: #edc264;                
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    color: #ffffff;
+    border-radius: 50%;
+    width: 30px; /*24がかわいいけど見にくいので30？*/
+    height: 30px;
+    
+    font-family: "Roboto Mono", monospace;
+    font-weight: 500;
+    font-style: normal;
+}
+.management:hover {
+    background-color: #fff9ed !important;
+    color: #daa739;
+}
+
+/*ふきだし*/
+.message {
+    background-color: rgba(255, 255, 255, 0.9);
+    line-height: 1.5;
+    position: relative;
+    display: inline-block;
+    padding: 1rem 1rem;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    color: #212529;
+    border-radius: 0.5rem;
+
+    font-family: "DotGothic16", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+.message:before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -15px;
+    border: 15px solid transparent;
+    border-top: 15px solid rgba(255, 255, 255, 0.9);
+}
+
+/*ぽっぷあっぷ*/
+#popup-wrapper {
+    /* background-color: rgba(0, 0, 0, .5); */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    z-index: 1;
+    pointer-events: auto; /* デフォルトでクリックを許可 */
+}
+#popup-inside {
+    text-align: center;
+    width: 100%;
+    max-width: 50%;
+    background: rgb(249, 247, 242);
+    border: 2px dashed #f8c059;
+    border-radius: 10px;
+    margin: 10% auto;
+    padding: 20px;
+    position: relative;
+}
+#popup-inside .text{
+    /* background: purple; */
+    color: white;
+    text-decoration: none;
+    padding: 6px 10px;
+}
+#close {
+    position: absolute;
+    top: 2px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
 }
 
 .canvas-container {
@@ -16,11 +179,12 @@ body {
     /*padding: 10px;*/
 }
 
-.text {
+/* .text {
     text-align: center;
     font-size: 12px;
-}
+} */
 
+/*ぼたん*/
 .button-container {
     position: fixed;
     bottom: 0;
@@ -29,13 +193,11 @@ body {
     /*padding: 10px;*/
     
 }
-
 .button-top, .button-bottom {
     display: flex;
     justify-content: center; /* ボタンを中央に配置 */
     flex-wrap: wrap;
 }
-
 .button-top button, .button-bottom button {
     width: 5.8%; /* ボタン幅を画面幅の10%にし、マージンを考慮 */
     margin-left: 0.9%; /* ボタン間に5pxの余白を設定 */
@@ -46,7 +208,6 @@ body {
     height: 45px;
     border-radius: 3vh;
 }
-
 .button-top button {
     margin-top: 16px;
     margin-bottom: 5px;
@@ -56,6 +217,7 @@ body {
     margin-bottom: 12px;
 }
 
+/*index用*/
 .index_button-top button, .index_button-bottom button {
     width: 14%; /* ボタン幅を画面幅の12%に */
     margin-left: 5%; /* ボタン間に5pxの余白を設定 */
@@ -63,11 +225,17 @@ body {
     margin-top: 20px;
     margin-bottom: 15px;
     padding: 1px;
-    /*ont-size: 16px;*/
+    /*font-size: 16px;*/
     text-align: center;
     
     height: 50px;
     border-radius: 3vh;
+}
+.index_button-bottom .space, .index_button-top .space {
+    margin-left: 10px;
+}
+.button-bottom .space, .button-top .space {
+    margin-left: 40px;
 }
 
 button {
@@ -76,22 +244,15 @@ button {
     border: none;
     cursor: pointer;
 }
-
 button:hover {
     background-color: #fff2d7;
 }
 
-.index_button-bottom .space {
-    margin-left: 10px;
-}
-.index_button-top .space {
-    margin-left: 10px;;
-}
 
+/*ボタン種類*/
 .orange {
     background-color: #ffd284;
     border: 2px dashed #8d461a;
-    font-weight: 700;
     line-height: 1.5;
     position: relative;
     display: inline-block;
@@ -106,19 +267,18 @@ button:hover {
     text-align: center;
     vertical-align: middle;
     text-decoration: none;
-    letter-spacing: 0.1em;
     color: #271108;
     border-radius: 0.5rem;
+    letter-spacing: 0.2em; /* 文字間隔を少し広げる */
     
+    font-size: 18px;
     font-family: "DotGothic16", sans-serif;
     font-weight: 400;
     font-style: normal;
 }
-
 .yellow {
     background-color: #ffeca6;
     border: 2px dashed #717c26;
-    font-weight: 700;
     line-height: 1.5;
     position: relative;
     display: inline-block;
@@ -133,19 +293,18 @@ button:hover {
     text-align: center;
     vertical-align: middle;
     text-decoration: none;
-    letter-spacing: 0.1em;
     color: #271108;
     border-radius: 0.5rem;
+    letter-spacing: 0.2em; /* 文字間隔を少し広げる */
     
+    font-size: 18px;
     font-family: "DotGothic16", sans-serif;
     font-weight: 400;
     font-style: normal;
 }
-
 .green {
     background-color: #aec973;
     border: 2px dashed #416c22;
-    font-weight: 700;
     line-height: 1.5;
     position: relative;
     display: inline-block;
@@ -160,31 +319,23 @@ button:hover {
     text-align: center;
     vertical-align: middle;
     text-decoration: none;
-    letter-spacing: 0.1em;
     color: #271108;
     border-radius: 0.5rem;
-    
+    letter-spacing: 0.1em;
+
+    font-size: 16px;
     font-family: "DotGothic16", sans-serif;
     font-weight: 400;
     font-style: normal;
 }
 
-.css2dRenderer {
+/* .css2dRenderer {
     pointer-events: none;
-}
+} */
 
-.orange, .yellow {
-    font-size: 18px; /* フォントサイズ指定 */
-    letter-spacing: 0.2em; /* 文字間隔を少し広げる */
-}
-.green {
-    font-size: 16px;
-    letter-spacing: 0.1em;
-}
 
 .loc {
     background-color: rgba(255, 255, 255, 0.6);
-    font-weight: 700;
     line-height: 1.5;
     position: relative;
     display: inline-block;
@@ -208,13 +359,271 @@ button:hover {
     font-style: normal;
 }
 
-.button-bottom .space {
-    margin-left: 40px;
-}
-.button-top .space {
-    margin-left:40px;
+/*表示が学科名のクラス*/
+.moji {
+    letter-spacing: 0em !important; /*字幅足りないから*/
 }
 
-.moji {
-    letter-spacing: 0em !important;
+
+
+/*一旦*/
+
+
+
+/*souzou*/
+.card_wrapper {
+    margin: 1rem auto;
+    width: 95%;
+    border: 10px solid rgb(255, 246, 237); 
+    border-radius: 20px;
+}
+.card_wrapper:hover {
+    transform: translateY(-2px);
+    transition: all 1s;
+    /* box-shadow: 0 7px 14px rgba(50, 50, 93, .1), 0 3px 6px rgba(0, 0, 0, .08); */
+}
+.card { /*article*/
+    background-color: rgb(255, 246, 237);
+    /* box-shadow: 0 0 8px rgba(0, 0, 0, .16); */
+    color: #302a2a;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.card_header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+.card_photo {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+.card_photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.card_icon {
+    position: absolute;
+    bottom: -50px;
+    right: 10px;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: solid 5px #fff;
+}
+.card_body {
+    padding: 1rem;
+    flex-grow: 1;
+}
+.card_comment {
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 1rem;
+}
+.go_animation {
+    padding: 16px;
+    border-top: 1px solid #ddd;
+    text-align: center;
+}
+
+
+
+.button_01 {
+    display: inline-block;
+    text-decoration: none;
+    transition: background-color .3s ease-in-out;
+    text-align: center;
+}
+.button_01 a {
+    text-decoration: none;
+}
+
+.button_01.-compact {
+    padding: .5rem 1rem;
+    border-radius: .25rem;
+    background-color: #4f96f6;
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.button_01.-compact:hover, .button_01.-compact:focus {
+    background-color: #6bb6ff;
+}
+
+.time-schedule {
+    margin:0;
+    padding:0;
+    line-height: 1.3em;
+
+    min-width: 85%;
+    max-width: 85%;
+    list-style: none;
+    margin: 0 auto 0 3em;
+    padding-left: 20px;
+    border-left: 6px solid #a7be18;
+    box-sizing: border-box;
+}
+
+.time-schedule li {
+    width: 100%;
+    margin: 0 0;
+    padding: 0.3px 0;
+    position: relative;
+}
+
+.time-schedule span.time {
+    width: 5em;
+    display: inline-block;
+    margin-left: -8em;
+    padding: 0 0 5px;
+    margin-top: 10px;
+    vertical-align: top;
+    position: relative;
+    text-align: right;
+    box-sizing: border-box;
+}
+
+.time-schedule span.time::after {
+    content: "";
+    position: absolute;
+    right: -35px;
+    top: 0;
+    background: #a7be18;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+}
+
+.time-schedule .sch_box {
+    display: inline-block;
+    width: 100%;
+    margin-left: 40px;
+    margin-top: 0;
+    padding: 0px 10px 0px 10px;
+    background: #efefef;
+    box-sizing: border-box;
+    border-radius: 6px;
+
+    margin-bottom: 20px;
+    height: 60px;
+}
+.sch_box_si {
+    margin-bottom: 20px;
+    height: 60px;
+}
+.sch_title_si {
+    font-size: 20px !important;
+    font-weight: 500 !important;
+}
+
+.time-schedule .sch_title {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.time-schedule .sch_tx {
+    font-size: 6px;
+    font-weight: normal;
+    margin: 2px;  
+}
+
+.tab-container {
+    position: relative; /* タブコンテナを基準に配置 */
+}
+
+.tabs {
+    position: fixed; /* `.tab-content`の下に固定 */
+    right: 0;
+    top: 82%; /* タブコンテンツの高さに合わせて調整 */
+    width: 35%;
+    margin: 0 70px;
+    display: flex;
+    justify-content: space-around;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-top: 1px solid #cccccc;
+    border-radius: 0 0 10px 10px;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 10px;
+    cursor: pointer;
+    background-color: #ddd;
+    border: none;
+    outline: none;
+    transition: background-color 0.3s;
+}
+
+.tab-button.active {
+    background-color: #333;
+    color: white;
+}
+
+.tab-content {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 35%;
+    height: 75%;
+    margin: 50px 70px;
+    padding: 30px 0px 0px 38px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-left: 1px solid #cccccc;
+    box-sizing: border-box;
+    display: 'block';
+    overflow-y: scroll;
+    border-radius: 10px 10px 0 0;
+    scrollbar-width: none;
+}
+
+.tab-panel {
+    display: none;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+.title_program {
+    font-size: 24px;
+    /* margin-bottom: 26px; */
+}
+
+.time {
+    font-size: 20px !important;   
+}
+.time-schedule_si {
+    padding: 20px;
+}
+
+.go {
+    background-color: #ffdf8f;
+    margin-bottom: 3px;
+    font-weight: 300;
+    font-size: 16px;
+    height: 50px;
+    /* width: 40px; */
+    /* border: 2px double #8d461a; */
+    text-align: center;
+    border-bottom: 5px solid #ccb473;
+    border-top: 1px solid #ccb473;
+    border-left: 1px solid #ccb473;
+    border-right: 1px solid #ccb473;
+    border-radius: 40%;
+    color: #431f10;
+}
+
+.go:hover {
+    margin-top: 3px;
+    margin-bottom: 0px;
+    border-bottom: 2px solid #ccb473;
 }

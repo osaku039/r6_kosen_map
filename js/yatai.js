@@ -128,11 +128,6 @@ function showInfoBox(name) {
     const photo = classInfo[classId]['photo'];
     const targetObject = scene.getObjectByName(name);
     infoBox.innerHTML = `
-        <style>
-            .card__footer_01 {
-                
-            }
-        </style>
       <div class="l-wrapper_01">
         <article class="card_01">
           <div class="card__header_01">

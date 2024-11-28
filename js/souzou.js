@@ -362,20 +362,23 @@ function getQueryParam(param) {
     return urlParams.get(param);
 }
 
-// ページがロードされたときにクエリパラメータを取得して showInfoBox 関数を呼び出す
+// ページがロードされたときの処理
 window.onload = function() {
-    
-
     let classId = getQueryParam('id');
-    //gsapで0.2秒待つことによってgltfのロードを待つという力技を使いました。awaitとか使えるのかな?
+
+    // カメラの初期移動
     moveCamera('home2', 0, "power1.out");
+
+    // フラグの確認
+    const navigatedFromSouzou = localStorage.getItem('navigatedFromSouzou');
+
     if (classId !== null) {
         moveCamera('home', 0, "power1.out");
         gsap.to({}, {
             delay: 0.2,
             onComplete: function() {
                 const floor = classId.charAt(0);
-                switch (floor){
+                switch (floor) {
                     case '1':
                         showFloor('F1');
                         break;
@@ -390,17 +393,14 @@ window.onload = function() {
                 classId = "";
             }
         });
-    } 
-  else {
+    } else {
         moveCamera('home', 4, "power3.in");
-
     }
 
     // playAnimation関数
     function playAnimation(name, onComplete = null) {
         const glbFileName = locateInfo[name]['animationFile'] || '';
         const loader = new THREE.GLTFLoader();
-        console.log("loadOK!!");
         loader.load(
             glbFileName,
             function (gltf) {
@@ -418,7 +418,7 @@ window.onload = function() {
                         action.loop = THREE.LoopRepeat; // genzaitiはループ
                     } else {
                         action.loop = THREE.LoopOnce; 
-                        action.clampWhenFinished = true; //最後の状態で止める
+                        action.clampWhenFinished = true; // 最後の状態で止める
                     }
 
                     action.play();
@@ -429,20 +429,14 @@ window.onload = function() {
                         floor1Group.add(hito); // 'hito'をグループに追加
                     }
                     if (ensui) {
-                        floor1Group.add(ensui); // 'hito'をグループに追加
+                        floor1Group.add(ensui); // '円錐'をグループに追加
                     }
 
-    
-
                     action.onFinished = () => {
-                        console.log("いぇあ");
-                        console.log(name);
                         if (name !== 'genzaiti') {
                             model.visible = false; // genzaiti以外は非表示
-                            console.log("げんざいち");
                         }
                     };
-
                 }
 
                 function animate() {
@@ -460,27 +454,31 @@ window.onload = function() {
         );
     }
 
+    // souzou.htmlからの遷移でない場合にアニメーションを再生
+    if (!navigatedFromSouzou) {
+        
+        playAnimation('hairu', () => {
+            const aruku4Object = scene.getObjectByName('hairu');
+            if (aruku4Object) {
+                aruku4Object.visible = false; // 非表示
+            }
+            
+        });
+        // hito.glb（ループしない）
+    playAnimation('hito', () => { });
 
-    playAnimation('hairu', () => {
-        // アニメーション終了後、aruku4を非表示にする
-        const aruku4Object = scene.getObjectByName('hairu');
-        if (aruku4Object) {
-            aruku4Object.visible = false; // 非表示
-        }
-    });
-    
-     // genzaitiアニメーションをループ再生
-    playAnimation('genzaiti', () => {
-    });
-    // hito.glb（ループしない）
-    playAnimation('hito', () => {
-    });
+    }
+    else{
+         playAnimation('Cube', () => { });
+         console.log('でた！！')
+    }
 
+    // genzaitiアニメーションをループ再生
+    playAnimation('genzaiti', () => { });
+   
 
     // data-role="category" の属性を持つ全ての要素を取得
     const buttons = document.querySelectorAll('[data-role="category"]');
-    console.log(buttons);
-
     buttons.forEach(button => {
         button.addEventListener('click', function(event) {
             const buttonId = button.getAttribute('data-id');
@@ -489,13 +487,19 @@ window.onload = function() {
         });
     });
 
-}
+   
+};
+
 
 
 
     
 //クリックされたオブジェクトの情報を表示
 function showInfoBox(name) {
+    /*koko*/
+    const guideText = document.getElementById('guide');
+    guideText.style.display = 'none';
+
     isShowInfo = true;
     const infoBox = document.getElementById('infoBox');
     const classId = locateInfo[name]['class'];
@@ -507,29 +511,24 @@ function showInfoBox(name) {
     const photo = classInfo[classId]['photo'];
     const targetObject = scene.getObjectByName(name);
     infoBox.innerHTML = `
-        <style>
-            .card__footer_01 {
-                
-            }
-        </style>
-      <div class="l-wrapper_01">
-        <article class="card_01">
-          <div class="card__header_01">
-            <div class="class_photo">
-                <a href=${photo} data-lightbox="group"><img src=${photo}></a>
+      <div class="card_wrapper">
+        <article class="card">
+            <div class="card_header">
+                <div>
+                    <img src=${iconFile} alt="icon" class="card_icon">
+                </div>
+                <div class="card_photo">
+                    <a href=${photo} data-lightbox="group"><img src=${photo}></a>
+                    <!--タッチして拡大アイコン-->
+                </div>
             </div>
-            <div>
-                <img src=${iconFile} alt="icon" class="class_icon">
+            <div class="card_body">
+                <strong card_class>クラス:</strong> ${className}<br>
+                <p class="card_comment">${comment}</p>
             </div>
-          </div>
-          <div class="card__body_01">
-            <span class="underline">${className}<br></span>
-            <strong>${program}</strong>
-            <p class="card__text2_01">${comment}</p>
-          </div>
-          <div class="card__footer_01">
-            <button id="animation">ここに行く！</button>
-          </div>
+            <div class="go_animation">
+                <button id="animation" class="go">ここに行く！</button>
+            </div>
           
         </article>
       </div>

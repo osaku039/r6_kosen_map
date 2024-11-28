@@ -4,133 +4,38 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="style.css"><!---cssファイルとの紐づけ。任意のファイルに変更してください。-->
-        <title>3D Model Click Example</title>
+        <title>okinawa kosen map</title>
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=DotGothic16&family=Londrina+Sketch&family=Sixtyfour+Convergence&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=DotGothic16&family=Londrina+Sketch&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Sixtyfour+Convergence&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
 
         <style>
-            #location-text {
-                position: absolute;
-                top: 0px;
-                left: 1%;
-                /* transform: translateX(-50%); */
-                color: rgb(68, 46, 10);
-                font-size: 20px;
-                z-index: 1;
-                pointer-events: none; /* テキストがクリックに干渉しないように */
-                margin-top: 30px;
-                /* background-color: transparent !important; 背景を透明に */
-            }
-            #overlay-text {
-                position: absolute;
-                top: 24px;
-                left: 50%;
-                transform: translateX(-50%);
-                color: rgb(68, 46, 10);
-                font-size: 46px;
-                z-index: 1;
-                pointer-events: none; /* テキストがクリックに干渉しないように */
-                margin-top: 30px;
-                background-color: transparent !important; /* 背景を透明に */
-
-                animation: moveUpDown 2s ease-in-out infinite;  /* アニメーションの追加 */
-            }
-            #guide {
-                /*モデルをタップしてみてくださいの案内*/
-                position: absolute;
-                top: 46px;
-                left: 50%;
-                transform: translateX(-50%);
-                color: rgb(68, 46, 10);
-                font-size: 20px;
-                z-index: 1;
-                pointer-events: none; /* テキストがクリックに干渉しないように */
-                margin-top: 70px;
-                background-color: transparent !important; /* 背景を透明に */
-
-                animation: moveUpDown 2s ease-in-out infinite;  /* アニメーションの追加 */
-            }
-
-            /*頑張って跳ねる文字*/
-            @keyframes moveUpDown { 
-                0% {
-                    transform: translate(-50%, 0);  /* 中央 */
-                }
-                30% {
-                    transform: translate(-50%, 4px);  /* 下に移動 */
-                }
-                50% {
-                    transform: translate(-50%, -3px);  /* 上に移動 */
-                }
-                80% {
-                    transform: translate(-50%, 8px);  /* 帰る */
-                }
-                100% {
-                    transform: translate(-50%, 0);  /* 中央 */
-                }
-            }
-            #yatai-text {
-                position: absolute;
-                top: 170%;
-                left: 80%;
-                /* transform: translateX(-50%); */
-                color: rgb(68, 46, 10);
-                font-size: 15px;
-                z-index: 1;
-                pointer-events: none; /* テキストがクリックに干渉しないように */
-                margin-top: 30px;
-            }
-            .message {
-                background-color: rgba(255, 255, 255, 0.9);
-                line-height: 1.5;
-                position: relative;
-                display: inline-block;
-                padding: 1rem 1rem;
-                cursor: pointer;
-                -webkit-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-                user-select: none;
-                -webkit-transition: all 0.3s;
-                transition: all 0.3s;
-                text-align: center;
-                vertical-align: middle;
-                text-decoration: none;
-                letter-spacing: 0.1em;
-                color: #212529;
-                border-radius: 0.5rem;
-
-                font-family: "DotGothic16", sans-serif;
-                font-weight: 400;
-                font-style: normal;
-            }
-            .message:before {
-              content: "";
-              position: absolute;
-              top: 100%;
-              left: 50%;
-              margin-left: -15px;
-              border: 15px solid transparent;
-              border-top: 15px solid rgba(255, 255, 255, 0.9);
-            }
             canvas {
                 display: block;
             }
         </style>
     </head>
     <body>
-
         <div class=canvas-container>
             <div id="location-text" class="loc">沖縄高専 全体図</div>
             <div id="overlay-text"></div>
             <div id="guide"></div>
-            <div id="yatai-text" class="message">屋台の位置は<br>体育館横に<br>移動になりました</div>
+            <!--popup-->
+            <button id="management" class="management">i</button>
+            <div id="popup-container">
+                <div id="popup-wrapper">
+                    <div id="popup-inside">
+                      <div id="close">×</div>
+                        <p>3D操作が不慣れな人だとわかりづらいかもってアンケがあったので、<br>ここに操作説明を載せてみたい。<br><br>テキストのデザインは、書いてみてから考えます</p>
+                    </div>
+                </div>
+            </div>
             <canvas id="threejs-canvas"></canvas>
         </div>
 
-        <div class = button-container>
+        <div class="button-container" id="button-container">
             <div class="index_button-top">
                 <button onclick="location.href='souzou.html'" class="orange">創造実践棟</button>
                 <button onclick="location.href='yatai.html'" class="yellow">屋台</button>
@@ -139,33 +44,7 @@
             </div>
             
         </div>
-        <!--div class="button-container">
-        <div class="button-top">
-            <button onclick="location.href='sityoukaku.html'" class="orange">視聴覚</button>
-            <button onclick="location.href='souzou.html?id=1_1'" class="yellow">1-1</button>
-            <button onclick="location.href='souzou.html'" class="orange">1-3</button>
-            <button onclick="location.href='souzou.html'" class="yellow">2-1</button>
-            <button onclick="location.href='souzou.html'" class="orange">2-3</button>
-            <button onclick="location.href='souzou.html'" class="yellow">3-1</button>
-            <button onclick="location.href='souzou.html'" class="orange">3-3</button>
-            <button onclick="location.href='souzou.html'" class="yellow">4-1</button>
-            <button onclick="location.href='souzou.html'" class="orange">4-3</button>
-            <button onclick="location.href='souzou.html'" class="yellow">5-1</button>
-            <button onclick="location.href='souzou.html'" class="orange">5-3</button>
-        </div>
-        <div class="button-bottom">
-            <button onclick="location.href='souzou.html'" class="yellow">1-2</button>
-            <button onclick="location.href='souzou.html'" class="orange">1-4</button>
-            <button onclick="location.href='souzou.html'" class="yellow">2-2</button>
-            <button onclick="location.href='souzou.html'" class="orange">2-4</button>
-            <button onclick="location.href='souzou.html'" class="yellow">3-2</button>
-            <button onclick="location.href='souzou.html'" class="orange">3-4</button>
-            <button onclick="location.href='souzou.html'" class="yellow">4-2</button>
-            <button onclick="location.href='yatai.html'" class="orange">4-4</button>
-            <button onclick="location.href='yatai.html'" class="yellow">5-2</button>
-            <button onclick="location.href='yatai.html'" class="orange">5-4</button>
-        </div-->
-        <!-- ここに20個のボタンを追加できます -->
+
 
         <div class="base">
             <div class="model">

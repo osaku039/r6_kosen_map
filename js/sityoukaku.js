@@ -122,46 +122,27 @@ function showInfoBox() {
     const infoBox = document.getElementById('infoBox');
     // const info = Info[name]['description'] || '情報が見つかりません'; // オブジェクトの情報を取得
     infoBox.innerHTML = `
-        <style>
-            .title {
-                margin-bottom: 26px;
-                font-size: 26px;
-            }
-            .time-schedule {
-                padding: 20px;
-                
-            }
-            .sch_box {
-                margin-bottom: 20px;
-                height: 60px;
-            }
-            .sch_title {
-                font-size: 20px !important;
-                font-weight: 500 !important;
-            }
-        </style>
-
-        <ul class="time-schedule">
-            <p class="title">舞台プログラム</strong>
+        <ul class="time-schedule_si">
+            <p class="title_program">舞台プログラム</strong>
             <li class="am">
                 <span class="time">10:30</span>
-                <div class="sch_box"><p class="sch_title">ピアノ同好会</p></div>
+                <div class="sch_box_si"><p class="sch_title_si">ピアノ同好会</p></div>
             </li>
             <li class="am">
                 <span class="time">12:00</span>
-                <div class="sch_box"><p class="sch_title">休憩</p></div>
+                <div class="sch_box_si"><p class="sch_title_si">休憩</p></div>
             </li>
             <li class="am">
                 <span class="time">12:10</span>
-                <div class="sch_box"><p class="sch_title">スタジオエッグ</p></div>
+                <div class="sch_box_si"><p class="sch_title_si">スタジオエッグ</p></div>
             </li>
             <li class="pm">
                 <span class="time">12:30</span>
-                <div class="sch_box"><p class="sch_title">休憩</p></div>
+                <div class="sch_box_si"><p class="sch_title_si">休憩</p></div>
             </li>
             <li class="pm">
                 <span class="time">13:00</span>
-                <div class="sch_box"><p class="sch_title">吹奏楽同好会</p></div>
+                <div class="sch_box_si"><p class="sch_title_si">吹奏楽同好会</p></div>
             </li>
 
         </ul>

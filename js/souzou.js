@@ -66,6 +66,7 @@ gsap.registerPlugin(CSSPlugin); //gsapのやつ
 
 
 const locationText = document.getElementById('location-text');
+var dankai = 3;
 
 //経路選択のアニメーション
 function playAnimation(name) {
@@ -221,7 +222,8 @@ loader.load(
         
         const clickable = Object.keys(locateInfo); // クリック可能なオブジェクト名のリスト
 
-        document.getElementById('guide').innerText = '階を選んで、タップしてみてください！';
+        console.log('dankai = 3');
+        guideTextaaa(dankai);
 
         clickable.forEach(name => {
             const clickableObject = scene.getObjectByName(name);
@@ -257,8 +259,6 @@ function animate() {
 
     // originalModel.rotation.x += 0.2;
     
-    //guideここに入れると強すぎるから移動
-    
     controls.update(); //カメラのコントロールを更新
     renderer.render(scene, camera); //シーンを描画
     // console.log(camera.position);
@@ -284,38 +284,22 @@ function onMouseClick(event) {
 
     const intersects = raycaster.intersectObjects(clickableObjects, true); //クリックしたオブジェクトの検出
 
-    const guideText = document.getElementById('guide');//テキストを非表示するため要素取得
-
     if (intersects.length > 0) {
         const intersectedObject = intersects[0].object;
         const parentName = intersectedObject.parent.name;
         console.log(parentName);
 
-        /*
-        if (guideText) {
-            guideText.style.display = 'none';
-            guideText.style.display = 'none';
-            console.log("guideText is now hidden.");
-        } 
-        else {
-            console.log("guideText not found.");
-        }
-        */
-
         //階の選択
         if (intersectedObject.parent.name.startsWith('F')){
             console.log(intersectedObject.parent.name);
-            if (guideText) {
-                document.getElementById('guide').innerText = '教室を選んでください！';
-                guideText.style.display = 'block';
-            } 
-            else {
-                console.log("guideText not found.");
-            }
+            dankai = 3;
+            guideTextaaa(dankai);
+
             if (currentFloor != intersectedObject.parent.name){
                 moveCamera(intersectedObject.parent.name, 1.5, "power1.out");
                 showFloor(intersectedObject.parent.name);
                 changeLocationText(intersectedObject.parent.name);
+                guideTextaaa(dankai - 1);
             }
         }
         else if ((locateInfo[intersectedObject.name]) || ("name" in locateInfo[parentName])){
@@ -329,15 +313,8 @@ function onMouseClick(event) {
             console.log(parentName); // ワールド座標を出力
             showInfoBox(parentName);
 
-            if (guideText) {
-                guideText.style.display = 'none';
-                guideText.style.display = 'none';
-                console.log("guideText is now hidden.");
-            } 
-            else {
-                console.log("guideText not found.");
-            }
-
+            dankai = 1;
+            guideTextaaa(dankai);
         }
     }
     else {
@@ -346,8 +323,8 @@ function onMouseClick(event) {
             isShowInfo = false;
         };
         console.log("ぱあ");
-        guideText.style.display = 'block';
-        document.getElementById('guide').innerText = '階を選んで、タップしてみてください！';
+        dankai = 3;
+        guideTextaaa(dankai);
         if (currentFloor != 'home'){
             moveHomePosition(2, "power1.out", true, 0);
         }
@@ -496,9 +473,6 @@ window.onload = function() {
     
 //クリックされたオブジェクトの情報を表示
 function showInfoBox(name) {
-    /*koko*/
-    const guideText = document.getElementById('guide');
-    guideText.style.display = 'none';
 
     isShowInfo = true;
     const infoBox = document.getElementById('infoBox');
@@ -553,6 +527,7 @@ function showInfoBox(name) {
 
 function returnCameraPosition(event) {
     console.log("リターン!");
+    guideTextaaa(dankai + 1);
     switch (currentFloor.slice(0,1)) {
         case '_':
             currentFloor = currentFloor.slice(1);
@@ -571,6 +546,7 @@ function returnCameraPosition(event) {
 function hideInfoBox() {
     const infoBox = document.getElementById('infoBox');
     infoBox.style.display = 'none'; // 非表示にする
+    console.log("koko infoBox hidden");
 }
 
 function changeLocationText(name) {
@@ -711,6 +687,30 @@ function moveHomePosition(duration, ease, isVisible, scale) {
     moveObject(floor3ClassGroup, 1, scale, 1, 0.3);
     changeLocationText('home');
     currentFloor = 'home';
+}
+
+function guideTextaaa(dankai) {
+    const guideText = document.getElementById('guide');
+    if (guideText){
+        console.log('guideText changed', dankai);
+        switch (dankai) {
+            case 3:
+                guideText.style.display = 'block';
+                document.getElementById('guide').innerText = '階を選んで、タップしてみてください！';
+                break;
+            case 2:
+                guideText.style.display = 'block';
+                document.getElementById('guide').innerText = '教室を選んでください！';
+                break;
+            case 1:
+                guideText.style.display = 'none';
+                document.getElementById('guide').innerText = 'show info box';
+                break;
+        }
+    }
+    else {
+        console.log('guideText not found');
+    }
 }
 
 //カメラを動かす

@@ -527,7 +527,10 @@ function showInfoBox(name) {
 
 function returnCameraPosition(event) {
     console.log("リターン!");
-    guideTextaaa(dankai + 1);
+    if (dankai < 3){
+        dankai += 1;
+    }
+    guideTextaaa(dankai);
     switch (currentFloor.slice(0,1)) {
         case '_':
             currentFloor = currentFloor.slice(1);
@@ -706,6 +709,8 @@ function guideTextaaa(dankai) {
                 guideText.style.display = 'none';
                 document.getElementById('guide').innerText = 'show info box';
                 break;
+            default:
+                document.getElementById('guide').innerText = 'まちがえてるよ多分';
         }
     }
     else {

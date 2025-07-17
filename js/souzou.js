@@ -504,8 +504,8 @@ function showInfoBox(name) {
     const infoBox = document.getElementById('infoBox');
     const classId = locateInfo[name]['class'];
     const className = classInfo[classId]['className'];
-    // const program = classInfo[classId]['program'];
-    // const category = classInfo[classId]['category'];
+    const program = classInfo[classId]['program'];
+    const category = classInfo[classId]['category'];
     const comment = classInfo[classId]['comment'];
     const iconFile = classInfo[classId]['iconFile'];
     const photo = classInfo[classId]['photo'];

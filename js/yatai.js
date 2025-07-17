@@ -127,25 +127,45 @@ function showInfoBox(name) {
     const iconFile = classInfo[classId]['iconFile'];
     const photo = classInfo[classId]['photo'];
     const targetObject = scene.getObjectByName(name);
-    infoBox.innerHTML = `
-      <div class="l-wrapper_01">
-        <article class="card_01">
-          <div class="card__header_01">
-            <div class="class_photo">
-                <a href=${photo} data-lightbox="group"><img src=${photo}></a>
-            </div>
-            <div>
-                <img src=${iconFile} alt="icon" class="class_icon">
-            </div>
-          </div>
-          <div class="card__body_01">
-            <strong>クラス:</strong> ${className}<br>${program}<br>
-            <p class="card__text2_01">${comment}</p>
-          </div>
+    // infoBox.innerHTML = `
+    //   <div class="l-wrapper_01">
+    //     <article class="card_01">
+    //       <div class="card__header_01">
+    //         <div class="class_photo">
+    //             <a href=${photo} data-lightbox="group"><img src=${photo}></a>
+    //         </div>
+    //         <div>
+    //             <img src=${iconFile} alt="icon" class="class_icon">
+    //         </div>
+    //       </div>
+    //       <div class="card__body_01">
+    //         <strong>クラス:</strong> ${className}<br>${program}<br>
+    //         <p class="card__text2_01">${comment}</p>
+    //       </div>
           
+    //     </article>
+    //   </div>
+    //   `;
+    infoBox.innerHTML = `
+      <div class="card_wrapper">
+        <article class="card">
+            <div class="card_header">
+                <div>
+                    <img src=${iconFile} alt="icon" class="card_icon">
+                </div>
+                <div class="card_photo">
+                    <a href=${photo} data-lightbox="group"><img src=${photo}></a>
+                    <!--タッチして拡大アイコン-->
+                </div>
+            </div>
+            <div class="card_body">
+                <strong card_class>クラス:</strong> ${className}<br>
+                <p class="card_comment">${comment}</p>
+            </div>          
         </article>
       </div>
       `;
+
     // ボタンのクリックイベントを設定
      
     infoBox.style.display = 'block';
